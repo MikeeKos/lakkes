@@ -1,8 +1,5 @@
-// HomePage will be a component, where the most viewed/rated/recent
-// lakes will be shown + some effects + main map
 import FeaturedPosts from "../components/home-page/featured-posts";
 import React from "react";
-import Hero from "../components/home-page/hero";
 
 const DUMMY_LAKES = [
   {
@@ -58,7 +55,6 @@ const DUMMY_LAKES = [
 function HomePage() {
   return (
     <React.Fragment>
-      <Hero />
       <FeaturedPosts lakes={DUMMY_LAKES} />
     </React.Fragment>
   );

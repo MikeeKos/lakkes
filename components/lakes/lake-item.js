@@ -1,3 +1,12 @@
+// Single object like this
+// {
+//   title: "...",
+//   image: "image.png",
+//   excerpt: "...",
+//   date: "2022-02-10",
+//   slug: "link-to-single-object",
+// }
+
 import Link from "next/link";
 import Image from "next/image";
 import classes from "./lake-item.module.css";

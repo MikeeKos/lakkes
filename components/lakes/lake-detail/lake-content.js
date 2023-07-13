@@ -7,7 +7,6 @@ const DUMMY_LAKE = {
     "Lorem ipsum dolor sit amet consectetur adipisicing elit. A, pariatur!",
   date: "2022-02-10",
   slug: "link-to-some-lake",
-  content: "CONTENT ",
 };
 
 function LakeContent() {

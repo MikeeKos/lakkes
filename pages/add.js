@@ -1,10 +1,10 @@
 // NewLakePage will render a protected form
 // Protected - only logged users can access this page
 
+import CreateLakeForm from "../components/create/create-lake";
+
 function NewLakePage() {
-  return (
-    <h1>NewLakePage</h1>
-  )
+  return <CreateLakeForm />;
 }
 
 export default NewLakePage;

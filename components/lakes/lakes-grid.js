@@ -1,3 +1,12 @@
+// List of objects like this
+// {
+//   title: "...",
+//   image: "image.png",
+//   excerpt: "...",
+//   date: "2022-02-10",
+//   slug: "link-to-single-object",
+// }
+
 import LakeItem from "./lake-item";
 import classes from "./lakes-grid.module.css";
 
