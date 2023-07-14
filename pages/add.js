@@ -4,7 +4,19 @@
 import CreateLakeForm from "../components/create/create-lake";
 
 function NewLakePage() {
-  return <CreateLakeForm />;
+  const lakeForm = {
+    title: "",
+    description: "",
+    location: "",
+  };
+
+  return (
+    <CreateLakeForm
+      formId="add-lakeform"
+      lakeForm={lakeForm}
+      forNewLake={true}
+    />
+  );
 }
 
 export default NewLakePage;

@@ -1,36 +1,50 @@
-// import { connectDatabase, insertDocument } from "../../helpers/db-util";
+import Lake from "../../../models/lake";
+import { connectDatabase } from "../../../helpers/db-util";
 
 async function handler(req, res) {
-  if (req.method === "POST") {
-    console.log(req.body);
-    res.status(201).json({ message: "Success" });
+  const { method } = req;
+  // find a way to read req.body
+  // check what happens when is is passed to new Lake()
 
-    // const userEmail = req.body.email;
+  //Establish connection to the database
+  let client;
+  try {
+    client = await connectDatabase();
+  } catch (error) {
+    res.status(500).json({ responseData: error });
+    return;
+  }
 
-    // if (!userEmail || !userEmail.includes("@")) {
-    //   //422 user input was bad
-    //   res.status(422).json({ message: "invalid email address" });
-    //   return;
-    // }
+  switch (method) {
+    case "POST":
+      //check validity
 
-    // let client;
+      try {
+        const lake = new Lake(req.body);
+        await lake.save();
+        res.status(201).json({
+          responseData: "successfully added the lake to database",
+          data: req.body,
+        });
+      } catch (error) {
+        res.status(400).json({ responseData: error });
+        return;
+      }
 
-    // try {
-    //   client = await connectDatabase();
-    // } catch (error) {
-    //   res.status(500).json({ message: "connecting to the database failed" });
-    //   return;
-    // }
+      res.status(201).json({ responseData: "successfully add data" });
 
-    // try {
-    //   await insertDocument(client, "newsletter", { email: userEmail });
-    //   client.close();
-    // } catch (error) {
-    //   res.status(500).json({ message: "inserting data failed" });
-    //   return;
-    // }
+      break;
 
-    // res.status(201).json({ message: "Signed up!" });
+    case "GET":
+      //giving data to user
+      res.status(201).json({ responseData: "successfully edited data" });
+      break;
+
+    default:
+      res
+        .status(400)
+        .json({ responseData: "It was not either POST or GET request" });
+      break;
   }
 }
 

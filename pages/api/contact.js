@@ -1,56 +1,38 @@
-import { MongoClient } from "mongodb";
+import Lake from "../../models/lake";
 
 async function handler(req, res) {
-  if (req.method !== "POST") {
-    return;
+  const { method } = req;
+
+  //connect to database
+
+  switch (method) {
+    case "POST":
+
+      //check validity
+
+      try {
+
+        // const lake = await Lake.create(req.body);
+
+        console.log(req.body);
+        res.status(201).json({ message: "succesfully reached api" });
+      } catch (error) {
+        res.status(400).json({ message: "Could not create Lake (API)" })
+      }
+      break;
+
+    case "GET":
+
+      //giving data to user
+
+      break;
+      
+    default:
+      res
+        .status(400)
+        .json({ message: "It was not either POST or GET request" });
+      break;
   }
-
-  //req.body must contain this
-  const { email, name, message } = req.body;
-
-  //validation data
-  if (
-    !email ||
-    !email.includes("@") ||
-    !name ||
-    name.trim() === "" ||
-    !message ||
-    message.trim() === ""
-  ) {
-    res.status(422).json({ message: "Invalid input." });
-    return;
-  }
-
-  const newMessage = {
-    email,
-    name,
-    message,
-  };
-
-  let client;
-  try {
-    client = await MongoClient.connect(process.env.DB_CONNECTION_LINK);
-  } catch (error) {
-    res.status(500).json({ message: "Could not connect to database" });
-    return;
-  }
-
-  const db = client.db("my-site");
-
-  try {
-    const result = await db.collection("messages").insertOne(newMessage);
-    newMessage.id = result.insertedId;
-  } catch (error) {
-    client.close();
-    res.status(500).json({ massge: "Storing messagge failed" });
-    return;
-  }
-
-  client.close();
-
-  res
-    .status(201)
-    .json({ message: "Successfully stored message", message: newMessage });
 }
 
 export default handler;

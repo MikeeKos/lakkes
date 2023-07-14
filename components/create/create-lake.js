@@ -1,29 +1,20 @@
 import { useState, useEffect } from "react";
 import classes from "./create-lake.module.css";
 import Notification from "../ui/notification";
+// import { useRouter } from "next/router";s
 
-async function sendContactData(contactDetails) {
-  const response = await fetch("/api/user/add-lake", {
-    method: "POST",
-    body: JSON.stringify(contactDetails),
-    headers: {
-      "Content-Type": "application/json",
-    },
+function CreateLakeForm(props) {
+  // const router = useRouter();
+
+  const formId = props.formId;
+  const lakeForm = props.lakeForm;
+  const forNewLake = props.forNewLake; // true or false
+
+  const [form, setForm] = useState({
+    title: lakeForm.title,
+    description: lakeForm.description,
+    location: lakeForm.location,
   });
-
-  const data = await response.json();
-
-  if (!response.ok) {
-    throw new Error(data.message || "Something went wrong!");
-  }
-}
-
-function CreateLakeForm() {
-  const [enteredTitle, setEnteredTitle] = useState("");
-  const [enteredImage, setEnteredImage] = useState("image.png");
-  const [enteredExcerpt, setEnteredExcerpt] = useState("Lorem ipsum dolor");
-  const [enteredDate, setEnteredDate] = useState("2022-02-10");
-  const [enteredSlug, setEnteredSlug] = useState("");
 
   const [requestStatus, setRequestStatus] = useState();
   const [requestError, setRequestError] = useState();
@@ -39,32 +30,75 @@ function CreateLakeForm() {
     }
   }, [requestStatus]);
 
-  async function sendFormHandler(event) {
-    event.preventDefault();
-
-    //add client side validation
-
+  async function postData(form) {
     setRequestStatus("pending");
-
     try {
-      await sendContactData({
-        title: enteredTitle,
-        image: enteredImage,
-        excerpt: enteredExcerpt,
-        date: enteredDate,
-        slug: enteredSlug,
+      const response = await fetch("/api/user/add-lake", {
+        method: "POST",
+        body: JSON.stringify(form),
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
+
+      if (!response.ok) {
+        console.log('___!response.ok___')
+        console.log(response);
+        throw new Error(response.status);
+      }
+
+      //delete later
+      const data = await response.json();
+      console.log(data);
+
       setRequestStatus("success");
-      setEnteredTitle("");
-      setEnteredImage("image.png");
-      setEnteredExcerpt("Lorem ipsum dolor");
-      setEnteredDate("2022-02-10");
-      setEnteredSlug("");
     } catch (error) {
+      console.log('___client side try catch error___')
+      console.log(error);
       setRequestError(error.message);
       setRequestStatus("error");
     }
   }
+
+  async function putData(form) {
+    console.log("yet to implement");
+  }
+
+  function submitHandler(event) {
+    event.preventDefault();
+    const errors = formValidate();
+    if (Object.keys(errors).length === 0) {
+      forNewLake ? postData(form) : putData(form);
+    } else {
+      setRequestError("Bad user data");
+      setRequestStatus("error");
+    }
+  }
+
+  const handleChange = (e) => {
+    const target = e.target;
+    const value = target.value;
+    const name = target.name;
+
+    setForm({
+      ...form,
+      [name]: value,
+    });
+  };
+
+  const formValidate = () => {
+    let err = {};
+    if (!form.title) {
+      err.title = "Title is required";
+    }
+    if (!form.description) {
+      err.description = "Description is required";
+    }
+    if (!form.location) {
+      err.location = "Location is required";
+    }
+    return err;
+  };
 
   let notification;
 
@@ -95,61 +129,33 @@ function CreateLakeForm() {
   return (
     <section className={classes.contact}>
       <h1>How can I help you?</h1>
-      <form className={classes.form} onSubmit={sendFormHandler}>
+      <form className={classes.form} id={formId} onSubmit={submitHandler}>
         <div className={classes.controls}>
-          {/* title: enteredTitle,
-        image: enteredImage,
-        excerpt: enteredExcerpt,
-        date: enteredDate,
-        slug: enteredSlug, */}
           <div className={classes.control}>
             <label htmlFor="title">Title</label>
             <input
               type="text"
-              id="title"
-              required
-              value={enteredTitle}
-              onChange={(event) => setEnteredTitle(event.target.value)}
+              name="title"
+              value={form.title}
+              onChange={handleChange}
             />
           </div>
           <div className={classes.control}>
-            <label htmlFor="image">Image</label>
+            <label htmlFor="description">Description</label>
             <input
               type="text"
-              id="image"
-              required
-              value={enteredImage}
-              onChange={(event) => setEnteredImage(event.target.value)}
+              name="description"
+              value={form.description}
+              onChange={handleChange}
             />
           </div>
           <div className={classes.control}>
-            <label htmlFor="excerpt">Excerpt</label>
+            <label htmlFor="location">Location</label>
             <input
               type="text"
-              id="excerpt"
-              required
-              value={enteredExcerpt}
-              onChange={(event) => setEnteredExcerpt(event.target.value)}
-            />
-          </div>
-          <div className={classes.control}>
-            <label htmlFor="date">Date</label>
-            <input
-              type="text"
-              id="date"
-              required
-              value={enteredDate}
-              onChange={(event) => setEnteredDate(event.target.value)}
-            />
-          </div>
-          <div className={classes.control}>
-            <label htmlFor="slug">Slug</label>
-            <input
-              type="text"
-              id="slug"
-              required
-              value={enteredSlug}
-              onChange={(event) => setEnteredSlug(event.target.value)}
+              name="location"
+              value={form.location}
+              onChange={handleChange}
             />
           </div>
         </div>
