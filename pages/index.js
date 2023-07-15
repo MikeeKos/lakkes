@@ -1,63 +1,34 @@
 import FeaturedPosts from "../components/home-page/featured-posts";
 import React from "react";
+import { connectDatabase } from "../helpers/db-util";
+import Lake from "../models/lake";
 
-const DUMMY_LAKES = [
-  {
-    title: "Some lake",
-    image: "image.png",
-    excerpt:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. A, pariatur!",
-    date: "2022-02-10",
-    slug: "link-to-some-lake",
-  },
-  {
-    title: "Some lake",
-    image: "image.png",
-    excerpt:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. A, pariatur!",
-    date: "2022-02-10",
-    slug: "link-to-some-lake2",
-  },
-  {
-    title: "Some lake",
-    image: "image.png",
-    excerpt:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. A, pariatur!",
-    date: "2022-02-10",
-    slug: "link-to-some-lake3",
-  },
-  {
-    title: "Some lake",
-    image: "image.png",
-    excerpt:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. A, pariatur!",
-    date: "2022-02-10",
-    slug: "link-to-some-lake4",
-  },
-  {
-    title: "Some lake",
-    image: "image.png",
-    excerpt:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. A, pariatur!",
-    date: "2022-02-10",
-    slug: "link-to-some-lake5",
-  },
-  {
-    title: "Some lake",
-    image: "image.png",
-    excerpt:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. A, pariatur!",
-    date: "2022-02-10",
-    slug: "link-to-some-lake6",
-  },
-];
-
-function HomePage() {
+function HomePage(props) {
   return (
     <React.Fragment>
-      <FeaturedPosts lakes={DUMMY_LAKES} />
+      <FeaturedPosts lakes={props.lakes} />
     </React.Fragment>
   );
+}
+
+// Retrieves lakes data from mongodb database
+export async function getServerSideProps() {
+  //Establish connection to the database
+  let client;
+  try {
+    client = await connectDatabase();
+  } catch (error) {
+    return;
+  }
+
+  const result = await Lake.find({});
+  const lakes = result.map((doc) => {
+    const lake = doc.toObject();
+    lake._id = lake._id.toString();
+    return lake;
+  });
+
+  return { props: { lakes: lakes } };
 }
 
 export default HomePage;

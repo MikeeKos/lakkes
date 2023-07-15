@@ -1,4 +1,4 @@
-import Lake from "../../../models/lake";
+import Lake from "../../../models/Lake";
 import { connectDatabase } from "../../../helpers/db-util";
 
 async function handler(req, res) {
@@ -24,7 +24,7 @@ async function handler(req, res) {
         await lake.save();
         res.status(201).json({
           responseData: "successfully added the lake to database",
-          data: req.body,
+          data: lake,
         });
       } catch (error) {
         res.status(400).json({ responseData: error });

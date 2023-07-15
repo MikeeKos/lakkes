@@ -1,7 +1,4 @@
-// NewLakePage will render a protected form
-// Protected - only logged users can access this page
-
-import CreateLakeForm from "../components/create/create-lake";
+import CreateLakeForm from "../components/createOrEdit/lakeForm";
 
 function NewLakePage() {
   const lakeForm = {

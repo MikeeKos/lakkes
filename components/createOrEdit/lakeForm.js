@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
-import classes from "./create-lake.module.css";
+import classes from "./lakeForm.module.css";
 import Notification from "../ui/notification";
-// import { useRouter } from "next/router";s
+import { useRouter } from "next/router";
+import { mutate } from "swr";
 
 function CreateLakeForm(props) {
-  // const router = useRouter();
+  const router = useRouter();
 
   const formId = props.formId;
   const lakeForm = props.lakeForm;
@@ -31,9 +32,11 @@ function CreateLakeForm(props) {
   }, [requestStatus]);
 
   async function postData(form) {
+    const { lakeId } = router.query;
+
     setRequestStatus("pending");
     try {
-      const response = await fetch("/api/user/add-lake", {
+      const response = await fetch("/api/user/lake-functions", {
         method: "POST",
         body: JSON.stringify(form),
         headers: {
@@ -42,18 +45,17 @@ function CreateLakeForm(props) {
       });
 
       if (!response.ok) {
-        console.log('___!response.ok___')
+        console.log("___!response.ok___");
         console.log(response);
         throw new Error(response.status);
       }
 
       //delete later
       const data = await response.json();
-      console.log(data);
-
       setRequestStatus("success");
+      router.push(`/list/${data.data._id}`);
     } catch (error) {
-      console.log('___client side try catch error___')
+      console.log("___client side try catch error___");
       console.log(error);
       setRequestError(error.message);
       setRequestStatus("error");
@@ -61,7 +63,30 @@ function CreateLakeForm(props) {
   }
 
   async function putData(form) {
-    console.log("yet to implement");
+    const { lakeId } = router.query;
+
+    try {
+      const response = await fetch(`/api/user/${lakeId}`, {
+        method: "PUT",
+        body: JSON.stringify(form),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(res.status);
+      }
+
+      const { data } = await response.json();
+      mutate(`/api/user/${lakeId}`, data, false);
+      router.push(`/list/${lakeId}`);
+    } catch (error) {
+      console.log("___client side try catch error___");
+      console.log(error);
+      setRequestError(error.message);
+      setRequestStatus("error");
+    }
   }
 
   function submitHandler(event) {

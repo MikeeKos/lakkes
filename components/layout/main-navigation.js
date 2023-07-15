@@ -16,9 +16,6 @@ function MainNavigation() {
           <li>
             <Link href="/add">Add new lake</Link>
           </li>
-          <li>
-            <Link href="/contact">Contact page</Link>
-          </li>
         </ul>
       </nav>
     </header>

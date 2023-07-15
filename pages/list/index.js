@@ -1,61 +1,29 @@
-// AllLakesPage will show map and underneath it will be list of
-// all lakes with maybe an infinite scroll and lazy loading implemented
-
 import AllLakes from "../../components/lakes/all-lakes";
+import Lake from "../../models/Lake";
+import { connectDatabase } from "../../helpers/db-util";
+import React from "react";
 
-const DUMMY_LAKES = [
-  {
-    title: "Some lake",
-    image: "image.png",
-    excerpt:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. A, pariatur!",
-    date: "2022-02-10",
-    slug: "link-to-some-lake",
-  },
-  {
-    title: "Some lake",
-    image: "image.png",
-    excerpt:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. A, pariatur!",
-    date: "2022-02-10",
-    slug: "link-to-some-lake2",
-  },
-  {
-    title: "Some lake",
-    image: "image.png",
-    excerpt:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. A, pariatur!",
-    date: "2022-02-10",
-    slug: "link-to-some-lake3",
-  },
-  {
-    title: "Some lake",
-    image: "image.png",
-    excerpt:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. A, pariatur!",
-    date: "2022-02-10",
-    slug: "link-to-some-lake4",
-  },
-  {
-    title: "Some lake",
-    image: "image.png",
-    excerpt:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. A, pariatur!",
-    date: "2022-02-10",
-    slug: "link-to-some-lake5",
-  },
-  {
-    title: "Some lake",
-    image: "image.png",
-    excerpt:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. A, pariatur!",
-    date: "2022-02-10",
-    slug: "link-to-some-lake6",
-  },
-];
+function AllLakesPage(props) {
+  return <AllLakes lakes={props.lakes} />;
+}
 
-function AllLakesPage() {
-  return <AllLakes lakes={DUMMY_LAKES} />;
+export async function getServerSideProps() {
+  //Establish connection to the database
+  let client;
+  try {
+    client = await connectDatabase();
+  } catch (error) {
+    return;
+  }
+
+  const result = await Lake.find({});
+  const lakes = result.map((doc) => {
+    const lake = doc.toObject();
+    lake._id = lake._id.toString();
+    return lake;
+  });
+
+  return { props: { lakes: lakes } };
 }
 
 export default AllLakesPage;

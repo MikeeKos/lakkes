@@ -16,7 +16,7 @@ function LakesGrid(props) {
   return (
     <ul className={classes.grid}>
       {lakes.map((lake) => (
-        <LakeItem key={lake.slug} lake={lake} />
+        <LakeItem key={lake._id} lake={lake} />
       ))}
     </ul>
   );
