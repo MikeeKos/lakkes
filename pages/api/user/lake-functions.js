@@ -2,7 +2,7 @@ import Lake from "../../../models/Lake";
 import { connectDatabase } from "../../../helpers/db-util";
 
 async function handler(req, res) {
-  const { method } = req;
+  const method = req.method;
   // find a way to read req.body
   // check what happens when is is passed to new Lake()
 
@@ -11,39 +11,32 @@ async function handler(req, res) {
   try {
     client = await connectDatabase();
   } catch (error) {
-    res.status(500).json({ responseData: error });
+    res.status(500).json({ message: error });
     return;
   }
 
   switch (method) {
+    //components/createOrEdit/lakeForm.js
     case "POST":
-      //check validity
+      //server side validity check
 
       try {
         const lake = new Lake(req.body);
         await lake.save();
         res.status(201).json({
-          responseData: "successfully added the lake to database",
+          message: "successfully added the lake to database",
           data: lake,
         });
       } catch (error) {
-        res.status(400).json({ responseData: error });
+        res.status(500).json({ message: error });
         return;
       }
-
-      res.status(201).json({ responseData: "successfully add data" });
-
-      break;
-
-    case "GET":
-      //giving data to user
-      res.status(201).json({ responseData: "successfully edited data" });
       break;
 
     default:
       res
         .status(400)
-        .json({ responseData: "It was not either POST or GET request" });
+        .json({ message: "It was not either POST or GET request" });
       break;
   }
 }

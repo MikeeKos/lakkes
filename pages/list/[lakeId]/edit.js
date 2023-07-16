@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import useSWR from "swr";
-import CreateLakeForm from "../../../components/createOrEdit/lakeForm";
+import LakeForm from "../../../components/createOrEdit/lakeForm";
 
 const fetcher = (url) =>
   fetch(url)
@@ -33,7 +33,7 @@ const EditLake = () => {
   // };
 
   return (
-    <CreateLakeForm
+    <LakeForm
       formId="edit-lakeform"
       lakeForm={lakeForm}
       forNewLake={false}

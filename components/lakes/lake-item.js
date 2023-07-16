@@ -1,7 +1,17 @@
+//props.lake: is an object that look like this:
+// {
+//   _id: '64b28866329a7a2f5e3700b0',
+//   title: '...',
+//   description: '...',
+//   location: '...',
+//   __v: 0
+// }
+
 import Link from "next/link";
 import Image from "next/legacy/image";
 import classes from "./lake-item.module.css";
 
+//last element of the prop chain, that renders clickable card in grid of items on home page and list page
 function LakeItem(props) {
   return (
     <li className={classes.post}>

@@ -1,12 +1,18 @@
+// props.lakeForm is:
+//   title: "...",
+//   description: "...",
+//   location: "...",
+// if forNewLake is equal to true, then this form is used for creating new object
+// otherwise it renders data in <input />'s elements and functions as edit form
+
 import { useState, useEffect } from "react";
 import classes from "./lakeForm.module.css";
 import Notification from "../ui/notification";
 import { useRouter } from "next/router";
 import { mutate } from "swr";
 
-function CreateLakeForm(props) {
+function LakeForm(props) {
   const router = useRouter();
-
   const formId = props.formId;
   const lakeForm = props.lakeForm;
   const forNewLake = props.forNewLake; // true or false
@@ -20,6 +26,7 @@ function CreateLakeForm(props) {
   const [requestStatus, setRequestStatus] = useState();
   const [requestError, setRequestError] = useState();
 
+  //clear notification after 3 seconds
   useEffect(() => {
     if (requestStatus === "success" || requestStatus === "error") {
       const timer = setTimeout(() => {
@@ -31,9 +38,8 @@ function CreateLakeForm(props) {
     }
   }, [requestStatus]);
 
+  //for creating new lake object (POST)
   async function postData(form) {
-    const { lakeId } = router.query;
-
     setRequestStatus("pending");
     try {
       const response = await fetch("/api/user/lake-functions", {
@@ -45,23 +51,23 @@ function CreateLakeForm(props) {
       });
 
       if (!response.ok) {
-        console.log("___!response.ok___");
-        console.log(response);
-        throw new Error(response.status);
+        const text = await response.text();
+        throw new Error(text);
       }
 
       //delete later
       const data = await response.json();
+      console.log(data);
       setRequestStatus("success");
       router.push(`/list/${data.data._id}`);
     } catch (error) {
-      console.log("___client side try catch error___");
-      console.log(error);
-      setRequestError(error.message);
+      console.log(JSON.parse(error.message).message.message);
+      setRequestError("Something went wrong, when creating lake");
       setRequestStatus("error");
     }
   }
 
+  //for editing existing lake object (PUT)
   async function putData(form) {
     const { lakeId } = router.query;
 
@@ -75,20 +81,21 @@ function CreateLakeForm(props) {
       });
 
       if (!response.ok) {
-        throw new Error(res.status);
+        const text = await response.text();
+        throw new Error(text);
       }
 
       const { data } = await response.json();
-      mutate(`/api/user/${lakeId}`, data, false);
+      mutate(`/api/user/${lakeId}`, data, false); // Update the local data without a revalidation
       router.push(`/list/${lakeId}`);
     } catch (error) {
-      console.log("___client side try catch error___");
-      console.log(error);
-      setRequestError(error.message);
+      console.log(JSON.parse(error.message).message);
+      setRequestError("Something went wrong, when editing lake");
       setRequestStatus("error");
     }
   }
 
+  //if there aren't any errors, then depending on forNewLake prop decide if it is for creating or editing
   function submitHandler(event) {
     event.preventDefault();
     const errors = formValidate();
@@ -111,6 +118,7 @@ function CreateLakeForm(props) {
     });
   };
 
+  //client side validation
   const formValidate = () => {
     let err = {};
     if (!form.title) {
@@ -130,8 +138,8 @@ function CreateLakeForm(props) {
   if (requestStatus === "pending") {
     notification = {
       status: "pending",
-      title: "Sending message...",
-      message: "Your message is on its way!",
+      title: "Sending...",
+      message: "Creating lake",
     };
   }
 
@@ -139,7 +147,7 @@ function CreateLakeForm(props) {
     notification = {
       status: "success",
       title: "Success!",
-      message: "Message sent successfully!",
+      message: "Lake has been created successfully",
     };
   }
 
@@ -153,7 +161,7 @@ function CreateLakeForm(props) {
 
   return (
     <section className={classes.contact}>
-      <h1>How can I help you?</h1>
+      <h1>Lake form</h1>
       <form className={classes.form} id={formId} onSubmit={submitHandler}>
         <div className={classes.controls}>
           <div className={classes.control}>
@@ -199,4 +207,4 @@ function CreateLakeForm(props) {
   );
 }
 
-export default CreateLakeForm;
+export default LakeForm;

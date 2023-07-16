@@ -1,4 +1,10 @@
-import CreateLakeForm from "../components/createOrEdit/lakeForm";
+// props.lakeForm is:
+//   title: "...",
+//   description: "...",
+//   location: "...",
+
+
+import LakeForm from "../components/createOrEdit/lakeForm";
 
 function NewLakePage() {
   const lakeForm = {
@@ -8,7 +14,7 @@ function NewLakePage() {
   };
 
   return (
-    <CreateLakeForm
+    <LakeForm
       formId="add-lakeform"
       lakeForm={lakeForm}
       forNewLake={true}

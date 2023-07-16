@@ -11,11 +11,12 @@ export default async function handler(req, res) {
   try {
     client = await connectDatabase();
   } catch (error) {
-    res.status(500).json({ responseData: error });
+    res.status(500).json({ message: error });
     return;
   }
 
   switch (method) {
+    //getting data for edit form, used in pages/list/[lakeId]/edit.js
     case "GET":
       try {
         const lake = await Lake.findById(lakeId);
@@ -28,6 +29,7 @@ export default async function handler(req, res) {
       }
       break;
 
+    //changing data, used in components/createOrEdit/lakeForm.js
     case "PUT":
       try {
         const lake = await Lake.findByIdAndUpdate(lakeId, req.body, {
@@ -35,14 +37,17 @@ export default async function handler(req, res) {
           runValidators: true,
         });
         if (!lake) {
-          return res.status(400).json({ message: "Could not find a lake" });
+          return res.status(400).json({ message: "Could not find a lake with that ID" });
         }
         res.status(200).json({ message: "successfully updated" });
       } catch (error) {
-        res.status(400).json({ message: "could not find lake with that id" });
+        res.status(400).json({
+          message: "validation failed",
+        });
       }
       break;
 
+    //deleting object, used in components/lakes/lake-detail/lake-content
     case "DELETE":
       try {
         const deletedLake = await Lake.deleteOne({ _id: lakeId });

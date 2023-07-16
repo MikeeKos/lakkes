@@ -1,15 +1,16 @@
-// List of objects like this
+//props.lakes: is a table of objects that look like this:
 // {
-//   title: "...",
-//   image: "image.png",
-//   excerpt: "...",
-//   date: "2022-02-10",
-//   slug: "link-to-single-object",
+//   _id: '64b28866329a7a2f5e3700b0',
+//   title: '...',
+//   description: '...',
+//   location: '...',
+//   __v: 0
 // }
 
 import classes from "./featured-posts.module.css";
 import LakesGrid from "../lakes/lakes-grid";
 
+//used in home page, used to split map and grid of lake objects
 function FeaturedPosts(props) {
   return (
     <section className={classes.latest}>

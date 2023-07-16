@@ -19,8 +19,17 @@ export async function getServerSideProps({ params }) {
     return;
   }
 
-  const lake = await Lake.findById(params.lakeId).lean();
-  lake._id = lake._id.toString();
+  let lake;
+  try {
+    lake = await Lake.findById(params.lakeId).lean();
+    lake._id = lake._id.toString();
+  } catch (error) {
+    return {
+      redirect: {
+        destination: '/'
+      }
+    }
+  }
 
   return { props: { lake: lake } };
 }
