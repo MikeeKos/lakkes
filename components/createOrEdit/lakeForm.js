@@ -5,17 +5,18 @@
 // if forNewLake is equal to true, then this form is used for creating new object
 // otherwise it renders data in <input />'s elements and functions as edit form
 
-import { useState, useEffect } from "react";
+import { useState, useContext } from "react";
 import classes from "./lakeForm.module.css";
-import Notification from "../ui/notification";
 import { useRouter } from "next/router";
 import { mutate } from "swr";
+import NotificationContext from "../../store/notification-context";
 
 function LakeForm(props) {
   const router = useRouter();
   const formId = props.formId;
   const lakeForm = props.lakeForm;
   const forNewLake = props.forNewLake; // true or false
+  const notificationCtx = useContext(NotificationContext);
 
   const [form, setForm] = useState({
     title: lakeForm.title,
@@ -23,24 +24,29 @@ function LakeForm(props) {
     location: lakeForm.location,
   });
 
-  const [requestStatus, setRequestStatus] = useState();
-  const [requestError, setRequestError] = useState();
+  // const [requestStatus, setRequestStatus] = useState();
+  // const [requestError, setRequestError] = useState();
 
   //clear notification after 3 seconds
-  useEffect(() => {
-    if (requestStatus === "success" || requestStatus === "error") {
-      const timer = setTimeout(() => {
-        setRequestStatus(null);
-        setRequestError(null);
-      }, 3000);
+  // useEffect(() => {
+  //   if (requestStatus === "success" || requestStatus === "error") {
+  //     const timer = setTimeout(() => {
+  //       setRequestStatus(null);
+  //       setRequestError(null);
+  //     }, 3000);
 
-      return () => clearTimeout(timer);
-    }
-  }, [requestStatus]);
+  //     return () => clearTimeout(timer);
+  //   }
+  // }, [requestStatus]);
 
   //for creating new lake object (POST)
   async function postData(form) {
-    setRequestStatus("pending");
+    // setRequestStatus("pending");
+    notificationCtx.showNotification({
+      title: "sending...",
+      message: "sending lake data for verification",
+      status: "pending",
+    });
     try {
       const response = await fetch("/api/user/lake-functions", {
         method: "POST",
@@ -50,6 +56,7 @@ function LakeForm(props) {
         },
       });
 
+      //if response is NOT 200-299
       if (!response.ok) {
         const text = await response.text();
         throw new Error(text);
@@ -58,18 +65,34 @@ function LakeForm(props) {
       //delete later
       const data = await response.json();
       console.log(data);
-      setRequestStatus("success");
+      // setRequestStatus("success");
+      notificationCtx.showNotification({
+        title: "success!",
+        message: "successfully created new object",
+        status: "success",
+      });
       router.push(`/list/${data.data._id}`);
     } catch (error) {
       console.log(JSON.parse(error.message).message.message);
-      setRequestError("Something went wrong, when creating lake");
-      setRequestStatus("error");
+      // setRequestError("Something went wrong, when creating lake");
+      notificationCtx.showNotification({
+        title: "Error!",
+        message: "Something went wrong, when creating lake",
+        status: "error",
+      });
+      // setRequestStatus("error");
     }
   }
 
   //for editing existing lake object (PUT)
   async function putData(form) {
     const { lakeId } = router.query;
+
+    notificationCtx.showNotification({
+      title: "sending...",
+      message: "sending lake data for verification",
+      status: "pending",
+    });
 
     try {
       const response = await fetch(`/api/user/${lakeId}`, {
@@ -84,14 +107,23 @@ function LakeForm(props) {
         const text = await response.text();
         throw new Error(text);
       }
-
       const { data } = await response.json();
+      notificationCtx.showNotification({
+        title: "success!",
+        message: "successfully created new object",
+        status: "success",
+      });
       mutate(`/api/user/${lakeId}`, data, false); // Update the local data without a revalidation
       router.push(`/list/${lakeId}`);
     } catch (error) {
       console.log(JSON.parse(error.message).message);
-      setRequestError("Something went wrong, when editing lake");
-      setRequestStatus("error");
+      notificationCtx.showNotification({
+        title: "Error!",
+        message: "Something went wrong, when creating lake",
+        status: "error",
+      });
+      // setRequestError("Something went wrong, when editing lake");
+      // setRequestStatus("error");
     }
   }
 
@@ -102,8 +134,13 @@ function LakeForm(props) {
     if (Object.keys(errors).length === 0) {
       forNewLake ? postData(form) : putData(form);
     } else {
-      setRequestError("Bad user data");
-      setRequestStatus("error");
+      notificationCtx.showNotification({
+        title: "Error!",
+        message: "Invalid user data (client side validation failed)",
+        status: "error",
+      });
+      // setRequestError("Bad user data");
+      // setRequestStatus("error");
     }
   }
 
@@ -133,31 +170,31 @@ function LakeForm(props) {
     return err;
   };
 
-  let notification;
+  // let notification;
 
-  if (requestStatus === "pending") {
-    notification = {
-      status: "pending",
-      title: "Sending...",
-      message: "Creating lake",
-    };
-  }
+  // if (requestStatus === "pending") {
+  //   notification = {
+  //     status: "pending",
+  //     title: "Sending...",
+  //     message: "Creating lake",
+  //   };
+  // }
 
-  if (requestStatus === "success") {
-    notification = {
-      status: "success",
-      title: "Success!",
-      message: "Lake has been created successfully",
-    };
-  }
+  // if (requestStatus === "success") {
+  //   notification = {
+  //     status: "success",
+  //     title: "Success!",
+  //     message: "Lake has been created successfully",
+  //   };
+  // }
 
-  if (requestStatus === "error") {
-    notification = {
-      status: "error",
-      title: "Error!",
-      message: requestError,
-    };
-  }
+  // if (requestStatus === "error") {
+  //   notification = {
+  //     status: "error",
+  //     title: "Error!",
+  //     message: requestError,
+  //   };
+  // }
 
   return (
     <section className={classes.contact}>
@@ -196,13 +233,13 @@ function LakeForm(props) {
           <button>Send</button>
         </div>
       </form>
-      {notification && (
+      {/* {notification && (
         <Notification
           status={notification.status}
           title={notification.title}
           message={notification.message}
         />
-      )}
+      )} */}
     </section>
   );
 }
