@@ -14,11 +14,11 @@ const CommentSchema = new mongoose.Schema({
     type: String,
     required: true,
     maxlength: [10, "Name cannot be more than 10 characters"],
-  },
-  lakeId: {
-    type: String,
-    required: true,
-  },
+  }
+  // lakeId: {
+  //   type: String,
+  //   required: true,
+  // },
 });
 
 export default mongoose.models.Comment ||

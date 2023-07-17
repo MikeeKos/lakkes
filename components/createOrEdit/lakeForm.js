@@ -199,7 +199,7 @@ function LakeForm(props) {
   return (
     <section className={classes.contact}>
       <h1>Lake form</h1>
-      <form className={classes.form} id={formId} onSubmit={submitHandler}>
+      <form className={classes.form} id={formId} onSubmit={submitHandler} encType="multipart/form-data">
         <div className={classes.controls}>
           <div className={classes.control}>
             <label htmlFor="title">Title</label>

@@ -33,10 +33,10 @@ async function handler(req, res) {
         email: email,
         name: name,
         text: text,
-        lakeId: lakeId,
+        // lakeId: lakeId,
       };
 
-      console.log(lakeId);
+      // console.log(lakeId);
 
       try {
         const comment = new Comment(newComment);

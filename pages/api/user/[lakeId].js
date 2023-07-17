@@ -1,6 +1,7 @@
 import { connectDatabase } from "../../../helpers/db-util";
 import Lake from "../../../models/Lake";
 import mongoose from "mongoose";
+import Comment from "../../../models/Comment";
 
 export default async function handler(req, res) {
   const {
@@ -55,8 +56,25 @@ export default async function handler(req, res) {
     //deleting object, used in components/lakes/lake-detail/lake-content
     case "DELETE":
       try {
-        const deletedLake = await Lake.deleteOne({ _id: lakeId });
-        if (!deletedLake) {
+        const currentLake = await Lake.findOne({
+          _id: lakeId,
+        }).populate("comments");
+        if (!currentLake) {
+          return res
+            .status(400)
+            .json({ message: "could not find lake with this id" });
+        }
+        const commentsThatShouldBeRemoved = currentLake.comments.map((doc) =>
+          doc._id.toString()
+        );
+        const deletedComments = await Comment.deleteMany({
+          _id: commentsThatShouldBeRemoved,
+        });
+        console.log("DELETED COMMENTS");
+        console.log(deletedComments);
+
+        const deleteLake = await Lake.deleteOne({ _id: lakeId });
+        if (!deleteLake) {
           return res
             .status(400)
             .json({ message: "could not find lake with this id" });
