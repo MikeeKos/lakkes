@@ -28,7 +28,8 @@ function Comments(props) {
 
         //delete later
         const data = await response.json();
-        console.log("Are items there? data.data");
+        console.log("POPULATING TEST");
+        console.log(data.comments);
         setComments(data.comments);
       } catch (error) {
         console.log(error);

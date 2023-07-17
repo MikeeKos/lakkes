@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import Comment from "./Comment";
 
 const LakeSchema = new mongoose.Schema({
   title: {
@@ -17,6 +18,12 @@ const LakeSchema = new mongoose.Schema({
     required: true,
     maxlength: [10, "Name cannot be more than 10 characters"],
   },
+  comments: [
+    {
+        type: mongoose.SchemaTypes.ObjectId,
+        ref: 'Comment'
+    }
+],
 });
 
 export default mongoose.models.Lake || mongoose.model("Lake", LakeSchema);

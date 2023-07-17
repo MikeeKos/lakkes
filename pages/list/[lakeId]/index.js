@@ -26,6 +26,8 @@ export async function getServerSideProps({ params }) {
   try {
     lake = await Lake.findById(params.lakeId).lean();
     lake._id = lake._id.toString();
+    lake.comments = [];
+    console.log(lake);
   } catch (error) {
     return {
       notFound: true,

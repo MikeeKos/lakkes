@@ -50,13 +50,26 @@ export async function getServerSideProps() {
     lakes = result.map((doc) => {
       const lake = doc.toObject();
       lake._id = lake._id.toString();
+      lake.comments = [];
       return lake;
     });
+    // console.log(result)
   } catch (error) {
     return {
       notFound: true,
     };
   }
+
+  // const result = await Lake.find({}).populate("comments");
+  // const testlakes = result.map((doc) => {
+  //   const lake = doc.toObject();
+  //   lake._id = lake._id.toString();
+  //   lake.comments = [];
+  //   return lake;
+  // });
+  // console.log('____WHOLE OBJECT____')
+  // console.log(testlakes);
+  // console.log(result[0].comments[0].toString())
 
   console.log("CLOSING CONNECTION");
   mongoose.connection.close();

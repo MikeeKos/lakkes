@@ -25,6 +25,7 @@ export async function getServerSideProps() {
     lakes = result.map((doc) => {
       const lake = doc.toObject();
       lake._id = lake._id.toString();
+      lake.comments = []
       return lake;
     });
   } catch (error) {
