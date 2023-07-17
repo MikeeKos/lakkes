@@ -15,6 +15,7 @@ import FeaturedPosts from "../components/home-page/featured-posts";
 import React from "react";
 import { connectDatabase } from "../helpers/db-util";
 import Lake from "../models/lake";
+import mongoose from "mongoose";
 
 function HomePage(props) {
   return (
@@ -31,15 +32,34 @@ export async function getServerSideProps() {
   try {
     client = await connectDatabase();
   } catch (error) {
-    return;
+    return {
+      notFound: true,
+    };
   }
 
-  const result = await Lake.find({});
-  const lakes = result.map((doc) => {
-    const lake = doc.toObject();
-    lake._id = lake._id.toString();
-    return lake;
-  });
+  // const result = await Lake.find({});
+  // const lakes = result.map((doc) => {
+  //   const lake = doc.toObject();
+  //   lake._id = lake._id.toString();
+  //   return lake;
+  // });
+
+  let lakes;
+  try {
+    const result = await Lake.find({});
+    lakes = result.map((doc) => {
+      const lake = doc.toObject();
+      lake._id = lake._id.toString();
+      return lake;
+    });
+  } catch (error) {
+    return {
+      notFound: true,
+    };
+  }
+
+  console.log("CLOSING CONNECTION");
+  mongoose.connection.close();
 
   return { props: { lakes: lakes } };
 }

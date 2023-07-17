@@ -2,15 +2,16 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import Image from "next/legacy/image";
 import classes from "./lake-content.module.css";
-import Notification from "../../ui/notification";
+// import Notification from "../../ui/notification";
 // import { useState, useEffect } from "react";
 import { useContext } from "react";
 import NotificationContext from "../../../store/notification-context";
+import Comments from "../../comments/comments";
 
 function LakeContent(props) {
   const router = useRouter();
   const notificationCtx = useContext(NotificationContext);
-
+  const lakeId = router.query.lakeId;
   // const [requestStatus, setRequestStatus] = useState();
   // const [requestError, setRequestError] = useState();
 
@@ -26,7 +27,6 @@ function LakeContent(props) {
   // }, [requestStatus]);
 
   async function deleteHandler() {
-    const lakeId = router.query.lakeId;
     // setRequestStatus("pending");
     notificationCtx.showNotification({
       title: "deleting...",
@@ -117,6 +117,7 @@ function LakeContent(props) {
           />
         )}
       </div> */}
+      <Comments eventId={lakeId}/>
     </article>
   );
 }

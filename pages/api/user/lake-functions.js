@@ -1,5 +1,6 @@
 import Lake from "../../../models/Lake";
 import { connectDatabase } from "../../../helpers/db-util";
+import mongoose from "mongoose";
 
 async function handler(req, res) {
   const method = req.method;
@@ -39,6 +40,9 @@ async function handler(req, res) {
         .json({ message: "It was not either POST or GET request" });
       break;
   }
+
+  console.log("CLOSING CONNECTION");
+  mongoose.connection.close();
 }
 
 export default handler;

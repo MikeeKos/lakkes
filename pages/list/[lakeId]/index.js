@@ -2,6 +2,7 @@ import React from "react";
 import LakeContent from "../../../components/lakes/lake-detail/lake-content";
 import { connectDatabase } from "../../../helpers/db-util";
 import Lake from "../../../models/Lake";
+import mongoose from "mongoose";
 
 function SingleLakePage(props) {
   return (
@@ -16,7 +17,9 @@ export async function getServerSideProps({ params }) {
   try {
     client = await connectDatabase();
   } catch (error) {
-    return;
+    return {
+      notFound: true,
+    };
   }
 
   let lake;
@@ -25,11 +28,12 @@ export async function getServerSideProps({ params }) {
     lake._id = lake._id.toString();
   } catch (error) {
     return {
-      redirect: {
-        destination: '/'
-      }
-    }
+      notFound: true,
+    };
   }
+
+  console.log("CLOSING CONNECTION");
+  mongoose.connection.close();
 
   return { props: { lake: lake } };
 }
