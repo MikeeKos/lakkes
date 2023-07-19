@@ -10,6 +10,8 @@ import classes from "./lakeForm.module.css";
 import { useRouter } from "next/router";
 import { mutate } from "swr";
 import NotificationContext from "../../store/notification-context";
+//IMGAES
+import axios from "axios";
 
 function LakeForm(props) {
   const router = useRouter();
@@ -17,6 +19,8 @@ function LakeForm(props) {
   const lakeForm = props.lakeForm;
   const forNewLake = props.forNewLake; // true or false
   const notificationCtx = useContext(NotificationContext);
+  //IMAGES
+  const [dataOfTheForm, setDataOfTheForm] = useState("");
 
   const [form, setForm] = useState({
     title: lakeForm.title,
@@ -24,23 +28,10 @@ function LakeForm(props) {
     location: lakeForm.location,
   });
 
-  // const [requestStatus, setRequestStatus] = useState();
-  // const [requestError, setRequestError] = useState();
-
-  //clear notification after 3 seconds
-  // useEffect(() => {
-  //   if (requestStatus === "success" || requestStatus === "error") {
-  //     const timer = setTimeout(() => {
-  //       setRequestStatus(null);
-  //       setRequestError(null);
-  //     }, 3000);
-
-  //     return () => clearTimeout(timer);
-  //   }
-  // }, [requestStatus]);
-
   //for creating new lake object (POST)
-  async function postData(form) {
+  async function postData(form, imageData) {
+    console.log("IMAGE DATA SAINISADASNDIASNDJKASDOASNDJN");
+    console.log(imageData);
     // setRequestStatus("pending");
     notificationCtx.showNotification({
       title: "sending...",
@@ -48,6 +39,29 @@ function LakeForm(props) {
       status: "pending",
     });
     try {
+      //IMAGES
+      console.log("___In handleOnSubmit___");
+      console.log(imageData);
+
+      const imageConfig = {
+        headers: { "Content-Type": "multipart/form-data" },
+        // onUploadPropress: (event) => {
+        //   console.log(
+        //     `Current progress:`,
+        //     Math.round((event.loaded * 100) / event.total)
+        //   );
+        // },
+      };
+
+      const imageResponse = await axios.post(
+        "/api/user/images-upload",
+        imageData,
+        imageConfig
+      );
+
+      console.log("___AXIOS API RESPONSE___");
+      console.log("response", imageResponse);
+
       const response = await fetch("/api/user/lake-functions", {
         method: "POST",
         body: JSON.stringify(form),
@@ -55,6 +69,11 @@ function LakeForm(props) {
           "Content-Type": "application/json",
         },
       });
+
+      // const config = {
+      //   headers: { "Content-Type": "multipart/form-data" },
+      // };
+      // const response = await axios.post("/api/user/lake-functions", form, config);
 
       //if response is NOT 200-299
       if (!response.ok) {
@@ -64,6 +83,7 @@ function LakeForm(props) {
 
       //delete later
       const data = await response.json();
+      console.log("___LAST CHECK - CHECK CLOUDINARY___");
       console.log(data);
       // setRequestStatus("success");
       notificationCtx.showNotification({
@@ -73,7 +93,7 @@ function LakeForm(props) {
       });
       router.push(`/list/${data.data._id}`);
     } catch (error) {
-      console.log(JSON.parse(error.message).message.message);
+      // console.log(JSON.parse(error.message).message.message);
       // setRequestError("Something went wrong, when creating lake");
       notificationCtx.showNotification({
         title: "Error!",
@@ -128,21 +148,44 @@ function LakeForm(props) {
   }
 
   //if there aren't any errors, then depending on forNewLake prop decide if it is for creating or editing
-  function submitHandler(event) {
+  //IMAGES
+  function submitFormHandler(event) {
     event.preventDefault();
     const errors = formValidate();
+    console.log("_____HERE______: CREATE FORM DATA WITH EVERYTHING");
     if (Object.keys(errors).length === 0) {
-      forNewLake ? postData(form) : putData(form);
+      forNewLake ? postData(form, dataOfTheForm) : putData(form);
     } else {
       notificationCtx.showNotification({
         title: "Error!",
-        message: "Invalid user data (client side validation failed)",
+        message: "Invalid user data (FORMVALIDATE FAILED)",
         status: "error",
       });
       // setRequestError("Bad user data");
       // setRequestStatus("error");
     }
   }
+
+  //IMAGES
+  const changeFormHandler = (event) => {
+    console.log("___EVENT TARGET FILES___");
+    console.log(event.target.files);
+    if (!event.target.files) {
+      return;
+    }
+    const formData = new FormData();
+
+    Array.from(event.target.files).forEach((file) => {
+      formData.append(event.target.name, file);
+    });
+
+    console.log("___EVERY VALUE IN FORMDATA___");
+    for (const value of formData.values()) {
+      console.log(value);
+    }
+
+    setDataOfTheForm(formData);
+  };
 
   const handleChange = (e) => {
     const target = e.target;
@@ -167,39 +210,24 @@ function LakeForm(props) {
     if (!form.location) {
       err.location = "Location is required";
     }
+    if (!dataOfTheForm) {
+      err.images = "Images are required"
+    }
     return err;
   };
-
-  // let notification;
-
-  // if (requestStatus === "pending") {
-  //   notification = {
-  //     status: "pending",
-  //     title: "Sending...",
-  //     message: "Creating lake",
-  //   };
-  // }
-
-  // if (requestStatus === "success") {
-  //   notification = {
-  //     status: "success",
-  //     title: "Success!",
-  //     message: "Lake has been created successfully",
-  //   };
-  // }
-
-  // if (requestStatus === "error") {
-  //   notification = {
-  //     status: "error",
-  //     title: "Error!",
-  //     message: requestError,
-  //   };
-  // }
 
   return (
     <section className={classes.contact}>
       <h1>Lake form</h1>
-      <form className={classes.form} id={formId} onSubmit={submitHandler} encType="multipart/form-data">
+      {/* IMAGES */}
+      {/* submitFormHandler is handleOnSumit */}
+      <form
+        className={classes.form}
+        id={formId}
+        onSubmit={submitFormHandler}
+        onChange={changeFormHandler}
+        encType="multipart/form-data"
+      >
         <div className={classes.controls}>
           <div className={classes.control}>
             <label htmlFor="title">Title</label>
@@ -228,18 +256,15 @@ function LakeForm(props) {
               onChange={handleChange}
             />
           </div>
+          <div className={classes.control}>
+            <label htmlFor="location">Location</label>
+            <input type="file" name="files" multiple />
+          </div>
         </div>
         <div className={classes.actions}>
           <button>Send</button>
         </div>
       </form>
-      {/* {notification && (
-        <Notification
-          status={notification.status}
-          title={notification.title}
-          message={notification.message}
-        />
-      )} */}
     </section>
   );
 }

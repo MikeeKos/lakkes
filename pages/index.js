@@ -14,7 +14,7 @@
 import FeaturedPosts from "../components/home-page/featured-posts";
 import React from "react";
 import { connectDatabase } from "../helpers/db-util";
-import Lake from "../models/lake";
+import Lake from "../models/Lake";
 import mongoose from "mongoose";
 
 function HomePage(props) {

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import Comment from "./Comment";
+// import Comment from "./Comment";
 
 const LakeSchema = new mongoose.Schema({
   title: {

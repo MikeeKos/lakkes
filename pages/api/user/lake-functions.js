@@ -1,6 +1,19 @@
 import Lake from "../../../models/Lake";
 import { connectDatabase } from "../../../helpers/db-util";
 import mongoose from "mongoose";
+// import multer from "multer";
+// import { storage } from "../../../cloudinary/cloudinaryConfig";
+
+// function runMiddleware(req, res, fn) {
+//   return new Promise((resolve, reject) => {
+//     fn(req, res, (result) => {
+//       if (result instanceof Error) {
+//         return reject(result);
+//       }
+//       return resolve(result);
+//     });
+//   });
+// }
 
 async function handler(req, res) {
   const method = req.method;
@@ -22,6 +35,11 @@ async function handler(req, res) {
       //server side validity check
 
       try {
+        //IMAGES
+        // const multerUpload = multer({ storage });
+        // await runMiddleware(req, res, multerUpload.array("files"));
+        // console.log("___REQ.FILES___");
+        // console.log(req.files);
         const lake = new Lake(req.body);
         await lake.save();
         res.status(201).json({
@@ -44,5 +62,11 @@ async function handler(req, res) {
   console.log("CLOSING CONNECTION");
   mongoose.connection.close();
 }
+
+// export const config = {
+//   api: {
+//     bodyParser: false, // Disallow body parsing, consume as stream
+//   },
+// };
 
 export default handler;
