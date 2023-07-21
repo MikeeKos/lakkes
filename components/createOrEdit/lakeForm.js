@@ -19,8 +19,8 @@ function LakeForm(props) {
   const lakeForm = props.lakeForm;
   const forNewLake = props.forNewLake; // true or false
   const notificationCtx = useContext(NotificationContext);
-  //IMAGES
   const [dataOfTheForm, setDataOfTheForm] = useState("");
+  const [imagesArray, setImagesArray] = useState();
 
   const [form, setForm] = useState({
     title: lakeForm.title,
@@ -29,28 +29,20 @@ function LakeForm(props) {
   });
 
   //for creating new lake object (POST)
-  async function postData(form, imageData) {
+  async function postData(imageData) {
     console.log("IMAGE DATA SAINISADASNDIASNDJKASDOASNDJN");
     console.log(imageData);
-    // setRequestStatus("pending");
     notificationCtx.showNotification({
       title: "sending...",
       message: "sending lake data for verification",
       status: "pending",
     });
     try {
-      //IMAGES
       console.log("___In handleOnSubmit___");
       console.log(imageData);
 
       const imageConfig = {
         headers: { "Content-Type": "multipart/form-data" },
-        // onUploadPropress: (event) => {
-        //   console.log(
-        //     `Current progress:`,
-        //     Math.round((event.loaded * 100) / event.total)
-        //   );
-        // },
       };
 
       const imageResponse = await axios.post(
@@ -62,13 +54,13 @@ function LakeForm(props) {
       console.log("___AXIOS API RESPONSE___");
       console.log("response", imageResponse);
 
-      const response = await fetch("/api/user/lake-functions", {
-        method: "POST",
-        body: JSON.stringify(form),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      // const response = await fetch("/api/user/lake-functions", {
+      //   method: "POST",
+      //   body: JSON.stringify(form),
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      // });
 
       // const config = {
       //   headers: { "Content-Type": "multipart/form-data" },
@@ -76,31 +68,30 @@ function LakeForm(props) {
       // const response = await axios.post("/api/user/lake-functions", form, config);
 
       //if response is NOT 200-299
-      if (!response.ok) {
-        const text = await response.text();
-        throw new Error(text);
-      }
+      // if (!response.ok) {
+      //   const text = await response.text();
+      //   throw new Error(text);
+      // }
 
       //delete later
-      const data = await response.json();
-      console.log("___LAST CHECK - CHECK CLOUDINARY___");
-      console.log(data);
+      // const data = await response.json();
+      // console.log("___LAST CHECK - CHECK CLOUDINARY___");
+      // console.log(data);
       // setRequestStatus("success");
       notificationCtx.showNotification({
         title: "success!",
         message: "successfully created new object",
         status: "success",
       });
-      router.push(`/list/${data.data._id}`);
+      // router.push(`/list/${imageResponse.data.data._id}`);
     } catch (error) {
-      // console.log(JSON.parse(error.message).message.message);
-      // setRequestError("Something went wrong, when creating lake");
+      console.log("___ERROR___");
+      console.log(error);
       notificationCtx.showNotification({
         title: "Error!",
         message: "Something went wrong, when creating lake",
         status: "error",
       });
-      // setRequestStatus("error");
     }
   }
 
@@ -152,10 +143,42 @@ function LakeForm(props) {
   function submitFormHandler(event) {
     event.preventDefault();
     const errors = formValidate();
+
     console.log("_____HERE______: CREATE FORM DATA WITH EVERYTHING");
     if (Object.keys(errors).length === 0) {
-      forNewLake ? postData(form, dataOfTheForm) : putData(form);
+
+
+
+
+      // const formData = new FormData();
+
+      // imagesArray.map((el) => {
+      //   formData.append(el.file.name, el.file);
+      // });
+
+      // // if (event.target.files) {
+      // //   Array.from(event.target.files).forEach((file) => {
+      // //     formData.append(event.target.name, file);
+      // //   });
+      // // }
+
+      // //append rest of the data
+      // formData.append("JSONPayload", JSON.stringify(form));
+
+      // console.log("___EVERY VALUE IN FORMDATA___");
+      // for (const value of formData.values()) {
+      //   console.log(value);
+      // }
+      console.log("___DATAOFTHEFORM___")
+      console.log(dataOfTheForm)
+
+      forNewLake ? postData(dataOfTheForm) : putData(form);
+
+
+
     } else {
+      console.log("___FRONT END VALIDATION ERRORS___");
+      console.log(errors);
       notificationCtx.showNotification({
         title: "Error!",
         message: "Invalid user data (FORMVALIDATE FAILED)",
@@ -168,16 +191,28 @@ function LakeForm(props) {
 
   //IMAGES
   const changeFormHandler = (event) => {
-    console.log("___EVENT TARGET FILES___");
-    console.log(event.target.files);
-    if (!event.target.files) {
-      return;
-    }
+    //CHECK SET() AND APPEND() OF FORMDATA
+    //https://developer.mozilla.org/en-US/docs/Web/API/FormData/has
+    //https://www.google.com/search?q=formdata+set+vs+append&oq=FormData+st+&aqs=chrome.1.69i57j0i13i19i512l5j69i60l2.4038j0j7&sourceid=chrome&ie=UTF-8
+    //https://developer.mozilla.org/en-US/docs/Web/API/FormData/set
+    //NAPISAC MAILA DO DZIEKANATU
+
+    // console.log("___EVENT OBJECT______________________")
+    // console.log(event);
+
     const formData = new FormData();
 
-    Array.from(event.target.files).forEach((file) => {
-      formData.append(event.target.name, file);
-    });
+    // const imageFileArray = [];
+    if (event.target.files) {
+      Array.from(event.target.files).forEach((file) => {
+        formData.append(event.target.name, file);
+        // imageFileArray.push({ fileName: event.target.name, file: file });
+      });
+      // setImagesArray(imageFileArray);
+    }
+
+    // append rest of the data
+    formData.append("JSONPayload", JSON.stringify(form));
 
     console.log("___EVERY VALUE IN FORMDATA___");
     for (const value of formData.values()) {
@@ -210,9 +245,12 @@ function LakeForm(props) {
     if (!form.location) {
       err.location = "Location is required";
     }
-    if (!dataOfTheForm) {
-      err.images = "Images are required"
-    }
+    // if (!dataOfTheForm) {
+    //   err.images = "Images are required";
+    // }
+    // if (!imagesArray) {
+    //   err.images = "Images are required";
+    // }
     return err;
   };
 

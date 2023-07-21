@@ -40,6 +40,7 @@ async function handler(req, res) {
         // await runMiddleware(req, res, multerUpload.array("files"));
         // console.log("___REQ.FILES___");
         // console.log(req.files);
+        // console.log(req.body);
         const lake = new Lake(req.body);
         await lake.save();
         res.status(201).json({
