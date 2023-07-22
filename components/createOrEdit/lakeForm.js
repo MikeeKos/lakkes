@@ -10,7 +10,6 @@ import classes from "./lakeForm.module.css";
 import { useRouter } from "next/router";
 import { mutate } from "swr";
 import NotificationContext from "../../store/notification-context";
-//IMGAES
 import axios from "axios";
 
 function LakeForm(props) {
@@ -20,7 +19,6 @@ function LakeForm(props) {
   const forNewLake = props.forNewLake; // true or false
   const notificationCtx = useContext(NotificationContext);
   const [dataOfTheForm, setDataOfTheForm] = useState("");
-  const [imagesArray, setImagesArray] = useState();
 
   const [form, setForm] = useState({
     title: lakeForm.title,
@@ -29,61 +27,31 @@ function LakeForm(props) {
   });
 
   //for creating new lake object (POST)
-  async function postData(imageData) {
-    console.log("IMAGE DATA SAINISADASNDIASNDJKASDOASNDJN");
-    console.log(imageData);
+  async function postData(form) {
     notificationCtx.showNotification({
       title: "sending...",
       message: "sending lake data for verification",
       status: "pending",
     });
     try {
-      console.log("___In handleOnSubmit___");
-      console.log(imageData);
-
-      const imageConfig = {
+      const config = {
         headers: { "Content-Type": "multipart/form-data" },
       };
 
       const imageResponse = await axios.post(
-        "/api/user/images-upload",
-        imageData,
-        imageConfig
+        "/api/user/lake-upload",
+        form,
+        config
       );
 
       console.log("___AXIOS API RESPONSE___");
       console.log("response", imageResponse);
-
-      // const response = await fetch("/api/user/lake-functions", {
-      //   method: "POST",
-      //   body: JSON.stringify(form),
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      // });
-
-      // const config = {
-      //   headers: { "Content-Type": "multipart/form-data" },
-      // };
-      // const response = await axios.post("/api/user/lake-functions", form, config);
-
-      //if response is NOT 200-299
-      // if (!response.ok) {
-      //   const text = await response.text();
-      //   throw new Error(text);
-      // }
-
-      //delete later
-      // const data = await response.json();
-      // console.log("___LAST CHECK - CHECK CLOUDINARY___");
-      // console.log(data);
-      // setRequestStatus("success");
       notificationCtx.showNotification({
         title: "success!",
         message: "successfully created new object",
         status: "success",
       });
-      // router.push(`/list/${imageResponse.data.data._id}`);
+      router.push(`/list/${imageResponse.data.data._id}`);
     } catch (error) {
       console.log("___ERROR___");
       console.log(error);
@@ -133,49 +101,25 @@ function LakeForm(props) {
         message: "Something went wrong, when creating lake",
         status: "error",
       });
-      // setRequestError("Something went wrong, when editing lake");
-      // setRequestStatus("error");
     }
   }
 
-  //if there aren't any errors, then depending on forNewLake prop decide if it is for creating or editing
-  //IMAGES
   function submitFormHandler(event) {
     event.preventDefault();
     const errors = formValidate();
 
-    console.log("_____HERE______: CREATE FORM DATA WITH EVERYTHING");
     if (Object.keys(errors).length === 0) {
+      const formData = new FormData();
 
+      if (dataOfTheForm && dataOfTheForm.length > 0) {
+        Array.from(dataOfTheForm).forEach((file) => {
+          formData.append("files", file);
+        });
+      }
 
+      formData.append("JSONPayload", JSON.stringify(form));
 
-
-      // const formData = new FormData();
-
-      // imagesArray.map((el) => {
-      //   formData.append(el.file.name, el.file);
-      // });
-
-      // // if (event.target.files) {
-      // //   Array.from(event.target.files).forEach((file) => {
-      // //     formData.append(event.target.name, file);
-      // //   });
-      // // }
-
-      // //append rest of the data
-      // formData.append("JSONPayload", JSON.stringify(form));
-
-      // console.log("___EVERY VALUE IN FORMDATA___");
-      // for (const value of formData.values()) {
-      //   console.log(value);
-      // }
-      console.log("___DATAOFTHEFORM___")
-      console.log(dataOfTheForm)
-
-      forNewLake ? postData(dataOfTheForm) : putData(form);
-
-
-
+      forNewLake ? postData(formData) : putData(form);
     } else {
       console.log("___FRONT END VALIDATION ERRORS___");
       console.log(errors);
@@ -184,42 +128,11 @@ function LakeForm(props) {
         message: "Invalid user data (FORMVALIDATE FAILED)",
         status: "error",
       });
-      // setRequestError("Bad user data");
-      // setRequestStatus("error");
     }
   }
 
-  //IMAGES
   const changeFormHandler = (event) => {
-    //CHECK SET() AND APPEND() OF FORMDATA
-    //https://developer.mozilla.org/en-US/docs/Web/API/FormData/has
-    //https://www.google.com/search?q=formdata+set+vs+append&oq=FormData+st+&aqs=chrome.1.69i57j0i13i19i512l5j69i60l2.4038j0j7&sourceid=chrome&ie=UTF-8
-    //https://developer.mozilla.org/en-US/docs/Web/API/FormData/set
-    //NAPISAC MAILA DO DZIEKANATU
-
-    // console.log("___EVENT OBJECT______________________")
-    // console.log(event);
-
-    const formData = new FormData();
-
-    // const imageFileArray = [];
-    if (event.target.files) {
-      Array.from(event.target.files).forEach((file) => {
-        formData.append(event.target.name, file);
-        // imageFileArray.push({ fileName: event.target.name, file: file });
-      });
-      // setImagesArray(imageFileArray);
-    }
-
-    // append rest of the data
-    formData.append("JSONPayload", JSON.stringify(form));
-
-    console.log("___EVERY VALUE IN FORMDATA___");
-    for (const value of formData.values()) {
-      console.log(value);
-    }
-
-    setDataOfTheForm(formData);
+    setDataOfTheForm(event.target.files);
   };
 
   const handleChange = (e) => {
@@ -245,25 +158,20 @@ function LakeForm(props) {
     if (!form.location) {
       err.location = "Location is required";
     }
-    // if (!dataOfTheForm) {
-    //   err.images = "Images are required";
-    // }
-    // if (!imagesArray) {
-    //   err.images = "Images are required";
-    // }
+    if (!dataOfTheForm || (dataOfTheForm.length === 0)) {
+      err.images = "Images are required";
+    }
     return err;
   };
 
   return (
     <section className={classes.contact}>
       <h1>Lake form</h1>
-      {/* IMAGES */}
-      {/* submitFormHandler is handleOnSumit */}
       <form
         className={classes.form}
         id={formId}
         onSubmit={submitFormHandler}
-        onChange={changeFormHandler}
+        // onChange={changeFormHandler}
         encType="multipart/form-data"
       >
         <div className={classes.controls}>
@@ -296,7 +204,12 @@ function LakeForm(props) {
           </div>
           <div className={classes.control}>
             <label htmlFor="location">Location</label>
-            <input type="file" name="files" multiple />
+            <input
+              type="file"
+              name="files"
+              multiple
+              onChange={changeFormHandler}
+            />
           </div>
         </div>
         <div className={classes.actions}>
