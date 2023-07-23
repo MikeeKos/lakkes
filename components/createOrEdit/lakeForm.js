@@ -11,6 +11,7 @@ import { useRouter } from "next/router";
 import { mutate } from "swr";
 import NotificationContext from "../../store/notification-context";
 import axios from "axios";
+import Image from "next/image";
 
 function LakeForm(props) {
   const router = useRouter();
@@ -23,6 +24,7 @@ function LakeForm(props) {
   const [filesArray, setfilesArray] = useState("");
   const [imagesForPreview, setImagesForPreview] = useState();
   const [previews, setPreviews] = useState([]);
+  const [checkboxArray, setCheckboxArray] = useState([]);
 
   const [form, setForm] = useState({
     title: lakeForm.title,
@@ -169,6 +171,8 @@ function LakeForm(props) {
   }
 
   function submitFormHandler(event) {
+    // event.preventDefault();
+    // console.log(checkboxArray);
     event.preventDefault();
     const errors = formValidate();
 
@@ -183,6 +187,10 @@ function LakeForm(props) {
 
       formData.append("JSONPayload", JSON.stringify(form));
 
+      if (!forNewLake) {
+        formData.append("JSONImagesArray", JSON.stringify(checkboxArray));
+      }
+
       forNewLake ? postData(formData) : putData(formData);
     } else {
       console.log("___FRONT END VALIDATION ERRORS___");
@@ -195,8 +203,28 @@ function LakeForm(props) {
     }
   }
 
+  const checkboxChangeHandler = (event) => {
+    // console.log("______CHECKBOXES______");
+    // console.log(event.target.value);
+    const checkboxValue = event.target.value;
+    setCheckboxArray((prevArray) => [...prevArray, checkboxValue]);
+  };
+
   const changeFormHandler = (event) => {
     const files = event.target.files;
+    //ADD MAX LENGTH
+    console.log(files.length);
+    if (files.length > 5) {
+      event.target.value = null;
+      setfilesArray(null);
+      notificationCtx.showNotification({
+        title: "Error!",
+        message: "You cannot add more than 5 files",
+        status: "error",
+      });
+      return;
+    }
+
     setfilesArray(files);
 
     let filesArray = [];
@@ -241,8 +269,10 @@ function LakeForm(props) {
       err.location = "Location is required";
     }
     //add allowed formats
-    if (!filesArray || filesArray.length === 0) {
-      err.images = "Images are required";
+    if (forNewLake) {
+      if (!filesArray || filesArray.length === 0) {
+        err.images = "Images are required";
+      }
     }
     return err;
   };
@@ -294,9 +324,50 @@ function LakeForm(props) {
               onChange={changeFormHandler}
             />
             <div>
-              {previews.map((preview, index) => (
-                <img key={index} src={preview} alt={`Preview ${index + 1}`} />
-              ))}
+              {props.images &&
+                props.images.map((image) => {
+                  return (
+                    <li key={image.filename}>
+                      <Image
+                        src={image.url}
+                        alt="Hello"
+                        width={300}
+                        height={200}
+                        placeholder="blur"
+                        blurDataURL={"/image.png"}
+                      />
+                      <div>
+                        <input
+                          onChange={checkboxChangeHandler}
+                          value={image.filename}
+                          id={image.filename}
+                          type="checkbox"
+                        />
+                        <label htmlFor={image.filename}>Delete?</label>
+                      </div>
+                    </li>
+                  );
+                })}
+              {previews.map((preview, index) => {
+                return (
+                  <li key={index}>
+                    <img
+                      key={index}
+                      src={preview}
+                      alt={`Preview ${index + 1}`}
+                    />
+                    {/* <div>
+                      <input
+                        onChange={checkboxChangeHandler}
+                        value={""}
+                        type="checkbox"
+                        id={""}
+                      />/
+                      <label htmlFor={""}>Delete?</label>
+                    </div> */}
+                  </li>
+                );
+              })}
             </div>
           </div>
         </div>

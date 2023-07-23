@@ -3,7 +3,11 @@ import Lake from "../../../models/Lake";
 import mongoose from "mongoose";
 import Comment from "../../../models/Comment";
 import multer from "multer";
-import { storage } from "../../../cloudinary/cloudinaryConfig";
+import {
+  storage,
+  cloudinary,
+  uploader,
+} from "../../../cloudinary/cloudinaryConfig";
 import { promisify } from "util";
 
 const upload = multer({ storage }).array("files");
@@ -45,6 +49,7 @@ async function handler(req, res) {
         const uploadedImages = req.files;
 
         const JSONPayload = JSON.parse(req.body.JSONPayload);
+        const JSONImagesArray = JSON.parse(req.body.JSONImagesArray);
 
         // const lake = await Lake.findById(lakeId);
         // if (!lake) {
@@ -63,7 +68,7 @@ async function handler(req, res) {
         // lake.images.push(...images);
         // await lake.save();
 
-        const lake = await Lake.findByIdAndUpdate(lakeId, {...JSONPayload});
+        const lake = await Lake.findByIdAndUpdate(lakeId, { ...JSONPayload });
         if (!lake) {
           return res
             .status(400)
@@ -74,8 +79,25 @@ async function handler(req, res) {
           filename: file.filename,
         }));
         lake.images.push(...images);
+        if (JSONImagesArray.length !== 0) {
+          // for (let filename of JSONImagesArray) {
+          //   console.log("SHOW FILENAMES")
+          //   console.log(filename);
+          //   // await cloudinary.uploader.destroy(filename)
+          // }
+          JSONImagesArray.map(async (image) => {
+            console.log("___SHOW FILENAMES___");
+            console.log(image);
+            await uploader.destroy(image, { invalidate: true });
+          });
+          await lake.updateOne({
+            $pull: { images: { filename: { $in: JSONImagesArray } } },
+          });
+        }
         await lake.save();
 
+        console.log("___IT SHOULD BE ARRAY WITH IMAGES FOR DELETION___");
+        console.log(JSONImagesArray);
         console.log("___IT SHOULD BE DATA___");
         console.log(JSONPayload);
         console.log("___IT SHOULD BE IMAGES___");
@@ -95,12 +117,23 @@ async function handler(req, res) {
       try {
         const currentLake = await Lake.findOne({
           _id: lakeId,
-        }).populate("comments");
+        })
+          .populate("comments")
+          .populate("images");
+        console.log("___CHECK CURRENT LAKE___");
+        console.log(currentLake);
         if (!currentLake) {
           return res
             .status(400)
             .json({ message: "could not find lake with this id" });
         }
+
+        currentLake.images.map(async (image) => {
+          console.log("___SHOW FILENAMES FOR DESTROYING___");
+          console.log(image.filename);
+          await uploader.destroy(image.filename, { invalidate: true });
+        });
+
         const commentsThatShouldBeRemoved = currentLake.comments.map((doc) =>
           doc._id.toString()
         );
