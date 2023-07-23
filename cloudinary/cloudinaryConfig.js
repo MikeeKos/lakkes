@@ -10,7 +10,7 @@ cloudinary.config({
 export const storage = new CloudinaryStorage({
     cloudinary,
     params: {
-        folder: 'Lakkes', //folder in cloudinary in which files will be
+        folder: 'Lakkes-project', //folder in cloudinary in which files will be
         allowed_formats: ['jpeg', 'png', 'jpg'] //which formats will work
         //maximum size of upload in free tier is 10MB
     }

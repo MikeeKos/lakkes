@@ -27,7 +27,6 @@ function HomePage(props) {
 
 // Retrieves lakes data from mongodb database
 export async function getServerSideProps() {
-  //Establish connection to the database
   let client;
   try {
     client = await connectDatabase();
@@ -37,44 +36,18 @@ export async function getServerSideProps() {
     };
   }
 
-  // const result = await Lake.find({});
-  // const lakes = result.map((doc) => {
-  //   const lake = doc.toObject();
-  //   lake._id = lake._id.toString();
-  //   return lake;
-  // });
-
-  let lakes;
   try {
     const result = await Lake.find({});
-    lakes = result.map((doc) => {
-      const lake = doc.toObject();
-      lake._id = lake._id.toString();
-      lake.comments = [];
-      return lake;
-    });
-    // console.log(result)
+    console.log("CLOSING CONNECTION");
+    mongoose.connection.close();
+    return { props: { lakes: JSON.parse(JSON.stringify(result)) } };
   } catch (error) {
+    console.log("CLOSING CONNECTION");
+    mongoose.connection.close();
     return {
       notFound: true,
     };
   }
-
-  // const result = await Lake.find({}).populate("comments");
-  // const testlakes = result.map((doc) => {
-  //   const lake = doc.toObject();
-  //   lake._id = lake._id.toString();
-  //   lake.comments = [];
-  //   return lake;
-  // });
-  // console.log('____WHOLE OBJECT____')
-  // console.log(testlakes);
-  // console.log(result[0].comments[0].toString())
-
-  console.log("CLOSING CONNECTION");
-  mongoose.connection.close();
-
-  return { props: { lakes: lakes } };
 }
 
 export default HomePage;

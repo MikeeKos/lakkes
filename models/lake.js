@@ -20,10 +20,22 @@ const LakeSchema = new mongoose.Schema({
   },
   comments: [
     {
-        type: mongoose.SchemaTypes.ObjectId,
-        ref: 'Comment'
-    }
-],
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: "Comment",
+    },
+  ],
+  images: [
+    {
+      url: {
+        type: String,
+        required: true,
+      },
+      filename: {
+        type: String,
+        required: true,
+      },
+    },
+  ],
 });
 
 export default mongoose.models.Lake || mongoose.model("Lake", LakeSchema);

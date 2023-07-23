@@ -18,33 +18,19 @@ export async function getServerSideProps() {
       notFound: true,
     };
   }
-
-  let lakes;
+  
   try {
     const result = await Lake.find({});
-    lakes = result.map((doc) => {
-      const lake = doc.toObject();
-      lake._id = lake._id.toString();
-      lake.comments = []
-      return lake;
-    });
+    console.log("CLOSING CONNECTION");
+    mongoose.connection.close();
+    return { props: { lakes: JSON.parse(JSON.stringify(result)) } };
   } catch (error) {
+    console.log("CLOSING CONNECTION");
+    mongoose.connection.close();
     return {
       notFound: true,
     };
   }
-
-  // const result = await Lake.find({});
-  // const lakes = result.map((doc) => {
-  //   const lake = doc.toObject();
-  //   lake._id = lake._id.toString();
-  //   return lake;
-  // });
-
-  console.log("CLOSING CONNECTION");
-  mongoose.connection.close();
-
-  return { props: { lakes: lakes } };
 }
 
 export default AllLakesPage;

@@ -9,6 +9,8 @@ import NotificationContext from "../../../store/notification-context";
 import Comments from "../../comments/comments";
 
 function LakeContent(props) {
+  console.log("___WHOLE LAKE OBJECT___");
+  // console.log(props.lake.images.map((el) => el.filename));
   const router = useRouter();
   const notificationCtx = useContext(NotificationContext);
   const lakeId = router.query.lakeId;
@@ -90,7 +92,7 @@ function LakeContent(props) {
 
   return (
     <article className={classes.content}>
-      <Link href={`/list/${router.query.lakeId}/edit`}>Edit page</Link>
+      <Link href={`/list/${lakeId}/edit`}>Edit page</Link>
       <div>
         <button onClick={deleteHandler}>DELETE</button>
       </div>
@@ -99,7 +101,6 @@ function LakeContent(props) {
         alt="Hello"
         width={300}
         height={200}
-        //it will shring and grow with container
         placeholder="blur"
         blurDataURL={"/image.png"}
       />
@@ -117,7 +118,22 @@ function LakeContent(props) {
           />
         )}
       </div> */}
-      <Comments eventId={lakeId}/>
+      {props.lake.images.map((image) => {
+        return (
+          <li key={image.filename}>
+            <article>{image.filename}</article>
+            <Image
+              src={image.url}
+              alt="Hello"
+              width={300}
+              height={200}
+              placeholder="blur"
+              blurDataURL={"/image.png"}
+            />
+          </li>
+        );
+      })}
+      <Comments eventId={lakeId} />
     </article>
   );
 }

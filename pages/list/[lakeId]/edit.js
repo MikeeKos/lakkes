@@ -19,18 +19,12 @@ const EditLake = () => {
   if (error) return <p>Failed to load</p>;
   if (isLoading) return <p>Loading...</p>;
   if (!lake) return null;
-
+  
   const lakeForm = {
     title: lake.title,
     description: lake.description,
     location: lake.location,
   };
-
-  // const lakeForm = {
-  //   title: "Check",
-  //   description: "Check",
-  //   location: "Hi",
-  // };
 
   return (
     <LakeForm

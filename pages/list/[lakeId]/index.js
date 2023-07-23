@@ -22,22 +22,18 @@ export async function getServerSideProps({ params }) {
     };
   }
 
-  let lake;
   try {
-    lake = await Lake.findById(params.lakeId).lean();
-    lake._id = lake._id.toString();
-    lake.comments = [];
-    console.log(lake);
+    const lake = await Lake.findById(params.lakeId);
+    console.log("CLOSING CONNECTION");
+    mongoose.connection.close();
+    return { props: { lake: JSON.parse(JSON.stringify(lake)) } };
   } catch (error) {
+    console.log("CLOSING CONNECTION");
+    mongoose.connection.close();
     return {
       notFound: true,
     };
   }
-
-  console.log("CLOSING CONNECTION");
-  mongoose.connection.close();
-
-  return { props: { lake: lake } };
 }
 
 export default SingleLakePage;

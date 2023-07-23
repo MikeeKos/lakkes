@@ -29,16 +29,20 @@ const handler = async (req, res) => {
 
       try {
         await multerUpload(req, res);
-        const uploadedFiles = req.files;
+        const uploadedImages = req.files;
 
         const JSONPayload = JSON.parse(req.body.JSONPayload);
         const lake = new Lake(JSONPayload);
+        lake.images = uploadedImages.map((file) => ({
+          url: file.path,
+          filename: file.filename,
+        }));
         await lake.save();
 
         console.log("___IT SHOULD BE DATA___");
         console.log(JSONPayload);
         console.log("___IT SHOULD BE IMAGES___");
-        console.log(uploadedFiles);
+        console.log(uploadedImages);
 
         res.status(201).json({
           message: "successfully added the lake to database",
