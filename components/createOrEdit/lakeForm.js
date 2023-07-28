@@ -12,6 +12,7 @@ import { mutate } from "swr";
 import NotificationContext from "../../store/notification-context";
 import axios from "axios";
 import Image from "next/image";
+import FormMap from "./formMap";
 
 function LakeForm(props) {
   const router = useRouter();
@@ -25,6 +26,8 @@ function LakeForm(props) {
   const [imagesForPreview, setImagesForPreview] = useState();
   const [previews, setPreviews] = useState([]);
   const [checkboxArray, setCheckboxArray] = useState([]);
+  const [lngLat, setLngLat] = useState({ lng: "", lat: "" });
+  const [sateliteMap, setSateliteMap] = useState(false);
 
   const [form, setForm] = useState({
     title: lakeForm.title,
@@ -277,8 +280,24 @@ function LakeForm(props) {
     return err;
   };
 
+  const handleDataFromMap = (data) => {
+    setLngLat(data);
+    console.log(data);
+  };
+
+  const changeStyleHandler = (event) => {
+    event.preventDefault();
+    setSateliteMap((prevState) => {
+      return !prevState;
+    });
+  };
+
   return (
     <section className={classes.contact}>
+      <div>
+        <h1>Toggle map style</h1>
+        <button onClick={changeStyleHandler}>Change map style</button>
+      </div>
       <h1>Lake form</h1>
       <form
         className={classes.form}
@@ -312,6 +331,35 @@ function LakeForm(props) {
               name="location"
               value={form.location}
               onChange={handleChange}
+            />
+          </div>
+          <div className={classes.control}>
+            <div>Set location</div>
+            <div>
+              <label htmlFor="latitude">Latitude</label>
+              <input
+                type="text"
+                id="latitude"
+                name="latitude"
+                required
+                readOnly
+                value={lngLat.lat}
+              />
+            </div>
+            <div>
+              <label htmlFor="longitude">Longitude</label>
+              <input
+                type="text"
+                id="longitude"
+                name="longitude"
+                required
+                readOnly
+                value={lngLat.lng}
+              />
+            </div>
+            <FormMap
+              sateliteMap={sateliteMap}
+              sendDataToForm={handleDataFromMap}
             />
           </div>
           <div className={classes.control}>

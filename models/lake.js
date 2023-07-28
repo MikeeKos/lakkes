@@ -36,6 +36,18 @@ const LakeSchema = new mongoose.Schema({
       },
     },
   ],
+  //GEOJSON check it (It's a standard)
+  geometry: {
+    type: {
+        type: String,
+        enum: ['Point'],
+        required: true
+    },
+    coordinates: {
+        type: [Number],
+        required: true
+    }
+},
 });
 
 export default mongoose.models.Lake || mongoose.model("Lake", LakeSchema);

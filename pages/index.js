@@ -16,11 +16,18 @@ import React from "react";
 import { connectDatabase } from "../helpers/db-util";
 import Lake from "../models/Lake";
 import mongoose from "mongoose";
+import CluserMap from "../components/home-page/cluser-map";
+
+//Add it to, when loading state on every page (probably in context API)
+// import classes from "./index.module.css";
 
 function HomePage(props) {
   return (
     <React.Fragment>
-      <FeaturedPosts lakes={props.lakes} />
+      {/* <div className={classes.noClick}> */}
+        <CluserMap lakes={props.lakes} />
+        <FeaturedPosts lakes={props.lakes} />
+      {/* </div> */}
     </React.Fragment>
   );
 }

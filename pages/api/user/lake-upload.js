@@ -5,6 +5,10 @@ import Lake from "../../../models/Lake";
 import { connectDatabase } from "../../../helpers/db-util";
 import mongoose from "mongoose";
 
+import mbxGeocoding from "@mapbox/mapbox-sdk/services/geocoding";
+const mapBoxToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
+const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
+
 const upload = multer({ storage }).array("files");
 
 const handler = async (req, res) => {
@@ -27,6 +31,13 @@ const handler = async (req, res) => {
       //SERVER SIDE VALIDATION
       //ESPECIALLY THAT ALL DATA IS THERE, BECAUSE OTHERWISE SOMEONE CAN UPLOAD IMAGES BUT NOT CREATE LAKE OBJECT
 
+      // const geoData = await geocoder.reverseGeocode({
+      //   query: [-119.571615, 37.737363],
+      //   limit: 1
+      // }).send()
+      // console.log(geoData.body.features[0].text);
+      // console.log(geoData.body.features[0].place_name);
+
       try {
         await multerUpload(req, res);
         const uploadedImages = req.files;
@@ -37,6 +48,18 @@ const handler = async (req, res) => {
           url: file.path,
           filename: file.filename,
         }));
+
+
+
+        const geoData = await geocoder.forwardGeocode({
+          query: 'Buenos Aires',
+          limit: 1
+        }).send()
+        console.log(geoData.body.features[0].geometry.coordinates);
+        lake.geometry = geoData.body.features[0].geometry
+
+
+
         await lake.save();
 
         console.log("___IT SHOULD BE DATA___");
