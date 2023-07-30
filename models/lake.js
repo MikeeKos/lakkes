@@ -6,17 +6,21 @@ const LakeSchema = new mongoose.Schema({
     type: String,
     required: true,
     minlength: [5, "Name cannot be shorter than 5"],
-    maxlength: [10, "Name cannot be more than 10 characters"],
+    maxlength: [100, "Name cannot be more than 100 characters"],
+  },
+  subtitle: {
+    type: String,
+    required: true,
   },
   description: {
     type: String,
     required: true,
-    maxlength: [10, "Name cannot be more than 10 characters"],
+    maxlength: [100, "Name cannot be more than 100 characters"],
   },
   location: {
     type: String,
     required: true,
-    maxlength: [10, "Name cannot be more than 10 characters"],
+    maxlength: [200, "Name cannot be more than 200 characters"],
   },
   comments: [
     {
@@ -39,15 +43,15 @@ const LakeSchema = new mongoose.Schema({
   //GEOJSON check it (It's a standard)
   geometry: {
     type: {
-        type: String,
-        enum: ['Point'],
-        required: true
+      type: String,
+      enum: ["Point"],
+      required: true,
     },
     coordinates: {
-        type: [Number],
-        required: true
-    }
-},
+      type: [Number],
+      required: true,
+    },
+  },
 });
 
 export default mongoose.models.Lake || mongoose.model("Lake", LakeSchema);

@@ -26,26 +26,20 @@ function LakeForm(props) {
   const [imagesForPreview, setImagesForPreview] = useState();
   const [previews, setPreviews] = useState([]);
   const [checkboxArray, setCheckboxArray] = useState([]);
-  const [lngLat, setLngLat] = useState({ lng: "", lat: "" });
   const [sateliteMap, setSateliteMap] = useState(false);
 
   const [form, setForm] = useState({
     title: lakeForm.title,
     description: lakeForm.description,
     location: lakeForm.location,
+    longitude: lakeForm.longitude,
+    latitude: lakeForm.latitude,
   });
 
+  console.log("___WHAT CAME FROM FORM ROUTE___");
+  console.log(form);
+
   useEffect(() => {
-    // console.log(imagesForPreview);
-    // if (imagesForPreview) {
-    //   const reader = new FileReader();
-    //   reader.onloadend = () => {
-    //     setPreview(reader.result);
-    //   };
-    //   reader.readAsDataURL(image);
-    // } else {
-    //   setPreview(null);
-    // }
     const createPreviews = () => {
       const previewPromises = imagesForPreview.map((image) => {
         return new Promise((resolve) => {
@@ -108,7 +102,7 @@ function LakeForm(props) {
 
   //for editing existing lake object (PUT)
   async function putData(form) {
-    console.log("____IS FORM EVEN SEND?____");
+    console.log("____IS FORM EVEN SEND FOR EDITING?____");
     console.log(form);
     console.log("___Show values___");
     for (const value of form.values()) {
@@ -141,26 +135,8 @@ function LakeForm(props) {
         status: "success",
       });
 
-      // const response = await fetch(`/api/user/${lakeId}`, {
-      //   method: "PUT",
-      //   body: JSON.stringify(form),
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      // });
-
-      // if (!response.ok) {
-      //   const text = await response.text();
-      //   throw new Error(text);
-      // }
-      // const { data } = await response.json();
-      // notificationCtx.showNotification({
-      //   title: "success!",
-      //   message: "successfully created new object",
-      //   status: "success",
-      // });
       // MAKE IT WORK
-      mutate(`/api/user/${lakeId}`, imageResponse, false); // Update the local data without a revalidation
+      // mutate(`/api/user/${lakeId}`, imageResponse, false); // Update the local data without a revalidation
       router.push(`/list/${lakeId}`);
     } catch (error) {
       console.log(error);
@@ -174,8 +150,6 @@ function LakeForm(props) {
   }
 
   function submitFormHandler(event) {
-    // event.preventDefault();
-    // console.log(checkboxArray);
     event.preventDefault();
     const errors = formValidate();
 
@@ -207,8 +181,6 @@ function LakeForm(props) {
   }
 
   const checkboxChangeHandler = (event) => {
-    // console.log("______CHECKBOXES______");
-    // console.log(event.target.value);
     const checkboxValue = event.target.value;
     setCheckboxArray((prevArray) => [...prevArray, checkboxValue]);
   };
@@ -271,6 +243,12 @@ function LakeForm(props) {
     if (!form.location) {
       err.location = "Location is required";
     }
+    if (!form.latitude) {
+      err.latitude = "Latitude is required"
+    }
+    if (!form.longitude) {
+      err.longitude = "Longitude is required"
+    }
     //add allowed formats
     if (forNewLake) {
       if (!filesArray || filesArray.length === 0) {
@@ -281,8 +259,14 @@ function LakeForm(props) {
   };
 
   const handleDataFromMap = (data) => {
-    setLngLat(data);
+    setForm({
+      ...form,
+      longitude: data.lng,
+      latitude: data.lat,
+    })
     console.log(data);
+    console.log("CHANGING MAP")
+    console.log(form);
   };
 
   const changeStyleHandler = (event) => {
@@ -343,7 +327,7 @@ function LakeForm(props) {
                 name="latitude"
                 required
                 readOnly
-                value={lngLat.lat}
+                value={form.latitude}
               />
             </div>
             <div>
@@ -354,12 +338,13 @@ function LakeForm(props) {
                 name="longitude"
                 required
                 readOnly
-                value={lngLat.lng}
+                value={form.longitude}
               />
             </div>
             <FormMap
               sateliteMap={sateliteMap}
               sendDataToForm={handleDataFromMap}
+              initialCoordsFromEditPage={{lng: form.longitude,lat: form.latitude}}
             />
           </div>
           <div className={classes.control}>
@@ -404,15 +389,6 @@ function LakeForm(props) {
                       src={preview}
                       alt={`Preview ${index + 1}`}
                     />
-                    {/* <div>
-                      <input
-                        onChange={checkboxChangeHandler}
-                        value={""}
-                        type="checkbox"
-                        id={""}
-                      />/
-                      <label htmlFor={""}>Delete?</label>
-                    </div> */}
                   </li>
                 );
               })}

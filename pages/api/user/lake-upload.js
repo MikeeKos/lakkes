@@ -38,27 +38,47 @@ const handler = async (req, res) => {
       // console.log(geoData.body.features[0].text);
       // console.log(geoData.body.features[0].place_name);
 
+      // const geoData = await geocoder
+      //   .forwardGeocode({
+      //     query: "Buenos Aires",
+      //     limit: 1,
+      //   })
+      //   .send();
+      // console.log(geoData.body.features[0].geometry.coordinates);
+      // lake.geometry = geoData.body.features[0].geometry
+
       try {
         await multerUpload(req, res);
         const uploadedImages = req.files;
 
         const JSONPayload = JSON.parse(req.body.JSONPayload);
-        const lake = new Lake(JSONPayload);
+        const primaryData = {
+          title: JSONPayload.title,
+          description: JSONPayload.description,
+          location: JSONPayload.location,
+        };
+        // console.log(primaryData);
+
+        const geoData = await geocoder
+          .reverseGeocode({
+            query: [JSONPayload.longitude, JSONPayload.latitude],
+            limit: 1,
+          })
+          .send();
+        console.log("_______GEO_DATA_______");
+        console.log(geoData.body.features[0].place_name);
+
+        const lake = new Lake(primaryData);
+
         lake.images = uploadedImages.map((file) => ({
           url: file.path,
           filename: file.filename,
         }));
-
-
-
-        const geoData = await geocoder.forwardGeocode({
-          query: 'Buenos Aires',
-          limit: 1
-        }).send()
-        console.log(geoData.body.features[0].geometry.coordinates);
-        lake.geometry = geoData.body.features[0].geometry
-
-
+        lake.geometry = {
+          type: "Point",
+          coordinates: [JSONPayload.longitude, JSONPayload.latitude],
+        };
+        lake.subtitle = geoData.body.features[0].place_name;
 
         await lake.save();
 

@@ -141,11 +141,6 @@
 
 // export default CluserMap;
 
-
-
-
-
-
 // import classes from "./cluser-map.module.css";
 // import ReactMapGL, {
 //   Marker,
@@ -325,13 +320,6 @@
 
 // export default CluserMap;
 
-
-
-
-
-
-
-
 import classes from "./cluser-map.module.css";
 import ReactMapGL, {
   Marker,
@@ -363,7 +351,9 @@ function CluserMap(props) {
   }, []);
 
   const mapRef = useRef(null);
-  const [selectedPoint, setSelectedPoint] = useState(null);
+  // const [selectedPoint, setSelectedPoint] = useState(null);
+  // const [zoomLevel, setZoomLevel] = useState(5);
+  // const [flyToCoordinates, setFlyToCoordinates] = useState();
 
   // {props.lakes.map((lake) => (
   //   <Marker
@@ -379,6 +369,19 @@ function CluserMap(props) {
   // ))}
 
   const onClick = (event) => {
+    // console.log(event.lngLat);
+    console.log(event);
+    // mapRef.current.easeTo({
+    //   center: flyToCoordinates,
+    //   zoom: 10,
+    //   duration: 2000,
+    // });
+    // mapRef.current.flyTo({center: [event.lngLat.lng, event.lngLat.lat], duration: 2000});
+    // mapRef.current.easeTo({
+    //   center: event.lngLat,
+    //   zoom: zoomLevel + 1,
+    //   duration: 700,
+    // });
     // console.log(event);
     //CHECK DOCS
     //https://docs.mapbox.com/mapbox-gl-js/assets/earthquakes.geojson
@@ -417,7 +420,7 @@ function CluserMap(props) {
   //     ...lake.geometry,
   //   },
   // }));
-  const mapData = { features: [...props.lakes] };
+  // const mapData = { features: [...props.lakes] };
   // const mapData = {features: [...elements]}
 
   return (
@@ -431,8 +434,9 @@ function CluserMap(props) {
             longitude: 19.701310233479273,
             latitude: 51.54748821096632,
             zoom: 5,
-            pitch: 40,
+            // pitch: 40,
           }}
+          pitch={40}
           mapStyle="mapbox://styles/mapbox/dark-v9"
           // mapStyle="mapbox://styles/mapbox/satellite-v9"
           // terrain={{source: 'mapbox-dem', exaggeration: 11.5}}
@@ -460,6 +464,7 @@ function CluserMap(props) {
                   onClick={(event) => {
                     event.preventDefault();
                     setSelectedLake(lake);
+                    // setFlyToCoordinates(lake.geometry.coordinates);
                   }}
                 >
                   {lake.title}
@@ -505,4 +510,3 @@ function CluserMap(props) {
 }
 
 export default CluserMap;
-

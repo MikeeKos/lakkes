@@ -22,11 +22,20 @@ import CluserMap from "../components/home-page/cluser-map";
 // import classes from "./index.module.css";
 
 function HomePage(props) {
+  //create refresh after server wasn't used for some time
   return (
     <React.Fragment>
+      {!props.failed && <div><CluserMap lakes={props.lakes} />
+        <FeaturedPosts lakes={props.lakes} /></div>}
+
+      {props.failed && <div><h1>{props.failed}</h1></div>}
+
+
+
+
       {/* <div className={classes.noClick}> */}
-        <CluserMap lakes={props.lakes} />
-        <FeaturedPosts lakes={props.lakes} />
+        {/* <CluserMap lakes={props.lakes} />
+        <FeaturedPosts lakes={props.lakes} /> */}
       {/* </div> */}
     </React.Fragment>
   );
@@ -38,9 +47,10 @@ export async function getServerSideProps() {
   try {
     client = await connectDatabase();
   } catch (error) {
-    return {
-      notFound: true,
-    };
+    return { props: { failed: "Request failed in finding client" } };
+    // return {
+    //   notFound: true,
+    // };
   }
 
   try {
@@ -51,9 +61,10 @@ export async function getServerSideProps() {
   } catch (error) {
     console.log("CLOSING CONNECTION");
     mongoose.connection.close();
-    return {
-      notFound: true,
-    };
+    return { props: { failed: "Request failed in finding lake object" } };
+    // return {
+    //   notFound: true,
+    // };
   }
 }
 

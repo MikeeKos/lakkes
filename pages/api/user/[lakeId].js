@@ -10,6 +10,10 @@ import {
 } from "../../../cloudinary/cloudinaryConfig";
 import { promisify } from "util";
 
+import mbxGeocoding from "@mapbox/mapbox-sdk/services/geocoding";
+const mapBoxToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
+const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
+
 const upload = multer({ storage }).array("files");
 
 async function handler(req, res) {
@@ -51,24 +55,22 @@ async function handler(req, res) {
         const JSONPayload = JSON.parse(req.body.JSONPayload);
         const JSONImagesArray = JSON.parse(req.body.JSONImagesArray);
 
-        // const lake = await Lake.findById(lakeId);
-        // if (!lake) {
-        //   return res
-        //     .status(400)
-        //     .json({ message: "Could not find a lake with that ID" });
-        // }
+        const primaryData = {
+          title: JSONPayload.title,
+          description: JSONPayload.description,
+          location: JSONPayload.location,
+        };
 
-        // lake.title = JSONPayload.title;
-        // lake.description = JSONPayload.description;
-        // lake.location = JSONPayload.location;
-        // const images = uploadedImages.map((file) => ({
-        //   url: file.path,
-        //   filename: file.filename,
-        // }));
-        // lake.images.push(...images);
-        // await lake.save();
+        const geoData = await geocoder
+          .reverseGeocode({
+            query: [JSONPayload.longitude, JSONPayload.latitude],
+            limit: 1,
+          })
+          .send();
+        console.log("_______GEO_DATA_______");
+        console.log(geoData.body.features[0].place_name);
 
-        const lake = await Lake.findByIdAndUpdate(lakeId, { ...JSONPayload });
+        const lake = await Lake.findByIdAndUpdate(lakeId, { ...primaryData });
         if (!lake) {
           return res
             .status(400)
@@ -80,11 +82,6 @@ async function handler(req, res) {
         }));
         lake.images.push(...images);
         if (JSONImagesArray.length !== 0) {
-          // for (let filename of JSONImagesArray) {
-          //   console.log("SHOW FILENAMES")
-          //   console.log(filename);
-          //   // await cloudinary.uploader.destroy(filename)
-          // }
           JSONImagesArray.map(async (image) => {
             console.log("___SHOW FILENAMES___");
             console.log(image);
@@ -94,6 +91,13 @@ async function handler(req, res) {
             $pull: { images: { filename: { $in: JSONImagesArray } } },
           });
         }
+
+        lake.geometry = {
+          type: "Point",
+          coordinates: [JSONPayload.longitude, JSONPayload.latitude],
+        };
+        lake.subtitle = geoData.body.features[0].place_name;
+
         await lake.save();
 
         console.log("___IT SHOULD BE ARRAY WITH IMAGES FOR DELETION___");

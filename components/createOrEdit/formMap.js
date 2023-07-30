@@ -9,27 +9,37 @@ import Map, {
 } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import "@mapbox/mapbox-gl-geocoder/lib/mapbox-gl-geocoder.css";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import GeocoderControl from "../home-page/geocoder";
 
 // const initialViewState = {
-  // latitude: 51.54748821096632,
-  // longitude: 19.701310233479273,
-  // zoom: 3.5,
-  // pitch: 40,
+// latitude: 51.54748821096632,
+// longitude: 19.701310233479273,
+// zoom: 3.5,
+// pitch: 40,
 // };
 
 function FormMap(props) {
   const [marker, setMarker] = useState();
-  console.log(props.sateliteMap);
+  // console.log(props.sateliteMap);
 
   // const onMarkerDragStart = (event) => {
   //   console.log("___DRAG START___");
   // };
 
+  console.log("___INITIAL COORDS____");
+  console.log(props.initialCoordsFromEditPage);
+
+  useEffect(() => {
+    if (props.initialCoordsFromEditPage) {
+      setMarker(props.initialCoordsFromEditPage);
+    }
+  }, []);
+
   const onMarkerDrag = (event) => {
     // console.log("___DRAGGING___");
     setMarker(event.lngLat);
+    console.log(event.lngLat);
     props.sendDataToForm(event.lngLat);
   };
 
@@ -58,7 +68,7 @@ function FormMap(props) {
 
   let config = {};
   if (props.sateliteMap) {
-    config = { source: "mapbox-dem", exaggeration: 5.5 };
+    config = { source: "mapbox-dem", exaggeration: 3.5 };
   } else {
     config = {};
   }
@@ -72,8 +82,9 @@ function FormMap(props) {
             latitude: 51.54748821096632,
             longitude: 19.701310233479273,
             zoom: 3.5,
-            pitch: 40,
+            // pitch: 40,
           }}
+          pitch={40}
           mapStyle={
             props.sateliteMap
               ? "mapbox://styles/mapbox/satellite-v9"
@@ -103,7 +114,7 @@ function FormMap(props) {
               onDragEnd={onMarkerDragEnd}
             />
           )}
-          {props.sateliteMap && (
+          {/* {props.sateliteMap && (
             <Source
               id="mapbox-dem"
               type="raster-dem"
@@ -111,7 +122,14 @@ function FormMap(props) {
               tileSize={512}
               maxzoom={14}
             />
-          )}
+          )} */}
+          <Source
+            id="mapbox-dem"
+            type="raster-dem"
+            url="mapbox://mapbox.mapbox-terrain-dem-v1"
+            tileSize={512}
+            maxzoom={14}
+          />
           {props.sateliteMap && <Layer {...skyLayer} />}
         </Map>
       </div>

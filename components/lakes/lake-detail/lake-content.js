@@ -108,6 +108,7 @@ function LakeContent(props) {
         <div>{props.lake.title}</div>
         <div>{props.lake.description}</div>
         <div>{props.lake.location}</div>
+        <div>{props.lake.subtitle}</div>
       </div>
       {/* <div>
         {notification && (

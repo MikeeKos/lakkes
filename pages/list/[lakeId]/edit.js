@@ -27,14 +27,23 @@ const EditLake = (props) => {
   if (isLoading) return <p>Loading...</p>;
   if (!lake) return null;
 
+  console.log("___LAKE FROM GETSERVERSIDEPROPS____")
+  console.log(lake);
   const lakeForm = {
     title: lake.title,
     description: lake.description,
     location: lake.location,
+    longitude: lake.geometry.coordinates[0],
+    latitude: lake.geometry.coordinates[1],
   };
 
   return (
-    <LakeForm formId="edit-lakeform" lakeForm={lakeForm} forNewLake={false} images={props.images}/>
+    <LakeForm
+      formId="edit-lakeform"
+      lakeForm={lakeForm}
+      forNewLake={false}
+      images={props.images}
+    />
   );
 };
 

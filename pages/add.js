@@ -3,7 +3,6 @@
 //   description: "...",
 //   location: "...",
 
-
 import LakeForm from "../components/createOrEdit/lakeForm";
 
 function NewLakePage() {
@@ -11,14 +10,12 @@ function NewLakePage() {
     title: "",
     description: "",
     location: "",
+    longitude: "",
+    latitude: "",
   };
 
   return (
-    <LakeForm
-      formId="add-lakeform"
-      lakeForm={lakeForm}
-      forNewLake={true}
-    />
+    <LakeForm formId="add-lakeform" lakeForm={lakeForm} forNewLake={true} />
   );
 }
 
