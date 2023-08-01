@@ -68,7 +68,7 @@ function FormMap(props) {
 
   let config = {};
   if (props.sateliteMap) {
-    config = { source: "mapbox-dem", exaggeration: 3.5 };
+    config = { source: "mapbox-dem", exaggeration: 1.5 };
   } else {
     config = {};
   }

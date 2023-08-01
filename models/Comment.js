@@ -14,7 +14,7 @@ const CommentSchema = new mongoose.Schema({
     type: String,
     required: true,
     maxlength: [10, "Name cannot be more than 10 characters"],
-  }
+  },
   // lakeId: {
   //   type: String,
   //   required: true,
@@ -23,5 +23,3 @@ const CommentSchema = new mongoose.Schema({
 
 export default mongoose.models.Comment ||
   mongoose.model("Comment", CommentSchema);
-
-// const { email, name, text } = req.body;

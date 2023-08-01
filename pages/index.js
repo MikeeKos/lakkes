@@ -61,10 +61,9 @@ export async function getServerSideProps() {
   } catch (error) {
     console.log("CLOSING CONNECTION");
     mongoose.connection.close();
-    return { props: { failed: "Request failed in finding lake object" } };
-    // return {
-    //   notFound: true,
-    // };
+    return {
+      notFound: true,
+    };
   }
 }
 

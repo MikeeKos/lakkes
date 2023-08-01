@@ -4,14 +4,17 @@ import { NotificationContextProvider } from "../store/notification-context";
 // import Head from "next/head";
 import React from "react";
 // import mapboxgl from 'mapbox-gl';
+import { SessionProvider } from "next-auth/react";
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   return (
-    <NotificationContextProvider>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
-    </NotificationContextProvider>
+    <SessionProvider session={session}>
+      <NotificationContextProvider>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </NotificationContextProvider>
+    </SessionProvider>
   );
 }
 

@@ -3,6 +3,9 @@ import mongoose from "mongoose";
 import Comment from "../../../models/Comment";
 import Lake from "../../../models/Lake";
 
+import { getServerSession } from "next-auth";
+import { authOptions } from "../auth/[...nextauth]";
+
 async function handler(req, res) {
   const {
     query: { lakeId },
@@ -16,6 +19,10 @@ async function handler(req, res) {
     res.status(500).json({ message: error });
     return;
   }
+
+  const session = await getServerSession(req, res, authOptions);
+  console.log("___SESSION___");
+  console.log(session);
 
   switch (method) {
     //add comment to database, used in components/comments/comments.js
@@ -79,7 +86,7 @@ async function handler(req, res) {
           return res.status(400).json({ message: "failed to find lake" });
         }
         const result = lake.comments;
-        
+
         // console.log("___CHECK LAKE POPULATION___");
         // console.log(lake.comments);
 
