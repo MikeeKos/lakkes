@@ -10,6 +10,7 @@ import Comments from "../../comments/comments";
 
 function LakeContent(props) {
   console.log("___WHOLE LAKE OBJECT___");
+  console.log(props.lake);
   // console.log(props.lake.images.map((el) => el.filename));
   const router = useRouter();
   const notificationCtx = useContext(NotificationContext);

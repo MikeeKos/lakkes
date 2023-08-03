@@ -10,6 +10,9 @@ import {
 } from "../../../cloudinary/cloudinaryConfig";
 import { promisify } from "util";
 
+import { getServerSession } from "next-auth";
+import { authOptions } from "../auth/[...nextauth]";
+
 import mbxGeocoding from "@mapbox/mapbox-sdk/services/geocoding";
 const mapBoxToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
 const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
@@ -26,6 +29,14 @@ async function handler(req, res) {
   } catch (error) {
     res.status(500).json({ message: error });
     return;
+  }
+
+  const session = await getServerSession(req, res, authOptions);
+  console.log("___SESSION___");
+  console.log(session);
+
+  if (!session) {
+    return res.status(422).json({ message: "Unathenticated User" });
   }
 
   const multerUpload = promisify(upload);
@@ -49,6 +60,31 @@ async function handler(req, res) {
     //changing data, used in components/createOrEdit/lakeForm.js
     case "PUT":
       try {
+        console.log("_SESSION_");
+        console.log(session.user.email);
+        // const JSONemailFromSession = JSON.stringify(session.user.email);
+        // const JSemailFromSession = JSON.parse(JSONemailFromSession);
+        // let checkedUser;
+        // try {
+        //   checkedUser = await User.findOne({ email: session.user.email });
+        //   if (!checkedUser) {
+        //     return res
+        //       .status(422)
+        //       .json({ message: "Cannot find user with that email" });
+        //   }
+        // } catch (error) {
+        //   return res
+        //     .status(422)
+        //     .json({ message: "Other error in try/catch block in API (check)" });
+        // }
+        // console.log("_C_H_E_C_K_E_D___U_S_E_R_");
+        // console.log(checkedUser);
+        const ownerOfThisPost = await Lake.findById(lakeId).populate('author');
+        console.log("******CHECK OWNERSHIP*******")
+        if (session.user.email !== ownerOfThisPost.author.email) {
+          return res.status(422).json({message: "This user is not owner of this post"})
+        }
+
         await multerUpload(req, res);
         const uploadedImages = req.files;
 

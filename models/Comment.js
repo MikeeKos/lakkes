@@ -15,6 +15,10 @@ const CommentSchema = new mongoose.Schema({
     required: true,
     maxlength: [10, "Name cannot be more than 10 characters"],
   },
+  author: {
+    type: mongoose.SchemaTypes.ObjectId,
+    ref: "User",
+  },
   // lakeId: {
   //   type: String,
   //   required: true,

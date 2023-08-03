@@ -8,7 +8,7 @@
 import { useState, useContext, useEffect } from "react";
 import classes from "./lakeForm.module.css";
 import { useRouter } from "next/router";
-import { mutate } from "swr";
+// import { mutate } from "swr";
 import NotificationContext from "../../store/notification-context";
 import axios from "axios";
 import Image from "next/image";
@@ -244,10 +244,10 @@ function LakeForm(props) {
       err.location = "Location is required";
     }
     if (!form.latitude) {
-      err.latitude = "Latitude is required"
+      err.latitude = "Latitude is required";
     }
     if (!form.longitude) {
-      err.longitude = "Longitude is required"
+      err.longitude = "Longitude is required";
     }
     //add allowed formats
     if (forNewLake) {
@@ -263,9 +263,9 @@ function LakeForm(props) {
       ...form,
       longitude: data.lng,
       latitude: data.lat,
-    })
+    });
     console.log(data);
-    console.log("CHANGING MAP")
+    console.log("CHANGING MAP");
     console.log(form);
   };
 
@@ -278,6 +278,17 @@ function LakeForm(props) {
 
   return (
     <section className={classes.contact}>
+      <div>
+        <FormMap
+          sateliteMap={sateliteMap}
+          sendDataToForm={handleDataFromMap}
+          initialCoordsFromEditPage={{
+            lng: form.longitude,
+            lat: form.latitude,
+          }}
+        />
+      </div>
+      <div style={{ marginTop: "400px" }}></div>
       <div>
         <h1>Toggle map style</h1>
         <button onClick={changeStyleHandler}>Change map style</button>
@@ -341,11 +352,6 @@ function LakeForm(props) {
                 value={form.longitude}
               />
             </div>
-            <FormMap
-              sateliteMap={sateliteMap}
-              sendDataToForm={handleDataFromMap}
-              initialCoordsFromEditPage={{lng: form.longitude,lat: form.latitude}}
-            />
           </div>
           <div className={classes.control}>
             <label htmlFor="location">Location</label>

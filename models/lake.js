@@ -52,6 +52,11 @@ const LakeSchema = new mongoose.Schema({
       required: true,
     },
   },
+  author: {
+    required: true,
+    type: mongoose.SchemaTypes.ObjectId,
+    ref: "User",
+  },
 });
 
 export default mongoose.models.Lake || mongoose.model("Lake", LakeSchema);

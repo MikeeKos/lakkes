@@ -2,6 +2,7 @@ import { connectDatabase } from "../../../helpers/db-util";
 import mongoose from "mongoose";
 import Comment from "../../../models/Comment";
 import Lake from "../../../models/Lake";
+import User from "../../../models/User";
 
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]";
@@ -24,9 +25,49 @@ async function handler(req, res) {
   console.log("___SESSION___");
   console.log(session);
 
+  if (!session) {
+    return res.status(422).json({ message: "Unathenticated User" });
+  }
+
+  // try {
+  //   const checkEmail = await User.findOne({ email: session.user.email });
+  //   if (!checkEmail) {
+  //     return res
+  //       .status(422)
+  //       .json({ message: "Cannot find user with that email" });
+  //   }
+  // } catch (error) {
+  //   return res.status(422).json({ message: "Other error in try/catch block in API (check)" });
+  // }
+
+  // Must change const to let
+  // if (checkEmail.email !== session.user.email) {
+  //   return res
+  //     .status(422)
+  //     .json({ message: "User in jwt isn't equal to user in the database" });
+  // }
+
   switch (method) {
     //add comment to database, used in components/comments/comments.js
     case "POST":
+      const JSONemailFromSession = JSON.stringify(session.user.email);
+      const JSemailFromSession = JSON.parse(JSONemailFromSession);
+      let checkedUser;
+      try {
+        checkedUser = await User.findOne({ email: JSemailFromSession });
+        if (!checkedUser) {
+          return res
+            .status(422)
+            .json({ message: "Cannot find user with that email" });
+        }
+      } catch (error) {
+        return res
+          .status(422)
+          .json({ message: "Other error in try/catch block in API (check)" });
+      }
+      console.log("_C_H_E_C_K_E_D___U_S_E_R_");
+      console.log(checkedUser);
+
       //add server side validation
       const { email, name, text } = req.body;
 
@@ -40,10 +81,7 @@ async function handler(req, res) {
         email: email,
         name: name,
         text: text,
-        // lakeId: lakeId,
       };
-
-      // console.log(lakeId);
 
       try {
         const comment = new Comment(newComment);
@@ -52,6 +90,7 @@ async function handler(req, res) {
           return res.status(400).json({ message: "failed to find lake" });
         }
         lake.comments.push(comment);
+        comment.author = checkedUser;
         await comment.save();
         await lake.save();
         res.status(201).json({
