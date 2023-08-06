@@ -25,16 +25,13 @@ function HomePage(props) {
   //create refresh after server wasn't used for some time
   return (
     <React.Fragment>
-      {!props.failed && <div><CluserMap lakes={props.lakes} />
-        <FeaturedPosts lakes={props.lakes} /></div>}
-
-      {props.failed && <div><h1>{props.failed}</h1></div>}
-
-
-
+      <div>
+        <CluserMap lakes={props.lakes} />
+        <FeaturedPosts lakes={props.lakes} />
+      </div>
 
       {/* <div className={classes.noClick}> */}
-        {/* <CluserMap lakes={props.lakes} />
+      {/* <CluserMap lakes={props.lakes} />
         <FeaturedPosts lakes={props.lakes} /> */}
       {/* </div> */}
     </React.Fragment>
@@ -47,10 +44,9 @@ export async function getServerSideProps() {
   try {
     client = await connectDatabase();
   } catch (error) {
-    return { props: { failed: "Request failed in finding client" } };
-    // return {
-    //   notFound: true,
-    // };
+    return {
+      notFound: true,
+    };
   }
 
   try {

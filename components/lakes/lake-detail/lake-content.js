@@ -105,6 +105,9 @@ function LakeContent(props) {
         placeholder="blur"
         blurDataURL={"/image.png"}
       />
+      <div>
+        <h2>Author: {props.lakeAuthorName}</h2>
+      </div>
       <div className={classes.content}>
         <div>{props.lake.title}</div>
         <div>{props.lake.description}</div>

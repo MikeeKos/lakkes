@@ -8,7 +8,7 @@ const CommentSchema = new mongoose.Schema({
   text: {
     type: String,
     required: true,
-    maxlength: [10, "Name cannot be more than 10 characters"],
+    maxlength: [100, "Name cannot be more than 100 characters"],
   },
   email: {
     type: String,

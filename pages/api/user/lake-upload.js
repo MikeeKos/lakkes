@@ -1,5 +1,5 @@
 import multer from "multer";
-import { storage } from "../../../cloudinary/cloudinaryConfig";
+import { storage, uploader } from "../../../cloudinary/cloudinaryConfig";
 import { promisify } from "util";
 import Lake from "../../../models/Lake";
 import { connectDatabase } from "../../../helpers/db-util";
@@ -7,6 +7,7 @@ import mongoose from "mongoose";
 import { authOptions } from "../auth/[...nextauth]";
 import { getServerSession } from "next-auth";
 import User from "../../../models/User";
+import Joi from "joi";
 
 import mbxGeocoding from "@mapbox/mapbox-sdk/services/geocoding";
 const mapBoxToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
@@ -18,48 +19,25 @@ const handler = async (req, res) => {
   const method = req.method;
 
   //Establish connection to the database
-  let client;
   try {
-    client = await connectDatabase();
+    await connectDatabase();
   } catch (error) {
-    res.status(500).json({ message: error });
-    return;
+    return res.status(503).json({ message: "Failed to connect to server" });
   }
 
+  //Check if user is logged in
   const session = await getServerSession(req, res, authOptions);
-  console.log("___SESSION___");
-  console.log(session);
-
   if (!session) {
-    return res.status(422).json({ message: "Unathenticated User" });
+    return res.status(401).json({ message: "User is not logged in" });
   }
 
   const multerUpload = promisify(upload);
 
   switch (method) {
-    //components/createOrEdit/lakeForm.js
+    //create new lake object: components/createOrEdit/lakeForm.js
     case "POST":
-      //SERVER SIDE VALIDATION
-      //ESPECIALLY THAT ALL DATA IS THERE, BECAUSE OTHERWISE SOMEONE CAN UPLOAD IMAGES BUT NOT CREATE LAKE OBJECT
-
-      // const geoData = await geocoder.reverseGeocode({
-      //   query: [-119.571615, 37.737363],
-      //   limit: 1
-      // }).send()
-      // console.log(geoData.body.features[0].text);
-      // console.log(geoData.body.features[0].place_name);
-
-      // const geoData = await geocoder
-      //   .forwardGeocode({
-      //     query: "Buenos Aires",
-      //     limit: 1,
-      //   })
-      //   .send();
-      // console.log(geoData.body.features[0].geometry.coordinates);
-      // lake.geometry = geoData.body.features[0].geometry
-
       try {
-        // console.log("SESSION FOR CHECKING IS: " + JSON.stringify(session.user.email));
+        //Find user with email that match email from session
         const JSONemailFromSession = JSON.stringify(session.user.email);
         const JSemailFromSession = JSON.parse(JSONemailFromSession);
         let checkedUser;
@@ -67,37 +45,98 @@ const handler = async (req, res) => {
           checkedUser = await User.findOne({ email: JSemailFromSession });
           if (!checkedUser) {
             return res
-              .status(422)
-              .json({ message: "Cannot find user with that email" });
+              .status(400)
+              .json({ message: "Cannot find matching user" });
           }
         } catch (error) {
+          return res.status(500).json({ message: "Something went wrong" });
+        }
+
+        //Upload images to cloudinary and check validity of req.files
+        try {
+          await multerUpload(req, res);
+        } catch (error) {
+          return res.status(500).json({ message: "Something went wrong" });
+        }
+        const uploadedImages = req.files;
+        const fileSchema = Joi.object({
+          fieldname: Joi.string().required(),
+          originalname: Joi.string().required(),
+          encoding: Joi.string().required(),
+          mimetype: Joi.string().required(),
+          path: Joi.string().uri().required(),
+          size: Joi.number().integer().min(0).required(),
+          filename: Joi.string().required(),
+        });
+        const fileArraySchema = Joi.array().items(fileSchema);
+        const validity = fileArraySchema.validate(uploadedImages);
+        if (validity.error) {
           return res
             .status(422)
-            .json({ message: "Other error in try/catch block in API (check)" });
+            .json({ message: "Uploaded files are not valid" });
         }
-        console.log("_C_H_E_C_K_E_D___U_S_E_R_");
-        console.log(checkedUser);
 
-        await multerUpload(req, res);
-        const uploadedImages = req.files;
+        //Check data validity
+        if (!req.body.JSONPayload) {
+          req.files.map(async (file) => {
+            await uploader.destroy(file.filename, { invalidate: true });
+          });
+          return res.status(400).json({ message: "Invalid data" });
+        }
+        let JSONPayload;
+        try {
+          JSONPayload = JSON.parse(req.body.JSONPayload);
+        } catch (error) {
+          req.files.map(async (file) => {
+            await uploader.destroy(file.filename, { invalidate: true });
+          });
+          return res
+            .status(400)
+            .json({ message: "Data could not be processed" });
+        }
+        const JSONPayloadSchema = Joi.object({
+          title: Joi.string().required(),
+          description: Joi.string().required(),
+          location: Joi.string().required(),
+          longitude: Joi.number().min(-180).max(180).required(),
+          latitude: Joi.number().min(-90).max(90).required(),
+        });
+        const JSONPayloadValidity = JSONPayloadSchema.validate(JSONPayload);
+        if (JSONPayloadValidity.error) {
+          req.files.map(async (file) => {
+            await uploader.destroy(file.filename, { invalidate: true });
+          });
+          return res
+            .status(422)
+            .json({ message: "Uploaded data are not valid" });
+        }
 
-        const JSONPayload = JSON.parse(req.body.JSONPayload);
+        //Create object, that will be put into database
         const primaryData = {
           title: JSONPayload.title,
           description: JSONPayload.description,
           location: JSONPayload.location,
         };
-        // console.log(primaryData);
 
-        const geoData = await geocoder
-          .reverseGeocode({
-            query: [JSONPayload.longitude, JSONPayload.latitude],
-            limit: 1,
-          })
-          .send();
-        console.log("_______GEO_DATA_______");
-        console.log(geoData.body.features[0].place_name);
+        //reverse geocoding - for getting place name by passing longitude and latitude to mapbox function
+        let geoData;
+        try {
+          geoData = await geocoder
+            .reverseGeocode({
+              query: [JSONPayload.longitude, JSONPayload.latitude],
+              limit: 1,
+            })
+            .send();
+        } catch (error) {
+          req.files.map(async (file) => {
+            await uploader.destroy(file.filename, { invalidate: true });
+          });
+          return res
+            .status(422)
+            .json({ message: "Unprocessable latitude and longitude" });
+        }
 
+        //Putting data into database
         const lake = new Lake(primaryData);
 
         lake.images = uploadedImages.map((file) => ({
@@ -113,29 +152,24 @@ const handler = async (req, res) => {
 
         await lake.save();
 
-        console.log("___IT SHOULD BE DATA___");
-        console.log(JSONPayload);
-        console.log("___IT SHOULD BE IMAGES___");
-        console.log(uploadedImages);
-
         res.status(201).json({
           message: "successfully added the lake to database",
           data: lake,
         });
       } catch (error) {
-        res.status(422).json({ message: error });
+        req.files.map(async (file) => {
+          await uploader.destroy(file.filename, { invalidate: true });
+        });
+        res.status(500).json({ message: error });
         return;
       }
       break;
 
     default:
-      res
-        .status(400)
-        .json({ message: "It was not either POST or GET request" });
+      res.status(405).json({ message: "Method not allowed" });
       break;
   }
 
-  console.log("CLOSING CONNECTION");
   mongoose.connection.close();
 };
 

@@ -3,12 +3,9 @@ import Lake from "../../../models/Lake";
 import mongoose from "mongoose";
 import Comment from "../../../models/Comment";
 import multer from "multer";
-import {
-  storage,
-  cloudinary,
-  uploader,
-} from "../../../cloudinary/cloudinaryConfig";
+import { storage, uploader } from "../../../cloudinary/cloudinaryConfig";
 import { promisify } from "util";
+import Joi from "joi";
 
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]";
@@ -23,20 +20,17 @@ async function handler(req, res) {
   const lakeId = req.query.lakeId;
   const method = req.method;
 
-  let client;
+  //Establish connection to the database
   try {
-    client = await connectDatabase();
+    await connectDatabase();
   } catch (error) {
-    res.status(500).json({ message: error });
-    return;
+    return res.status(503).json({ message: "Failed to connect to server" });
   }
 
+  //Check if user is logged in
   const session = await getServerSession(req, res, authOptions);
-  console.log("___SESSION___");
-  console.log(session);
-
   if (!session) {
-    return res.status(422).json({ message: "Unathenticated User" });
+    return res.status(401).json({ message: "User is not logged in" });
   }
 
   const multerUpload = promisify(upload);
@@ -47,47 +41,54 @@ async function handler(req, res) {
       try {
         const lake = await Lake.findById(lakeId).populate("images");
         if (!lake) {
-          return res.status(400).json({ message: "failed to find lake" });
+          return res.status(400).json({ message: "Failed to find lake" });
         }
         res
           .status(200)
           .json({ message: "successfully found lake", data: lake });
       } catch (error) {
-        res.status(400).json({ message: "could not find lake with that id" });
+        res.status(500).json({ message: "Could not find lake with that ID" });
       }
       break;
 
     //changing data, used in components/createOrEdit/lakeForm.js
     case "PUT":
       try {
-        console.log("_SESSION_");
-        console.log(session.user.email);
-        // const JSONemailFromSession = JSON.stringify(session.user.email);
-        // const JSemailFromSession = JSON.parse(JSONemailFromSession);
-        // let checkedUser;
-        // try {
-        //   checkedUser = await User.findOne({ email: session.user.email });
-        //   if (!checkedUser) {
-        //     return res
-        //       .status(422)
-        //       .json({ message: "Cannot find user with that email" });
-        //   }
-        // } catch (error) {
-        //   return res
-        //     .status(422)
-        //     .json({ message: "Other error in try/catch block in API (check)" });
-        // }
-        // console.log("_C_H_E_C_K_E_D___U_S_E_R_");
-        // console.log(checkedUser);
-        const ownerOfThisPost = await Lake.findById(lakeId).populate('author');
-        console.log("******CHECK OWNERSHIP*******")
+        //find owner of this post and check if logged in user is equal to owner
+        const ownerOfThisPost = await Lake.findById(lakeId).populate("author");
         if (session.user.email !== ownerOfThisPost.author.email) {
-          return res.status(422).json({message: "This user is not owner of this post"})
+          return res
+            .status(403)
+            .json({ message: "User cannot edit this lake" });
         }
 
-        await multerUpload(req, res);
+        //Upload images to cloudinary and check validity of req.files (If they exist)
+        try {
+          await multerUpload(req, res);
+        } catch (error) {
+          return res.status(500).json({ message: "Something went wrong" });
+        }
         const uploadedImages = req.files;
+        if (uploadedImages.length !== 0) {
+          const fileSchema = Joi.object({
+            fieldname: Joi.string().required(),
+            originalname: Joi.string().required(),
+            encoding: Joi.string().required(),
+            mimetype: Joi.string().required(),
+            path: Joi.string().uri().required(),
+            size: Joi.number().integer().min(0).required(),
+            filename: Joi.string().required(),
+          });
+          const fileArraySchema = Joi.array().items(fileSchema);
+          const validity = fileArraySchema.validate(uploadedImages);
+          if (validity.error) {
+            return res
+              .status(422)
+              .json({ message: "Uploaded files are not valid" });
+          }
+        }
 
+        console.log("________________________________________________________________||||||______START BELOW_____||||||_____")
         const JSONPayload = JSON.parse(req.body.JSONPayload);
         const JSONImagesArray = JSON.parse(req.body.JSONImagesArray);
 

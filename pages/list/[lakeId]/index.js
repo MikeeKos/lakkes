@@ -7,7 +7,7 @@ import mongoose from "mongoose";
 function SingleLakePage(props) {
   return (
     <React.Fragment>
-      <LakeContent lake={props.lake} />;
+      <LakeContent lake={props.lake} lakeAuthorName={props.lakeAuthorName} />;
     </React.Fragment>
   );
 }
@@ -23,10 +23,18 @@ export async function getServerSideProps({ params }) {
   }
 
   try {
+    const getUserName = await Lake.findById(params.lakeId).populate("author");
+    const lakeAuthorName = getUserName.author.username;
+
     const lake = await Lake.findById(params.lakeId);
     console.log("CLOSING CONNECTION");
     mongoose.connection.close();
-    return { props: { lake: JSON.parse(JSON.stringify(lake)) } };
+    return {
+      props: {
+        lake: JSON.parse(JSON.stringify(lake)),
+        lakeAuthorName: JSON.parse(JSON.stringify(lakeAuthorName)),
+      },
+    };
   } catch (error) {
     console.log("CLOSING CONNECTION");
     mongoose.connection.close();

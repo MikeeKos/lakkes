@@ -13,10 +13,10 @@ async function handler(req, res) {
   }
 
   const data = req.body;
-  const { email, password } = data;
+  const { email, password, username } = data;
 
   //server side validation
-  if (!email || !password) {
+  if (!email || !password || !username) {
     res.status(422).json({
       message: "Invalid input - email and password must exist",
     });
@@ -41,7 +41,7 @@ async function handler(req, res) {
     }
 
     const hashedPassword = await hashPassword(password);
-    const user = new User({ email: email, password: hashedPassword });
+    const user = new User({ email: email, password: hashedPassword, username: username });
     await user.save();
     res.status(201).json({ message: "successfully created user" });
   } catch (error) {
