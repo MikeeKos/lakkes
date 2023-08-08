@@ -82,31 +82,78 @@ async function handler(req, res) {
           const fileArraySchema = Joi.array().items(fileSchema);
           const validity = fileArraySchema.validate(uploadedImages);
           if (validity.error) {
+            req.files.map(async (file) => {
+              await uploader.destroy(file.filename, { invalidate: true });
+            });
             return res
               .status(422)
               .json({ message: "Uploaded files are not valid" });
           }
         }
 
-        console.log("________________________________________________________________||||||______START BELOW_____||||||_____")
-        const JSONPayload = JSON.parse(req.body.JSONPayload);
-        const JSONImagesArray = JSON.parse(req.body.JSONImagesArray);
+        //Check data validity
+        if (!req.body.JSONPayload && !req.body.JSONImagesArray) {
+          req.files.map(async (file) => {
+            await uploader.destroy(file.filename, { invalidate: true });
+          });
+          return res.status(400).json({ message: "Invalid data" });
+        }
+        let JSONPayload;
+        let JSONImagesArray;
+        try {
+          JSONPayload = JSON.parse(req.body.JSONPayload);
+          JSONImagesArray = JSON.parse(req.body.JSONImagesArray);
+        } catch (error) {
+          req.files.map(async (file) => {
+            await uploader.destroy(file.filename, { invalidate: true });
+          });
+          return res
+            .status(400)
+            .json({ message: "Data could not be processed" });
+        }
+        const JSONPayloadSchema = Joi.object({
+          title: Joi.string().required(),
+          description: Joi.string().required(),
+          location: Joi.string().required(),
+          longitude: Joi.number().min(-180).max(180).required(),
+          latitude: Joi.number().min(-90).max(90).required(),
+        });
+        const JSONPayloadValidity = JSONPayloadSchema.validate(JSONPayload);
+        if (JSONPayloadValidity.error) {
+          req.files.map(async (file) => {
+            await uploader.destroy(file.filename, { invalidate: true });
+          });
+          return res
+            .status(422)
+            .json({ message: "Uploaded data are not valid" });
+        }
 
+        //Object, that will be put into database
         const primaryData = {
           title: JSONPayload.title,
           description: JSONPayload.description,
           location: JSONPayload.location,
         };
 
-        const geoData = await geocoder
-          .reverseGeocode({
-            query: [JSONPayload.longitude, JSONPayload.latitude],
-            limit: 1,
-          })
-          .send();
-        console.log("_______GEO_DATA_______");
-        console.log(geoData.body.features[0].place_name);
+        //reverse geocoding - for getting place name by passing longitude and latitude to mapbox function
+        let geoData;
+        try {
+          geoData = await geocoder
+            .reverseGeocode({
+              query: [JSONPayload.longitude, JSONPayload.latitude],
+              limit: 1,
+            })
+            .send();
+        } catch (error) {
+          req.files.map(async (file) => {
+            await uploader.destroy(file.filename, { invalidate: true });
+          });
+          return res
+            .status(422)
+            .json({ message: "Unprocessable latitude and longitude" });
+        }
 
+        //Editing lake and changing data that will be in database
         const lake = await Lake.findByIdAndUpdate(lakeId, { ...primaryData });
         if (!lake) {
           return res
@@ -120,15 +167,12 @@ async function handler(req, res) {
         lake.images.push(...images);
         if (JSONImagesArray.length !== 0) {
           JSONImagesArray.map(async (image) => {
-            console.log("___SHOW FILENAMES___");
-            console.log(image);
             await uploader.destroy(image, { invalidate: true });
           });
           await lake.updateOne({
             $pull: { images: { filename: { $in: JSONImagesArray } } },
           });
         }
-
         lake.geometry = {
           type: "Point",
           coordinates: [JSONPayload.longitude, JSONPayload.latitude],
@@ -136,20 +180,12 @@ async function handler(req, res) {
         lake.subtitle = geoData.body.features[0].place_name;
 
         await lake.save();
-
-        console.log("___IT SHOULD BE ARRAY WITH IMAGES FOR DELETION___");
-        console.log(JSONImagesArray);
-        console.log("___IT SHOULD BE DATA___");
-        console.log(JSONPayload);
-        console.log("___IT SHOULD BE IMAGES___");
-        console.log(uploadedImages);
-
-        console.log("___At least reached TRY/CATCH block___");
-        res.status(200).json({ message: "successfully updated" });
+        res.status(200).json({ message: "Successfully updated lake" });
       } catch (error) {
-        res.status(400).json({
-          message: "validation failed",
+        req.files.map(async (file) => {
+          await uploader.destroy(file.filename, { invalidate: true });
         });
+        return res.status(500).json({ message: error });
       }
       break;
 
@@ -161,47 +197,40 @@ async function handler(req, res) {
         })
           .populate("comments")
           .populate("images");
-        console.log("___CHECK CURRENT LAKE___");
-        console.log(currentLake);
         if (!currentLake) {
           return res
             .status(400)
-            .json({ message: "could not find lake with this id" });
+            .json({ message: "Could not find lake with that ID" });
         }
 
         currentLake.images.map(async (image) => {
-          console.log("___SHOW FILENAMES FOR DESTROYING___");
-          console.log(image.filename);
           await uploader.destroy(image.filename, { invalidate: true });
         });
 
         const commentsThatShouldBeRemoved = currentLake.comments.map((doc) =>
           doc._id.toString()
         );
-        const deletedComments = await Comment.deleteMany({
+        await Comment.deleteMany({
           _id: commentsThatShouldBeRemoved,
         });
-        console.log("DELETED COMMENTS");
-        console.log(deletedComments);
 
         const deleteLake = await Lake.deleteOne({ _id: lakeId });
         if (!deleteLake) {
           return res
             .status(400)
-            .json({ message: "could not find lake with this id" });
+            .json({ message: "Could not find lake with this ID" });
         }
-        res.status(200).json({ message: "successfully deleted" });
+        res.status(200).json({ message: "Successfully deleted" });
       } catch (error) {
-        res.status(400).json({ message: "could not delete data" });
+        res.status(400).json({ message: "Could not delete data" });
       }
       break;
 
     default:
-      res.status(400).json({ message: "Bad method (not GET/PUT/DELETE)" });
+      res.status(405).json({ message: "Method not allowed" });
       break;
   }
 
-  console.log("CLOSING CONNECTION");
   mongoose.connection.close();
 }
 

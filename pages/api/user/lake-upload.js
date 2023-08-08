@@ -160,8 +160,7 @@ const handler = async (req, res) => {
         req.files.map(async (file) => {
           await uploader.destroy(file.filename, { invalidate: true });
         });
-        res.status(500).json({ message: error });
-        return;
+        return res.status(500).json({ message: error });
       }
       break;
 

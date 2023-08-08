@@ -1,12 +1,5 @@
-// used for logging users in and logging them out
-// {domain}/api/auth/login & {domain}/api/auth/logout
-
 import CredentialProvider from "next-auth/providers/credentials";
-
 import NextAuth from "next-auth";
-// import { connectToClient, userExists } from "../../../lib/db";
-// import { verifyPassword } from "../../../lib/auth";
-
 import { connectDatabase } from "../../../helpers/db-util";
 import mongoose from "mongoose";
 import { verifyPassword } from "../../../helpers/auth-util";
@@ -76,11 +69,3 @@ export const authOptions = {
 };
 
 export default NextAuth(authOptions);
-
-// export const authOptions = {
-//   session: {
-//     strategy: "jwt",
-//   },
-//   secret: process.env.SESSION_SECRET,
-//   providers: [],
-// };

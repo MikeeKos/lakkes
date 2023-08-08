@@ -5,7 +5,7 @@ export default function Custom404() {
   const router = useRouter();
   setTimeout(() => {
     router.reload();
-  }, 2500);
+  }, 500);
 
   return (
     <React.Fragment>
