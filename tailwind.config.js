@@ -7,8 +7,16 @@ module.exports = {
   ],
   theme: {
     extend: {
+      colors: {
+        pageBlack: "#1D1C1A",
+        pageLight: "#E3F4F4",
+        pageMedium: "#D2E9E9",
+        pageStrong: "#C4DFDF",
+        pageWhite: "#FAF8F6",
+        pageMenu: "#383434"
+      },
       fontFamily: {
-        body: ["DM Sans", "sans-serif"],
+        body: ['Nunito', "sans-serif"],
       },
     },
   },
