@@ -217,7 +217,7 @@ function MainNavigation() {
         height="800"
         fill="none"
         viewBox="0 0 24 24"
-        className="w-9 h-9"
+        className="w-7 h-7 sm:w-9 sm:h-9"
       >
         <g stroke="#000" strokeWidth="1.7">
           <motion.path
@@ -248,13 +248,13 @@ function MainNavigation() {
         height="800"
         fill="none"
         viewBox="0 0 24 24"
-        className="w-9 h-9"
+        className="w-7 h-7 sm:w-9 sm:h-9"
       >
         <motion.path
           stroke="#383434"
           strokeLinecap="round"
           strokeLinejoin="round"
-          strokeWidth="2"
+          strokeWidth="1.7"
           initial={{ pathLength: 1 }}
           animate={{ pathLength: alllakesIsHovered ? [0, 1] : 1 }}
           transition={{ duration: 2.5 }}
@@ -272,9 +272,9 @@ function MainNavigation() {
         height="800"
         fill="none"
         viewBox="0 0 24 24"
-        className="w-9 h-9"
+        className="w-7 h-7 sm:w-9 sm:h-9"
       >
-        <g stroke="#000" strokeLinecap="round" strokeWidth="1.7">
+        <g stroke="#000" strokeLinecap="round" strokeWidth="1.8">
           <motion.path
             stroke="#383434"
             d="M15 12h-3m0 0H9m3 0V9m0 3v3M22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12s0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464.974.974 1.3 2.343 1.41 4.536"
@@ -295,7 +295,7 @@ function MainNavigation() {
         viewBox="0 0 24 24"
         strokeWidth={1.7}
         stroke="currentColor"
-        className="w-9 h-9"
+        className="w-7 h-7 sm:w-9 sm:h-9"
       >
         <motion.path
           stroke="#383434"
@@ -318,7 +318,7 @@ function MainNavigation() {
         height="800"
         fill="none"
         viewBox="0 0 24 24"
-        className="w-9 h-9"
+        className="w-7 h-7 sm:w-9 sm:h-9"
       >
         <g stroke="#000" strokeLinecap="round" strokeWidth="1.7">
           <motion.path
@@ -341,21 +341,129 @@ function MainNavigation() {
     </div>
   );
 
-  // !homepageAnimationStarted && !alllakesAnimationStarted && !addlakeAnimationStarted && !authpageAnimationStarted && !logoutAnimationStarted
-  // !homepageIsClicked && !alllakesIsClicked && !addlakeIsClicked && !authpageIsClicked && !logoutIsClicked
-
   return (
     <React.Fragment>
-      <div className="font-body">
-        <div className="bg-pageLight h-24 flex items-center justify-center rounded-b-[3.5em] rounded-t-2xl mx-6">
-          <div className="mx-5">
+      {/* <div>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="900"
+          height="600"
+          version="1.1"
+          viewBox="0 0 900 600"
+          className="w-full"
+        >
+          <path fill="#fff" d="M0 0H900V600H0z"></path>
+          <path
+            fill="#fa7268"
+            d="M0 340l21.5-4c21.5-4 64.5-12 107.3-9 42.9 3 85.5 17 128.4 11.3 42.8-5.6 85.8-31 128.6-43.3 42.9-12.3 85.5-11.7 128.4 7.2C557 321 600 358 642.8 366.8c42.9 8.9 85.5-10.5 128.4-21 42.8-10.5 85.8-12.1 107.3-13l21.5-.8v269H0z"
+          ></path>
+          <path
+            fill="#eb5967"
+            d="M0 393l21.5 7c21.5 7 64.5 21 107.3 18.8 42.9-2.1 85.5-20.5 128.4-33.8 42.8-13.3 85.8-21.7 128.6-27.8 42.9-6.2 85.5-10.2 128.4 2.8 42.8 13 85.8 43 128.6 47.8 42.9 4.9 85.5-15.5 128.4-17.5 42.8-2 85.8 14.4 107.3 22.5L900 421v180H0z"
+          ></path>
+          <path
+            fill="#da3f67"
+            d="M0 446l21.5 2.3c21.5 2.4 64.5 7 107.3 9 42.9 2 85.5 1.4 128.4 5.7 42.8 4.3 85.8 13.7 128.6 16.8 42.9 3.2 85.5.2 128.4-13.5 42.8-13.6 85.8-38 128.6-33.6 42.9 4.3 85.5 37.3 128.4 47.1 42.8 9.9 85.8-3.5 107.3-10.1L900 463v138H0z"
+          ></path>
+          <path
+            fill="#c62368"
+            d="M0 503l21.5-3.8c21.5-3.9 64.5-11.5 107.3-13.5 42.9-2 85.5 1.6 128.4 4C300 492 343 493 385.8 499c42.9 6 85.5 17 128.4 27.2 42.8 10.1 85.8 19.5 128.6 15 42.9-4.5 85.5-22.9 128.4-26C814 512 857 524 878.5 530l21.5 6v65H0z"
+          ></path>
+        </svg>
+      </div> */}
+
+      <div className="absolute top-0 w-full h-[20vh]">
+        <motion.div
+          animate={{
+            y: [5, -5, 5],
+          }}
+          transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
+          className="z-10 absolute w-8 h-8 sm:w-10 sm:h-10 bg-pageSuperStrong rounded-full drop-shadow-xl top-[5vh] left-[2%] sm:top-[10vh] sm:left-[3%]"
+        ></motion.div>
+        <motion.div
+          animate={{
+            y: [-6, 6, -6],
+          }}
+          transition={{ repeat: Infinity, duration: 3.5, ease: "easeInOut" }}
+          className="z-10 absolute w-4 h-4 sm:w-6 sm:h-6 bg-pageSuperStrong rounded-full drop-shadow-xl top-[1vh] left-[8%] sm:top-[3vh] sm:left-[10%]"
+        ></motion.div>
+        <motion.div
+          animate={{
+            y: [-4, 4, -4],
+          }}
+          transition={{ repeat: Infinity, duration: 2.5, ease: "easeInOut" }}
+          className="opacity-0 sm:opacity-100 sm:z-10 absolute w-7 h-7 sm:w-8 sm:h-8 bg-pageSuperStrong rounded-full drop-shadow-xl top-[8vh] left-[12%] sm:top-[8vh] sm:left-[14%]"
+        ></motion.div>
+        <motion.div
+          animate={{
+            y: [7, -7, 7],
+          }}
+          transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+          className="z-10 absolute w-8 h-8 sm:w-10 sm:h-10 bg-pageSuperStrong rounded-full drop-shadow-xl top-[6vh] right-[1%] sm:top-[10vh] sm:right-[1%]"
+        ></motion.div>
+        <motion.div
+          animate={{
+            y: [-4, 4, -4],
+          }}
+          transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
+          className="z-10 absolute w-4 h-4 sm:w-7 sm:h-7 bg-pageSuperStrong rounded-full drop-shadow-xl top-[1vh] right-[10%] sm:top-[2vh] sm:right-[8%]"
+        ></motion.div>
+        <motion.div
+          animate={{
+            y: [-5, 5, -5],
+          }}
+          transition={{ repeat: Infinity, duration: 3.5, ease: "easeInOut" }}
+          className="opacity-0 sm:opacity-100 sm:z-10 absolute w-7 h-7 sm:w-11 sm:h-11 bg-pageSuperStrong rounded-full drop-shadow-xl top-[5vh] right-[12%] sm:top-[7vh] sm:right-[12%]"
+        ></motion.div>
+      </div>
+
+      <div className="relative">
+        <div>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 10 79 6.615"
+            className="w-full max-h-[17vh] absolute drop-shadow-lg"
+            fill="#A3CDCD"
+          >
+            <path d="M0 10h79c-1 1-1 3-5 6s-3-6-8-5-3 4-8 5c-6 1-11-8-19-4-9 5-15 3-17 1-1-1-4-3-7 1S5 14 0 10v3"></path>
+          </svg>
+        </div>
+        <div>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 7 79 6.552"
+            className="w-full max-h-[20vh] absolute drop-shadow-lg"
+            fill="#D2E9E9"
+          >
+            <path d="M0 7h79c-1 1-2 3-6 4-7 2-6-1-11-1-9 1-6 5-13 3-11-2-7-2-18-1-10 1-13 2-15-2-1-2-4-2-7 0-2 1-5 2-9-3 0 0 0 1 0 0"></path>
+          </svg>
+        </div>
+        <div>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 12 79 6.25"
+            className="w-full max-h-[15vh] absolute drop-shadow-2xl"
+            fill="#E3F4F4"
+          >
+            <path d="M0 12h79c-1 1-4 5-9 6-6 1-6-2-10-4-5-2-8 0-10 2-4 3-18 3-21 0-6-4-8 4-13-1-2-2-7 1-11 1-3 0-4-2-5-4v1"></path>
+          </svg>
+        </div>
+      </div>
+
+      <div className="font-body flex items-center justify-center">
+        <div className="mb-[20vh] mt-2 px-4 sm:px-10 shadow-pageSuperStrong shadow-lg sticky w-min bg-pageMedium top-0 h-[4.5rem] sm:h-28 flex items-center justify-center rounded-b-[3.5em] rounded-t-[2em] overflow-hidden">
+          <div className="mx-3 sm:mx-5">
             <Link href="/" className="relative">
               <div className="flex flex-row items-end">
                 <motion.div
-                  initial={{ width: "2.25rem" }}
-                  whileHover={{ width: "8rem" }}
-                  animate={{ width: homepageIsClicked ? "8rem" : "2.25rem" }}
-                  className="border-b-[0.2em] border-pageMenu rounded-sm z-10"
+                  initial={{ width: "var(--scale-animate-1)" }}
+                  whileHover={{ width: "var(--scale-hover-1)" }}
+                  animate={{
+                    width: homepageIsClicked
+                      ? "var(--scale-hover-1)"
+                      : "var(--scale-animate-1)",
+                  }}
+                  className="sm:border-b-[0.2em] border-b-[0.18em] border-pageMenu rounded-sm z-10 sm:[--scale-hover-1:8rem] sm:[--scale-animate-1:2.25rem] [--scale-hover-1:5.8rem] [--scale-animate-1:1.8rem]"
                   onMouseEnter={homepageHandleMouseEnter}
                   onMouseLeave={homepageHandleMouseLaeve}
                   onClick={homepageOnClickHandler}
@@ -372,7 +480,7 @@ function MainNavigation() {
                           duration: 0.4,
                           stiffness: 250,
                         }}
-                        className="flex items-end justify-center whitespace-nowrap text-[1em] font-extrabold text-pageMenu"
+                        className="flex items-end justify-center whitespace-nowrap sm:text-[1em] text-[0.7em] font-extrabold text-pageMenu"
                       >
                         Home Page
                       </motion.span>
@@ -387,7 +495,7 @@ function MainNavigation() {
                   !authpageAnimationStarted &&
                   !logoutAnimationStarted && (
                     <motion.div
-                      className="absolute bg-opacity-50 w-8 h-8 bg-pageStrong rounded-full -top-2 -left-3"
+                      className="absolute bg-opacity-50 sm:w-8 sm:h-8 w-5 h-5 bg-pageSuperStrong rounded-full sm:-top-2 sm:-left-3 -top-1 -left-2"
                       initial={{ opacity: 0, y: -100 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{
@@ -402,14 +510,18 @@ function MainNavigation() {
               </AnimatePresence>
             </Link>
           </div>
-          <div className="mx-5">
+          <div className="mx-3 sm:mx-5">
             <Link href="/list" className="relative">
               <div className="flex flex-row items-end">
                 <motion.div
-                  initial={{ width: "2.25rem" }}
-                  whileHover={{ width: "6.5rem" }}
-                  animate={{ width: alllakesIsClicked ? "6.5rem" : "2.25rem" }}
-                  className="border-b-[0.2em] border-pageMenu rounded-sm z-10"
+                  initial={{ width: "var(--scale-animate-2)" }}
+                  whileHover={{ width: "var(--scale-hover-2)" }}
+                  animate={{
+                    width: alllakesIsClicked
+                      ? "var(--scale-hover-2)"
+                      : "var(--scale-animate-2)",
+                  }}
+                  className="sm:border-b-[0.2em] border-b-[0.18em] border-pageMenu rounded-sm z-10 sm:[--scale-hover-2:6.5rem] sm:[--scale-animate-2:2.25rem] [--scale-hover-2:4.9rem] [--scale-animate-2:1.8rem]"
                   onMouseEnter={alllakesHandleMouseEnter}
                   onMouseLeave={alllakesHandleMouseLeave}
                   onClick={alllakesOnClickHandler}
@@ -426,7 +538,7 @@ function MainNavigation() {
                           duration: 0.4,
                           stiffness: 250,
                         }}
-                        className="flex items-end justify-center whitespace-nowrap text-[1em] font-extrabold text-pageMenu"
+                        className="flex items-end justify-center whitespace-nowrap sm:text-[1em] text-[0.7em] font-extrabold text-pageMenu"
                       >
                         All lakes
                       </motion.span>
@@ -441,7 +553,7 @@ function MainNavigation() {
                   !authpageAnimationStarted &&
                   !logoutAnimationStarted && (
                     <motion.div
-                      className="absolute bg-opacity-50 w-8 h-8 bg-pageStrong rounded-full -top-2 -left-3"
+                      className="absolute bg-opacity-50 sm:w-8 sm:h-8 w-5 h-5 bg-pageSuperStrong rounded-full sm:-top-2 sm:-left-3 -top-1 -left-2"
                       initial={{ opacity: 0, y: -100 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{
@@ -456,14 +568,18 @@ function MainNavigation() {
               </AnimatePresence>
             </Link>
           </div>
-          <div className="mx-5">
+          <div className="mx-3 sm:mx-5">
             <Link href="/add" className="relative">
               <div className="flex flex-row items-end">
                 <motion.div
-                  initial={{ width: "2.25rem" }}
-                  whileHover={{ width: "7rem" }}
-                  animate={{ width: addlakeIsClicked ? "7rem" : "2.25rem" }}
-                  className="border-b-[0.2em] border-pageMenu rounded-sm z-0"
+                  initial={{ width: "var(--scale-animate-3)" }}
+                  whileHover={{ width: "var(--scale-hover-3)" }}
+                  animate={{
+                    width: addlakeIsClicked
+                      ? "var(--scale-hover-3)"
+                      : "var(--scale-animate-3)",
+                  }}
+                  className="sm:border-b-[0.2em] border-b-[0.18em] border-pageMenu rounded-sm z-0 sm:[--scale-hover-3:7rem] sm:[--scale-animate-3:2.25rem] [--scale-hover-3:5.1rem] [--scale-animate-3:1.8rem]"
                   onMouseEnter={addlakeHandleMouseEnter}
                   onMouseLeave={addlakeHandleMouseLeave}
                   onClick={addlakeOnClickHandler}
@@ -480,7 +596,7 @@ function MainNavigation() {
                           duration: 0.4,
                           stiffness: 250,
                         }}
-                        className="ml-[3px] flex items-end justify-center whitespace-nowrap text-[1em] font-extrabold text-pageMenu"
+                        className="ml-[3px] flex items-end justify-center whitespace-nowrap sm:text-[1em] text-[0.7em] font-extrabold text-pageMenu"
                       >
                         Add lake
                       </motion.span>
@@ -495,7 +611,7 @@ function MainNavigation() {
                   !authpageAnimationStarted &&
                   !logoutAnimationStarted && (
                     <motion.div
-                      className="absolute bg-opacity-50 w-8 h-8 bg-pageStrong rounded-full -top-2 -left-3"
+                      className="absolute bg-opacity-50 sm:w-8 sm:h-8 w-5 h-5 bg-pageSuperStrong rounded-full sm:-top-2 sm:-left-3 -top-1 -left-2"
                       initial={{ opacity: 0, y: -100 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{
@@ -511,16 +627,23 @@ function MainNavigation() {
             </Link>
           </div>
           {!session && (
-            <div className="mx-5">
+            <div className="mx-3 sm:mx-5">
               <Link href="/auth" className="relative">
                 <div className="flex flex-row items-end">
                   <motion.div
-                    initial={{ width: "2.25rem" }}
-                    whileHover={{ width: "5.5rem" }}
+                    initial={{ width: "var(--scale-animate-4)" }}
+                    whileHover={{ width: "var(--scale-hover-4)" }}
                     animate={{
-                      width: authpageIsClicked ? "5.5rem" : "2.25rem",
+                      width: authpageIsClicked
+                        ? "var(--scale-hover-4)"
+                        : "var(--scale-animate-4)",
                     }}
-                    className="border-b-[0.2em] border-pageMenu rounded-sm z-10"
+                    // initial={{ width: "2.25rem" }}
+                    // whileHover={{ width: "5.5rem" }}
+                    // animate={{
+                    //   width: authpageIsClicked ? "5.5rem" : "2.25rem",
+                    // }}
+                    className="sm:border-b-[0.2em] border-b-[0.18em] border-pageMenu rounded-sm z-10 sm:[--scale-hover-4:5.5rem] sm:[--scale-animate-4:2.25rem] [--scale-hover-4:3.9rem] [--scale-animate-4:1.8rem]"
                     onMouseEnter={authpageHandleMouseEnter}
                     onMouseLeave={authpageHandleMouseLeave}
                     onClick={authpageOnClickHandler}
@@ -537,7 +660,7 @@ function MainNavigation() {
                             duration: 0.4,
                             stiffness: 250,
                           }}
-                          className="flex items-end justify-center whitespace-nowrap text-[1em] font-extrabold text-pageMenu"
+                          className="flex items-end justify-center whitespace-nowrap sm:text-[1em] text-[0.7em] font-extrabold text-pageMenu"
                         >
                           Login
                         </motion.span>
@@ -552,7 +675,7 @@ function MainNavigation() {
                     !addlakeAnimationStarted &&
                     !logoutAnimationStarted && (
                       <motion.div
-                        className="absolute bg-opacity-50 w-8 h-8 bg-pageStrong rounded-full -top-2 -left-3"
+                        className="absolute bg-opacity-50 sm:w-8 sm:h-8 w-5 h-5 bg-pageSuperStrong rounded-full sm:-top-2 sm:-left-3 -top-1 -left-2"
                         initial={{ opacity: 0, y: -100 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{
@@ -569,15 +692,17 @@ function MainNavigation() {
             </div>
           )}
           {status === "authenticated" && (
-            <button onClick={logoutHandler} className="mx-5 relative">
+            <button onClick={logoutHandler} className="mx-3 sm:mx-5 relative">
               <div className="flex flex-row items-end">
                 <motion.div
-                  initial={{ width: "2.25rem" }}
-                  whileHover={{ width: "6rem" }}
+                  initial={{ width: "var(--scale-animate-5)" }}
+                  whileHover={{ width: "var(--scale-hover-5)" }}
                   animate={{
-                    width: logoutIsClicked ? "6rem" : "2.25rem",
+                    width: logoutIsClicked
+                      ? "var(--scale-hover-5)"
+                      : "var(--scale-animate-5)",
                   }}
-                  className="border-b-[0.2em] border-pageMenu rounded-sm z-10"
+                  className="sm:border-b-[0.2em] border-b-[0.18em] border-pageMenu rounded-sm z-10 sm:[--scale-hover-5:5.6rem] sm:[--scale-animate-5:2.25rem] [--scale-hover-5:4.5rem] [--scale-animate-5:1.8rem]"
                   onMouseEnter={logoutHandleMouseEnter}
                   onMouseLeave={logoutHandleMouseLeave}
                   onClick={logoutOnClickHandler}
@@ -594,7 +719,7 @@ function MainNavigation() {
                           duration: 0.4,
                           stiffness: 250,
                         }}
-                        className="flex items-end justify-center whitespace-nowrap text-[1em] font-extrabold text-pageMenu"
+                        className="flex items-end justify-center whitespace-nowrap sm:text-[1em] text-[0.7em] font-extrabold text-pageMenu"
                       >
                         Logout
                       </motion.span>
@@ -609,7 +734,7 @@ function MainNavigation() {
                   !addlakeAnimationStarted &&
                   !authpageAnimationStarted && (
                     <motion.div
-                      className="absolute bg-opacity-50 w-8 h-8 bg-pageStrong rounded-full -top-2 -left-3"
+                      className="absolute bg-opacity-50 sm:w-8 sm:h-8 w-5 h-5 bg-pageSuperStrong rounded-full sm:-top-2 sm:-left-3 -top-1 -left-2"
                       initial={{ opacity: 0, y: -100 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{

@@ -12,6 +12,7 @@ module.exports = {
         pageLight: "#E3F4F4",
         pageMedium: "#D2E9E9",
         pageStrong: "#C4DFDF",
+        pageSuperStrong: "#A3CDCD",
         pageWhite: "#FAF8F6",
         pageMenu: "#383434"
       },

@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import MainNavigation from "./main-navigation";
 import NotificationContext from "../../store/notification-context";
 import Notification from "../ui/notification";
+import Footer from "./footer";
 
 function Layout(props) {
   const notificationCtx = useContext(NotificationContext);
@@ -20,6 +21,9 @@ function Layout(props) {
           status={activeNotification.status}
         ></Notification>
       )}
+      <div>Hello</div>
+      <hr></hr>
+      <Footer />
     </React.Fragment>
   );
 }
