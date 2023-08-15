@@ -17,6 +17,7 @@ import { connectDatabase } from "../helpers/db-util";
 import Lake from "../models/Lake";
 import mongoose from "mongoose";
 import CluserMap from "../components/home-page/cluser-map";
+import FirstView from "../components/home-page/first-view";
 
 //Add it to, when loading state on every page (probably in context API)
 // import classes from "./index.module.css";
@@ -26,14 +27,9 @@ function HomePage(props) {
   return (
     <React.Fragment>
       <div>
-        <CluserMap lakes={props.lakes} />
+        <FirstView lakes={props.lakes}/>
         <FeaturedPosts lakes={props.lakes} />
       </div>
-
-      {/* <div className={classes.noClick}> */}
-      {/* <CluserMap lakes={props.lakes} />
-        <FeaturedPosts lakes={props.lakes} /> */}
-      {/* </div> */}
     </React.Fragment>
   );
 }

@@ -425,7 +425,9 @@ function CluserMap(props) {
 
   return (
     <React.Fragment>
-      <div className={classes["mapboxgl-canvas"]}>
+      {/* <div className={classes["mapboxgl-canvas"]}> */}
+      <div className="hue-rotate-[90deg] saturate-[0.35] w-full h-full" style={{ borderRadius: "12px", overflow: "hidden" }}>
+        {/* <div className="opacity-30 h-5 bg-gradient-to-b from-white to-pageMenu"></div> */}
         <Map
           initialViewState={{
             // latitude: 40.67,
@@ -437,7 +439,8 @@ function CluserMap(props) {
             // pitch: 40,
           }}
           pitch={40}
-          mapStyle="mapbox://styles/mapbox/dark-v9"
+          // mapStyle="mapbox://styles/mapbox/dark-v9"
+          mapStyle="mapbox://styles/mapbox/outdoors-v12"
           // mapStyle="mapbox://styles/mapbox/satellite-v9"
           // terrain={{source: 'mapbox-dem', exaggeration: 11.5}}
           mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
@@ -504,7 +507,6 @@ function CluserMap(props) {
           )}
         </Map>
       </div>
-      <div style={{ marginTop: "400px" }}></div>
     </React.Fragment>
   );
 }

@@ -203,6 +203,25 @@ function MainNavigation() {
           setLogoutIsHovered(false);
           break;
         default:
+          setHomePageAnimationStarted(false);
+          setHomepageIsClicked(false);
+          setHomepageIsHovered(false);
+
+          setAlllakesAnimationStarted(false);
+          setAlllakesIsClicked(false);
+          setAlllakesIsHovered(false);
+
+          setAuthPageAnimationStarted(false);
+          setAuthpageIsClicked(false);
+          setAuthpageIsHovered(false);
+
+          setAddlakeAnimationStarted(false);
+          setAddlakeIsClicked(false);
+          setAddlakeIsHovered(false);
+
+          setLogoutAnimationStarted(false);
+          setLogoutIsClicked(false);
+          setLogoutIsHovered(false);
       }
     };
 
@@ -442,7 +461,7 @@ function MainNavigation() {
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 12 79 6.25"
-            className="w-full max-h-[15vh] absolute drop-shadow-2xl"
+            className="w-full max-h-[15vh] absolute drop-shadow-lg"
             fill="#E3F4F4"
           >
             <path d="M0 12h79c-1 1-4 5-9 6-6 1-6-2-10-4-5-2-8 0-10 2-4 3-18 3-21 0-6-4-8 4-13-1-2-2-7 1-11 1-3 0-4-2-5-4v1"></path>
@@ -451,7 +470,7 @@ function MainNavigation() {
       </div>
 
       <div className="font-body flex items-center justify-center">
-        <div className="mb-[20vh] mt-2 px-4 sm:px-10 shadow-pageSuperStrong shadow-lg sticky w-min bg-pageMedium top-0 h-[4.5rem] sm:h-28 flex items-center justify-center rounded-b-[3.5em] rounded-t-[2em] overflow-hidden">
+        <div className="mb-[5vh] mt-2 px-4 sm:px-10 shadow-pageSuperStrong shadow-md sticky w-min bg-pageMedium top-0 h-[4.5rem] sm:h-28 flex items-center justify-center rounded-b-[3.5em] rounded-t-[2em] overflow-hidden">
           <div className="mx-3 sm:mx-5">
             <Link href="/" className="relative">
               <div className="flex flex-row items-end">

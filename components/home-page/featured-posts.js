@@ -13,7 +13,7 @@ import LakesGrid from "../lakes/lakes-grid";
 //used in home page, used to split map and grid of lake objects
 function FeaturedPosts(props) {
   return (
-    <section className={classes.latest}>
+    <section>
       <h2>Featured Posts</h2>
       <LakesGrid lakes={props.lakes} />
     </section>
