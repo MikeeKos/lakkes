@@ -125,7 +125,7 @@ function MainWelcome() {
           // }}
           animate={{
             rotate: [10, 15],
-            x: [6, 78],
+            x: [16, 78],
             y: [0, 14],
           }}
           transition={{
