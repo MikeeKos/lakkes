@@ -1,9 +1,5 @@
-import classes from './logo.module.css'
-
 function Logo() {
-  return <div className={classes.logo}>
-    Hello
-  </div>
+  return <div className="w-full h-full flex items-center justify-center">Logo</div>;
 }
 
 export default Logo;

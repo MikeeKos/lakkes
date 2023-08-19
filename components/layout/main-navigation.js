@@ -391,52 +391,52 @@ function MainNavigation() {
         </svg>
       </div> */}
 
-      <div className="absolute top-0 w-full h-[20vh]">
+      {/* <div className="absolute top-0 w-full h-[20vh]">
         <motion.div
           animate={{
             y: [5, -5, 5],
           }}
           transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
-          className="z-10 absolute w-8 h-8 sm:w-10 sm:h-10 bg-pageSuperStrong rounded-full drop-shadow-xl top-[5vh] left-[2%] sm:top-[10vh] sm:left-[3%]"
+          className="z-10 absolute w-8 h-8 sm:w-10 sm:h-10 bg-pageDarkBlue rounded-full drop-shadow-xl top-[5vh] left-[2%] sm:top-[10vh] sm:left-[3%]"
         ></motion.div>
         <motion.div
           animate={{
             y: [-6, 6, -6],
           }}
           transition={{ repeat: Infinity, duration: 3.5, ease: "easeInOut" }}
-          className="z-10 absolute w-4 h-4 sm:w-6 sm:h-6 bg-pageSuperStrong rounded-full drop-shadow-xl top-[1vh] left-[8%] sm:top-[3vh] sm:left-[10%]"
+          className="z-10 absolute w-4 h-4 sm:w-6 sm:h-6 bg-pageDarkBlue rounded-full drop-shadow-xl top-[1vh] left-[8%] sm:top-[3vh] sm:left-[10%]"
         ></motion.div>
         <motion.div
           animate={{
             y: [-4, 4, -4],
           }}
           transition={{ repeat: Infinity, duration: 2.5, ease: "easeInOut" }}
-          className="opacity-0 sm:opacity-100 sm:z-10 absolute w-7 h-7 sm:w-8 sm:h-8 bg-pageSuperStrong rounded-full drop-shadow-xl top-[8vh] left-[12%] sm:top-[8vh] sm:left-[14%]"
+          className="opacity-0 sm:opacity-100 sm:z-10 absolute w-7 h-7 sm:w-8 sm:h-8 bg-pageDarkBlue rounded-full drop-shadow-xl top-[8vh] left-[12%] sm:top-[8vh] sm:left-[14%]"
         ></motion.div>
         <motion.div
           animate={{
             y: [7, -7, 7],
           }}
           transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-          className="z-10 absolute w-8 h-8 sm:w-10 sm:h-10 bg-pageSuperStrong rounded-full drop-shadow-xl top-[6vh] right-[1%] sm:top-[10vh] sm:right-[1%]"
+          className="z-10 absolute w-8 h-8 sm:w-10 sm:h-10 bg-pageDarkBlue rounded-full drop-shadow-xl top-[6vh] right-[1%] sm:top-[10vh] sm:right-[1%]"
         ></motion.div>
         <motion.div
           animate={{
             y: [-4, 4, -4],
           }}
           transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
-          className="z-10 absolute w-4 h-4 sm:w-7 sm:h-7 bg-pageSuperStrong rounded-full drop-shadow-xl top-[1vh] right-[10%] sm:top-[2vh] sm:right-[8%]"
+          className="z-10 absolute w-4 h-4 sm:w-7 sm:h-7 bg-pageDarkBlue rounded-full drop-shadow-xl top-[1vh] right-[10%] sm:top-[2vh] sm:right-[8%]"
         ></motion.div>
         <motion.div
           animate={{
             y: [-5, 5, -5],
           }}
           transition={{ repeat: Infinity, duration: 3.5, ease: "easeInOut" }}
-          className="opacity-0 sm:opacity-100 sm:z-10 absolute w-7 h-7 sm:w-11 sm:h-11 bg-pageSuperStrong rounded-full drop-shadow-xl top-[5vh] right-[12%] sm:top-[7vh] sm:right-[12%]"
+          className="opacity-0 sm:opacity-100 sm:z-10 absolute w-7 h-7 sm:w-11 sm:h-11 bg-pageDarkBlue rounded-full drop-shadow-xl top-[5vh] right-[12%] sm:top-[7vh] sm:right-[12%]"
         ></motion.div>
-      </div>
+      </div> */}
 
-      <div className="relative">
+      {/* <div className="relative">
         <div>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -467,10 +467,10 @@ function MainNavigation() {
             <path d="M0 12h79c-1 1-4 5-9 6-6 1-6-2-10-4-5-2-8 0-10 2-4 3-18 3-21 0-6-4-8 4-13-1-2-2-7 1-11 1-3 0-4-2-5-4v1"></path>
           </svg>
         </div>
-      </div>
+      </div> */}
 
-      <div className="font-body flex items-center justify-center">
-        <div className="mb-[5vh] mt-2 px-4 sm:px-10 shadow-pageSuperStrong shadow-md sticky w-min bg-pageMedium top-0 h-[4.5rem] sm:h-28 flex items-center justify-center rounded-b-[3.5em] rounded-t-[2em] overflow-hidden">
+      <div className="scale-[1.15] sm:scale-110 font-body flex items-center justify-center h-full">
+        <div className="h-full sticky w-min flex items-center justify-center">
           <div className="mx-3 sm:mx-5">
             <Link href="/" className="relative">
               <div className="flex flex-row items-end">
@@ -514,7 +514,7 @@ function MainNavigation() {
                   !authpageAnimationStarted &&
                   !logoutAnimationStarted && (
                     <motion.div
-                      className="absolute bg-opacity-50 sm:w-8 sm:h-8 w-5 h-5 bg-pageSuperStrong rounded-full sm:-top-2 sm:-left-3 -top-1 -left-2"
+                      className="absolute bg-opacity-50 sm:w-8 sm:h-8 w-5 h-5 bg-page1 rounded-full sm:-top-2 sm:-left-3 -top-1 -left-2"
                       initial={{ opacity: 0, y: -100 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{
@@ -572,7 +572,7 @@ function MainNavigation() {
                   !authpageAnimationStarted &&
                   !logoutAnimationStarted && (
                     <motion.div
-                      className="absolute bg-opacity-50 sm:w-8 sm:h-8 w-5 h-5 bg-pageSuperStrong rounded-full sm:-top-2 sm:-left-3 -top-1 -left-2"
+                      className="absolute bg-opacity-50 sm:w-8 sm:h-8 w-5 h-5 bg-page1 rounded-full sm:-top-2 sm:-left-3 -top-1 -left-2"
                       initial={{ opacity: 0, y: -100 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{
@@ -630,7 +630,7 @@ function MainNavigation() {
                   !authpageAnimationStarted &&
                   !logoutAnimationStarted && (
                     <motion.div
-                      className="absolute bg-opacity-50 sm:w-8 sm:h-8 w-5 h-5 bg-pageSuperStrong rounded-full sm:-top-2 sm:-left-3 -top-1 -left-2"
+                      className="absolute bg-opacity-50 sm:w-8 sm:h-8 w-5 h-5 bg-page1 rounded-full sm:-top-2 sm:-left-3 -top-1 -left-2"
                       initial={{ opacity: 0, y: -100 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{
@@ -694,7 +694,7 @@ function MainNavigation() {
                     !addlakeAnimationStarted &&
                     !logoutAnimationStarted && (
                       <motion.div
-                        className="absolute bg-opacity-50 sm:w-8 sm:h-8 w-5 h-5 bg-pageSuperStrong rounded-full sm:-top-2 sm:-left-3 -top-1 -left-2"
+                        className="absolute bg-opacity-50 sm:w-8 sm:h-8 w-5 h-5 bg-page1 rounded-full sm:-top-2 sm:-left-3 -top-1 -left-2"
                         initial={{ opacity: 0, y: -100 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{
@@ -753,7 +753,7 @@ function MainNavigation() {
                   !addlakeAnimationStarted &&
                   !authpageAnimationStarted && (
                     <motion.div
-                      className="absolute bg-opacity-50 sm:w-8 sm:h-8 w-5 h-5 bg-pageSuperStrong rounded-full sm:-top-2 sm:-left-3 -top-1 -left-2"
+                      className="absolute bg-opacity-50 sm:w-8 sm:h-8 w-5 h-5 bg-page1 rounded-full sm:-top-2 sm:-left-3 -top-1 -left-2"
                       initial={{ opacity: 0, y: -100 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{

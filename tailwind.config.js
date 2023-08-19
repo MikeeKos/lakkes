@@ -9,15 +9,16 @@ module.exports = {
     extend: {
       colors: {
         pageBlack: "#1D1C1A",
-        pageLight: "#E3F4F4",
-        pageMedium: "#D2E9E9",
-        pageStrong: "#C4DFDF",
-        pageSuperStrong: "#A3CDCD",
+        page4: "#96B6C5",
+        page3: "#ADC4CE",
+        page2: "#EEE0C9",
+        page1: "#F1F0E8",
         pageWhite: "#FAF8F6",
         pageMenu: "#383434"
       },
       fontFamily: {
         body: ['Nunito', "sans-serif"],
+        page: ['Montserrat', "sans-serif"]
       },
     },
   },

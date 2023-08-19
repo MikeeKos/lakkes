@@ -8,8 +8,12 @@ function MainWelcome() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="relative h-full grid place-items-center"
+        className="relative h-full w-full grid place-items-center saturate-50"
       >
+        <div className="opacity-90 flex items-center justify-center relative z-10 sm:text-[5em] text-[4em] text-justify p-5 w-full h-full">
+          <span className="p-4 sm:p-6 absolute font-page font-[1000] tracking-tight text-page1">find a place to rest</span>
+          <span className="p-2 absolute font-page font-[1000] tracking-tight text-pageBlack">find a place to rest</span>
+        </div>
         <motion.div
           // initial={{
           //   rotate: -7,
@@ -32,7 +36,7 @@ function MainWelcome() {
             duration: 9,
             type: "spring",
           }}
-          className="shadow-[0px_4px_16px_rgba(56,52,52,0.3),_0px_8px_24px_rgba(56,52,52,0.3)] hue-rotate-[-15deg] saturate-[0.40] absolute rounded-xl h-[60%] sm:h-[35%] md:h-[55%] lg:h-[80%] aspect-[25/35] bg-slate-950"
+          className="shadow-[0px_4px_16px_rgba(56,52,52,0.3),_0px_8px_24px_rgba(56,52,52,0.3)] hue-rotate-[-15deg] saturate-[0.40] absolute rounded-xl h-[60%] sm:h-[50%] md:h-[55%] lg:h-[55%] aspect-[25/35] bg-slate-950"
         >
           <Image
             src="/homepage1.jpg"
@@ -41,7 +45,8 @@ function MainWelcome() {
             fill={true}
             style={{ borderRadius: "10px", overflow: "hidden" }}
             blurDataURL={"/homepage1.jpg"}
-            sizes="100px"
+            sizes="1000px"
+            // sizes="300px"
           />
         </motion.div>
         <motion.div
@@ -66,7 +71,7 @@ function MainWelcome() {
             duration: 9,
             type: "spring",
           }}
-          className="shadow-[0px_4px_16px_rgba(56,52,52,0.3),_0px_8px_24px_rgba(56,52,52,0.3)] hue-rotate-[15deg] saturate-[0.8] absolute rounded-xl h-[60%] sm:h-[35%] md:h-[55%] lg:h-[80%] aspect-[25/35] bg-slate-700 transform translate-x-[-6%] rotate-[-1deg]"
+          className="shadow-[0px_4px_16px_rgba(56,52,52,0.3),_0px_8px_24px_rgba(56,52,52,0.3)] hue-rotate-[15deg] saturate-[0.8] absolute rounded-xl h-[60%] sm:h-[50%] md:h-[55%] lg:h-[55%] aspect-[25/35] bg-slate-700 transform translate-x-[-6%] rotate-[-1deg]"
         >
           <Image
             src="/homepage2.jpg"
@@ -75,7 +80,8 @@ function MainWelcome() {
             fill={true}
             style={{ borderRadius: "10px", overflow: "hidden" }}
             blurDataURL={"/homepage2.jpg"}
-            sizes="100px"
+            sizes="1000px"
+            // sizes="100px"
           />
         </motion.div>
         <motion.div
@@ -100,7 +106,7 @@ function MainWelcome() {
             duration: 9,
             type: "spring",
           }}
-          className="shadow-[0px_4px_16px_rgba(56,52,52,0.3),_0px_8px_24px_rgba(56,52,52,0.3)] hue-rotate-[-10deg] saturate-[0.9] brightness-90  absolute rounded-xl h-[60%] sm:h-[35%] md:h-[55%] lg:h-[80%] aspect-[25/35] bg-slate-500 transform rotate-[2deg]"
+          className="shadow-[0px_4px_16px_rgba(56,52,52,0.3),_0px_8px_24px_rgba(56,52,52,0.3)] hue-rotate-[-10deg] saturate-[0.9] brightness-90  absolute rounded-xl h-[60%] sm:h-[50%] md:h-[55%] lg:h-[55%] aspect-[25/35] bg-slate-500 transform rotate-[2deg]"
         >
           <Image
             src="/homepage3.jpg"
@@ -109,7 +115,8 @@ function MainWelcome() {
             fill={true}
             style={{ borderRadius: "10px", overflow: "hidden" }}
             blurDataURL={"/homepage3.jpg"}
-            sizes="100px"
+            sizes="1000px"
+            // sizes="100px"
           />
         </motion.div>
         <motion.div
@@ -134,7 +141,7 @@ function MainWelcome() {
             duration: 9,
             type: "spring",
           }}
-          className="shadow-[0px_4px_16px_rgba(56,52,52,0.3),_0px_8px_24px_rgba(56,52,52,0.3)] hue-rotate-[-15deg] saturate-[0.40] brightness-90 absolute rounded-xl h-[60%] sm:h-[35%] md:h-[55%] lg:h-[80%] aspect-[25/35] bg-slate-300"
+          className="shadow-[0px_4px_16px_rgba(56,52,52,0.3),_0px_8px_24px_rgba(56,52,52,0.3)] hue-rotate-[-15deg] saturate-[0.40] brightness-90 absolute rounded-xl h-[60%] sm:h-[50%] md:h-[55%] lg:h-[55%] aspect-[25/35] bg-slate-300"
         >
           <Image
             src="/homepage4.jpg"
@@ -143,7 +150,8 @@ function MainWelcome() {
             fill={true}
             style={{ borderRadius: "10px", overflow: "hidden" }}
             blurDataURL={"/homepage4.jpg"}
-            sizes="100px"
+            sizes="1000px"
+            // sizes="300px"
           />
         </motion.div>
         <motion.div
@@ -307,6 +315,35 @@ function MainWelcome() {
             </g>
           </svg>
         </motion.div>
+        {/* <div className="absolute uppercase text-5xl text-pageWhite h-full w-full">
+          <div className="relative h-full w-full sm:h-full sm:w-[60%] sm:right-20 right-0 md:right-0 md:h-full md:w-full flex justify-center">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="-7 -8.183 35.39 30.09"
+              fill="#E3F4F4"
+              className="h-full absolute left-1"
+            >
+              <path d="M0-5c7-4 19-6 26 5 3 6 3 8 1 15-3 7-11 8-18 6-11-3-16-3-16-10C-7 1-3-3 0-5"></path>
+            </svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="-11.378 -15.381 50.29 43.43"
+              fill="#D2E9E9"
+              className="h-full absolute"
+
+            >
+              <path d="M-5-14c12-4 23 1 36 11 12 10 9 22 0 25-11 4-6 8-17 5-16-6-21-9-24-25-3-12-1-12 5-16"></path>
+            </svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="-10.329 -20.127 56.74 47.17"
+              fill="#C4DFDF"
+              className="h-full absolute right-1"
+            >
+              <path d="M-5-14c10-7 12-4 23-6 12-1 13 4 22 12s9 20-3 24c-14 2-10 10-23 11-19 1-26-16-24-25 2-7-1-12 5-16"></path>
+            </svg>
+          </div>
+        </div> */}
       </motion.div>
     </React.Fragment>
   );
@@ -315,6 +352,6 @@ function MainWelcome() {
 // pageLight: "#E3F4F4",
 // pageMedium: "#D2E9E9",
 // pageStrong: "#C4DFDF",
-// pageSuperStrong: "#A3CDCD",
+// pageDarkBlue: "#A3CDCD",
 
 export default MainWelcome;

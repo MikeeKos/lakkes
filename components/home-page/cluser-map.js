@@ -320,7 +320,7 @@
 
 // export default CluserMap;
 
-import classes from "./cluser-map.module.css";
+// import classes from "./cluser-map.module.css";
 import ReactMapGL, {
   Marker,
   NavigationControl,
@@ -426,7 +426,7 @@ function CluserMap(props) {
   return (
     <React.Fragment>
       {/* <div className={classes["mapboxgl-canvas"]}> */}
-      <div className="hue-rotate-[90deg] saturate-[0.35] w-full h-full" style={{ borderRadius: "12px", overflow: "hidden" }}>
+      <div className="hue-rotate-[-30deg] saturate-[0.30] grayscale-[30%] w-full h-full overflow-hidden">
         {/* <div className="opacity-30 h-5 bg-gradient-to-b from-white to-pageMenu"></div> */}
         <Map
           initialViewState={{

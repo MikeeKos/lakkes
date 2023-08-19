@@ -7,7 +7,7 @@
 //   __v: 0
 // }
 
-import classes from "./featured-posts.module.css";
+// import classes from "./featured-posts.module.css";
 import LakesGrid from "../lakes/lakes-grid";
 
 //used in home page, used to split map and grid of lake objects
