@@ -1,7 +1,7 @@
 import React from "react";
 import CluserMap from "./cluser-map";
 import MainWelcome from "./main-welcome";
-// import PostCarousel from "./post-carousel";
+import PostCarousel from "./post-carousel";
 
 import dynamic from "next/dynamic";
 import FeaturedText from "./featured-text";
@@ -37,8 +37,11 @@ function FirstView(props) {
           </div>
         </div>
         <div className="bg-page1 row-span-5 col-span-12 h-full w-full border-2 border-pageMenu overflow-hidden">
-          <span>Hello</span>
+          {/* <PostCarousel /> */}
         </div>
+      </div>
+      <div className="border-2 border-pageMenu w-full h-[350px] px-10">
+        <PostCarousel />
       </div>
     </React.Fragment>
   );
