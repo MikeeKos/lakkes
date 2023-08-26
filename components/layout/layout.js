@@ -21,7 +21,7 @@ function Layout(props) {
         <div className="bg-page3 order-1 md:order-2 col-span-12 md:col-span-8 md:row-span-2 border-2 border-pageMenu w-full overflow-hidden">
           <MainNavigation />
         </div>
-        <div className="bg-page4 bg-page bg-page order-3 md:order-3 col-span-6 md:col-span-2 md:row-span-2 border-2 border-pageMenu w-full">
+        <div className="bg-page4 order-3 md:order-3 col-span-6 md:col-span-2 md:row-span-2 border-2 border-pageMenu w-full">
           <UserMenu />
         </div>
       </div>

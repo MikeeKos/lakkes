@@ -70,110 +70,121 @@
 
 // export default PostCarousel;
 
-import { motion } from "framer-motion";
-import { useRef, useEffect, useState } from "react";
-
-function PostCarousel() {
-  const [width, setWidth] = useState(0);
-  const carousel = useRef();
-
-  useEffect(() => {
-    setWidth(carousel.current.scrollWidth - carousel.current.offsetWidth);
-    // const handleResize = () => {
-    //   console.log(carousel.current.scrollWidth - carousel.current.offsetWidth);
-    //   setWidth(carousel.current.scrollWidth - carousel.current.offsetWidth);
-    // };
-    // handleResize();
-    // window.addEventListener("resize", handleResize);
-    // return () => {
-    //   window.removeEventListener("resize", handleResize);
-    // };
-  }, []);
-
-  function dragHandler() {
-    console.log(carousel.current.scrollWidth - carousel.current.offsetWidth);
-    setWidth(carousel.current.scrollWidth - carousel.current.offsetWidth);
-  }
-
-  return (
-    <motion.div
-      ref={carousel}
-      className="bg-page2 w-full h-full cursor-grab overflow-hidden"
-      whileDrag={{ cursor: "grabbing" }}
-    >
-      <motion.div
-        onMouseMove={dragHandler}
-        drag="x"
-        dragConstraints={{ right: 0, left: -width }}
-        className="relative bg-page4 w-full h-full flex"
-      >
-        <motion.div className="min-h-[20rem] min-w-[15rem] w-1/3 p-10">
-          <img
-            className="pointer-events-none w-full h-full rounded-[2rem]"
-            src="https://images.unsplash.com/photo-1505118380757-91f5f5632de0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=326&q=80"
-          ></img>
-        </motion.div>
-        <motion.div className="min-h-[20rem] min-w-[15rem] w-1/3 p-10">
-          <img
-            className="pointer-events-none w-full h-full rounded-[2rem]"
-            src="https://images.unsplash.com/photo-1505118380757-91f5f5632de0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=326&q=80"
-          ></img>
-        </motion.div>
-        <motion.div className="min-h-[20rem] min-w-[15rem] w-1/3 p-10">
-          <img
-            className="pointer-events-none w-full h-full rounded-[2rem]"
-            src="https://images.unsplash.com/photo-1505118380757-91f5f5632de0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=326&q=80"
-          ></img>
-        </motion.div>
-        <motion.div className="min-h-[20rem] min-w-[15rem] w-1/3 p-10">
-          <img
-            className="pointer-events-none w-full h-full rounded-[2rem]"
-            src="https://images.unsplash.com/photo-1505118380757-91f5f5632de0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=326&q=80"
-          ></img>
-        </motion.div>
-        <motion.div className="min-h-[20rem] min-w-[15rem] w-1/3 p-10">
-          <img
-            className="pointer-events-none w-full h-full rounded-[2rem]"
-            src="https://images.unsplash.com/photo-1505118380757-91f5f5632de0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=326&q=80"
-          ></img>
-        </motion.div>
-        <motion.div className="min-h-[20rem] min-w-[15rem] w-1/3 p-10">
-          <img
-            className="pointer-events-none w-full h-full rounded-[2rem]"
-            src="https://images.unsplash.com/photo-1505118380757-91f5f5632de0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=326&q=80"
-          ></img>
-        </motion.div>
-      </motion.div>
-    </motion.div>
-  );
-}
-
-export default PostCarousel;
-
 // import { motion } from "framer-motion";
 // import { useRef, useEffect, useState } from "react";
 
 // function PostCarousel() {
+//   const [width, setWidth] = useState(0);
+//   const carousel = useRef();
+
+//   useEffect(() => {
+//     setWidth(carousel.current.scrollWidth - carousel.current.offsetWidth);
+//     // const handleResize = () => {
+//     //   console.log(carousel.current.scrollWidth - carousel.current.offsetWidth);
+//     //   setWidth(carousel.current.scrollWidth - carousel.current.offsetWidth);
+//     // };
+//     // handleResize();
+//     // window.addEventListener("resize", handleResize);
+//     // return () => {
+//     //   window.removeEventListener("resize", handleResize);
+//     // };
+//   }, []);
+
+//   function dragHandler() {
+//     console.log(carousel.current.scrollWidth - carousel.current.offsetWidth);
+//     setWidth(carousel.current.scrollWidth - carousel.current.offsetWidth);
+//   }
+
 //   return (
-//     // App
-//     <div className="w-full h-full border-8 overflow-hidden flex justify-center items-center">
-//       {/* Row */}
-//       <div className="relative">
-//         {/* container */}
-//         <motion.div
-//           initial={{ scale: 0, rotate: -180 }}
-//           animate={{ rotate: 0, scale: 1, left: "-30vw" }}
-//           transition={{ type: "spring", stiffness: 260, damping: 20 }}
-//           className="w-[60vw] h-[90vh] top-[-45vh] overflow-hidden absolute"
-//         >
+//     <motion.div
+//       ref={carousel}
+//       className="bg-page2 w-full h-full cursor-grab overflow-hidden"
+//       whileDrag={{ cursor: "grabbing" }}
+//     >
+//       <motion.div
+//         onMouseMove={dragHandler}
+//         drag="x"
+//         dragConstraints={{ right: 0, left: -width }}
+//         className="relative bg-page4 w-full h-full flex"
+//       >
+//         <motion.div className="min-h-[20rem] min-w-[15rem] w-1/3 p-10">
 //           <img
-//             className="w-full h-full"
+//             className="pointer-events-none w-full h-full rounded-[2rem]"
 //             src="https://images.unsplash.com/photo-1505118380757-91f5f5632de0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=326&q=80"
 //           ></img>
 //         </motion.div>
-//       </div>
-//     </div>
+//         <motion.div className="min-h-[20rem] min-w-[15rem] w-1/3 p-10">
+//           <img
+//             className="pointer-events-none w-full h-full rounded-[2rem]"
+//             src="https://images.unsplash.com/photo-1505118380757-91f5f5632de0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=326&q=80"
+//           ></img>
+//         </motion.div>
+//         <motion.div className="min-h-[20rem] min-w-[15rem] w-1/3 p-10">
+//           <img
+//             className="pointer-events-none w-full h-full rounded-[2rem]"
+//             src="https://images.unsplash.com/photo-1505118380757-91f5f5632de0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=326&q=80"
+//           ></img>
+//         </motion.div>
+//         <motion.div className="min-h-[20rem] min-w-[15rem] w-1/3 p-10">
+//           <img
+//             className="pointer-events-none w-full h-full rounded-[2rem]"
+//             src="https://images.unsplash.com/photo-1505118380757-91f5f5632de0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=326&q=80"
+//           ></img>
+//         </motion.div>
+//         <motion.div className="min-h-[20rem] min-w-[15rem] w-1/3 p-10">
+//           <img
+//             className="pointer-events-none w-full h-full rounded-[2rem]"
+//             src="https://images.unsplash.com/photo-1505118380757-91f5f5632de0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=326&q=80"
+//           ></img>
+//         </motion.div>
+//         <motion.div className="min-h-[20rem] min-w-[15rem] w-1/3 p-10">
+//           <img
+//             className="pointer-events-none w-full h-full rounded-[2rem]"
+//             src="https://images.unsplash.com/photo-1505118380757-91f5f5632de0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=326&q=80"
+//           ></img>
+//         </motion.div>
+//       </motion.div>
+//     </motion.div>
 //   );
 // }
 
 // export default PostCarousel;
+
+import React, { useState, useRef } from "react";
+import { motion } from "framer-motion";
+import Image from "next/image";
+
+function PostCarousel(props) {
+  // const carouselArray = props.lakes.slice(0, 3);
+  // console.log(carouselArray);
+  return (
+    <React.Fragment>
+      <div className="w-full h-full grid grid-cols-12 grid-rows-2">
+        <div className="p-[2%] col-span-12 row-span-1 sm:col-span-6 sm:row-span-2 border-2 border-pageMenu">
+          <div className="grid grid-cols-8 grid-rows-8 w-full h-full border-4 border-page">
+            <div className="relative overflow-hidden row-span-8 col-span-5 sm:row-span-5 sm:col-span-8 bg-page3">
+              <div className="absolute w-full h-full bg-pageBlack">
+                {/* <Image src="/homepage1.jpg" width={1000} height={1000} style={{objectFit:"cover"}} className="w-[100%] h-[100%]"/> */}
+              </div>
+            </div>
+            <div className="row-span-8 col-span-3 sm:row-span-3 sm:col-span-8 bg-page4"></div>
+          </div>
+        </div>
+        <div className="p-[2%] col-span-6 row-span-1 sm:col-span-6 sm:row-span-1 border-2 border-pageMenu">
+          <div className="grid grid-cols-8 grid-rows-8 w-full h-full border-4 border-page">
+            <div className="col-span-8 row-span-5 md:col-span-5 md:row-span-8 bg-page3"></div>
+            <div className="col-span-8 row-span-3 md:col-span-3 md:row-span-5 bg-page4"></div>
+          </div>
+        </div>
+        <div className="p-[2%] col-span-6 row-span-1 sm:col-span-6 sm:row-span-1 border-2 border-pageMenu">
+          <div className="grid grid-cols-8 grid-rows-8 w-full h-full border-4 border-page">
+            <div className="col-span-8 row-span-5 md:col-span-5 md:row-span-8 bg-page3"></div>
+            <div className="col-span-8 row-span-3 md:col-span-3 md:row-span-5 bg-page4"></div>
+          </div>
+        </div>
+      </div>
+    </React.Fragment>
+  );
+}
+
+export default PostCarousel;
