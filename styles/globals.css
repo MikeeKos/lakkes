@@ -81,4 +81,5 @@ button {
   -ms-user-select: none;
   user-select: none;
   overscroll-behavior-y: none;
+  overscroll-behavior-x: none;
 }
