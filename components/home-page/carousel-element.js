@@ -5,16 +5,20 @@ import Image from "next/image";
 
 function CarouselElement(props) {
   const num = props.lakeNumber;
+  // const firstObj = [];
+  // props.lakes[num].images.map((img) => {
+  //   firstObj.push(img.url);
+  // });
 
+  // const lakeObj = props.lakes[num];
   const firstObj = [];
-  // const secondObj = []
-  // const thirdObj = []
-
   props.lakes[num].images.map((img) => {
     firstObj.push(img.url);
   });
 
-  console.log(firstObj.length);
+  // console.log(firstObj.length);
+  // console.log("___Object___");
+  // console.log(lakeObj);
 
   // props.lakes[1].images.map((img) => {
   //   secondObj.push(img.url)
@@ -59,7 +63,9 @@ function CarouselElement(props) {
     <div className="relative text-4xl text-pageMenu w-full h-full">
       <div className="absolute z-10 flex justify-between w-full h-full">
         <button
-          className={` ${count > 0 && count < firstObj.length ? "opacity-100" : "opacity-0" } flex items-center justify-start h-full w-1/2`}
+          className={` ${
+            count > 0 && count < firstObj.length ? "opacity-100" : "opacity-0"
+          } flex items-center justify-start h-full w-1/2`}
           onClick={decreaseCounter}
         >
           <motion.div
@@ -79,7 +85,11 @@ function CarouselElement(props) {
           </motion.div>
         </button>
         <button
-          className={` ${count >= 0 && count < firstObj.length - 1 ? "opacity-100" : "opacity-0" } flex items-center justify-end h-full w-1/2`}
+          className={` ${
+            count >= 0 && count < firstObj.length - 1
+              ? "opacity-100"
+              : "opacity-0"
+          } flex items-center justify-end h-full w-1/2`}
           onClick={increaseCounter}
         >
           <motion.div

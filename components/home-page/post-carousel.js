@@ -154,6 +154,7 @@ import React, { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import CarouselElement from "./carousel-element";
+import CarouselDescription from "./carousel-description";
 
 function PostCarousel(props) {
   // const carouselArray = props.lakes.slice(0, 3);
@@ -168,7 +169,9 @@ function PostCarousel(props) {
                 <CarouselElement lakes={props.lakes} lakeNumber={0} />
               </div>
             </div>
-            <div className="row-span-8 col-span-4 sm:row-span-4 sm:col-span-8 bg-page4"></div>
+            <div className="row-span-8 col-span-4 sm:row-span-4 sm:col-span-8 bg-page4">
+              <CarouselDescription lakes={props.lakes} lakeNumber={0}/>
+            </div>
           </div>
         </div>
         <div className="p-[4%] col-span-6 row-span-1 sm:col-span-6 sm:row-span-1 border-2 border-pageMenu">
