@@ -13,8 +13,10 @@ function Logo() {
 
   const homepageOnClickHandler = () => {
     if (router.pathname === "/") {
+      setHomePageAnimationStarted(true);
       setHomepageIsClicked(false);
     } else {
+      setHomePageAnimationStarted(false);
       setHomepageIsClicked(true);
     }
   };

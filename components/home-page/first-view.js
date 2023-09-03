@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import CluserMap from "./cluser-map";
 import MainWelcome from "./main-welcome";
 import PostCarousel from "./post-carousel";
@@ -7,23 +7,37 @@ import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
 import FeaturedText from "./featured-text";
 import Display from "./display";
+// import CarouselSwitch from "./carousel-switch";
 // import TestCarousel from "./carousel-element";
 // import DefaultCarousel from "./default-carousel";
 
 function FirstView(props) {
-  const CluserMap = dynamic(() => import("./cluser-map"), {
-    ssr: false,
-    loading: () => (
-      <div className="bg-page1 flex items-center justify-center text-pageBlack font-bold text-4xl h-full">
-        Loading...
-      </div>
-    ),
-  });
+  const [arrowClicked, setArrowClicked] = useState("left");
+
+  // const CluserMap = dynamic(() => import("./cluser-map"), {
+  //   ssr: false,
+  //   loading: () => (
+  //     <div className="bg-page1 flex items-center justify-center text-pageBlack font-bold text-4xl h-full">
+  //       Loading...
+  //     </div>
+  //   ),
+  // });
+
+  function leftArrowHandler() {
+    setArrowClicked("left");
+    console.log("Left arrow clicked");
+  }
+
+  function rightArrowHandler() {
+    setArrowClicked("right");
+    console.log("Right arrow clicked");
+  }
 
   const leftArrow = (
     <motion.div
+      onClick={leftArrowHandler}
       whileTap={{ scale: 0.7 }}
-      whileHover={{ scale: 1.2 }}
+      whileHover={{ scale: 1.1 }}
       className="relative w-full h-full flex items-center justify-center"
     >
       <svg
@@ -64,8 +78,9 @@ function FirstView(props) {
 
   const rightArrow = (
     <motion.div
+      onClick={rightArrowHandler}
       whileTap={{ scale: 0.7 }}
-      whileHover={{ scale: 1.2 }}
+      whileHover={{ scale: 1.1 }}
       className="relative w-full h-full flex items-center justify-center"
     >
       <svg
@@ -111,7 +126,7 @@ function FirstView(props) {
           <CluserMap lakes={props.lakes} />
         </div>
       </div>
-      
+
       <div className="grid grid-cols-12 grid-row-7 h-[45rem] w-full">
         <div className="row-span-1 col-span-12 h-full w-full">
           <div className="grid grid-cols-12 w-full h-full">
@@ -127,7 +142,8 @@ function FirstView(props) {
           </div>
         </div>
         <div className="bg-page1 row-span-6 col-span-12 h-full w-full overflow-hidden">
-          <PostCarousel lakes={props.lakes} />
+          {/* <CarouselSwitch lakes={props.lakes} arrow={arrowClicked} /> */}
+          <PostCarousel lakes={props.lakes} arrow={arrowClicked}/>
         </div>
       </div>
       <div className="w-full h-[40rem] border-2 border-pageMenu">

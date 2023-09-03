@@ -41,7 +41,6 @@ function CarouselElement(props) {
   const prev = tuple[0];
 
   const direction = count > prev ? "increasing" : "decreasing";
-  console.log({ direction });
 
   function increaseCounter() {
     if (count >= 0 && count < firstObj.length - 1) {

@@ -12,20 +12,8 @@ import "@mapbox/mapbox-gl-geocoder/lib/mapbox-gl-geocoder.css";
 import React, { useEffect, useState } from "react";
 import GeocoderControl from "../home-page/geocoder";
 
-// const initialViewState = {
-// latitude: 51.54748821096632,
-// longitude: 19.701310233479273,
-// zoom: 3.5,
-// pitch: 40,
-// };
-
 function FormMap(props) {
   const [marker, setMarker] = useState();
-  // console.log(props.sateliteMap);
-
-  // const onMarkerDragStart = (event) => {
-  //   console.log("___DRAG START___");
-  // };
 
   console.log("___INITIAL COORDS____");
   console.log(props.initialCoordsFromEditPage);
@@ -37,24 +25,35 @@ function FormMap(props) {
   }, []);
 
   const onMarkerDrag = (event) => {
-    // console.log("___DRAGGING___");
     setMarker(event.lngLat);
     console.log(event.lngLat);
     props.sendDataToForm(event.lngLat);
   };
 
   const onMarkerDragEnd = (event) => {
-    // console.log("___DRAG STOP___");
     setMarker(event.lngLat);
     props.sendDataToForm(event.lngLat);
   };
 
   function onClick(event) {
-    // console.log("___MAP CLICKED___");
-    // console.log(event);
     setMarker(event.lngLat);
     props.sendDataToForm(event.lngLat);
   }
+
+  // const onMarkerDrag = useCallback((event) => {
+  //   setMarker(event.lngLat);
+  //   props.sendDataToForm(event.lngLat);
+  // }, [props]);
+
+  // const onMarkerDragEnd = useCallback((event) => {
+  //   setMarker(event.lngLat);
+  //   props.sendDataToForm(event.lngLat);
+  // }, [props]);
+
+  // const onClick = useCallback((event) => {
+  //   setMarker(event.lngLat);
+  //   props.sendDataToForm(event.lngLat);
+  // }, [props]);
 
   const skyLayer = {
     id: "sky",
@@ -73,22 +72,25 @@ function FormMap(props) {
     config = {};
   }
 
+  const filter = props.sateliteMap ? "saturate-[0.8] grayscale-[10%] brightness-125" : "hue-rotate-[-30deg] saturate-[0.2] grayscale-[30%] brightness-105";
+
   return (
     <React.Fragment>
-      <div className={classes["mapboxgl-canvas"]}>
+      <div className={`${filter} w-full h-full overflow-hidden border-4 border-pageMenu`}>
+      {/* <div className={classes["mapboxgl-canvas"]}> */}
         <Map
           // initialViewState={initialViewState}
           initialViewState={{
-            latitude: 51.54748821096632,
             longitude: 19.701310233479273,
-            zoom: 3.5,
+            latitude: 51.54748821096632,
+            zoom: 5,
             // pitch: 40,
           }}
           pitch={40}
           mapStyle={
             props.sateliteMap
               ? "mapbox://styles/mapbox/satellite-v9"
-              : "mapbox://styles/mapbox/dark-v9"
+              : "mapbox://styles/mapbox/outdoors-v12"
           }
           // mapStyle="mapbox://styles/mapbox/satellite-v9"
           terrain={config}
@@ -109,20 +111,10 @@ function FormMap(props) {
               latitude={marker.lat}
               color="white"
               draggable
-              // onDragStart={onMarkerDragStart}
               onDrag={onMarkerDrag}
               onDragEnd={onMarkerDragEnd}
             />
           )}
-          {/* {props.sateliteMap && (
-            <Source
-              id="mapbox-dem"
-              type="raster-dem"
-              url="mapbox://mapbox.mapbox-terrain-dem-v1"
-              tileSize={512}
-              maxzoom={14}
-            />
-          )} */}
           <Source
             id="mapbox-dem"
             type="raster-dem"
