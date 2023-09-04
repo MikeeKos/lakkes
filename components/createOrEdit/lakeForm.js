@@ -5,7 +5,7 @@
 // if forNewLake is equal to true, then this form is used for creating new object
 // otherwise it renders data in <input />'s elements and functions as edit form
 
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import classes from "./lakeForm.module.css";
 import { useRouter } from "next/router";
 // import { mutate } from "swr";
@@ -13,10 +13,11 @@ import NotificationContext from "../../store/notification-context";
 import axios from "axios";
 import Image from "next/image";
 import FormMap from "./formMap";
-import { delay, motion } from "framer-motion";
+import { AnimatePresence, delay, motion } from "framer-motion";
 import dynamic from "next/dynamic";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import { Switch } from "@mui/material";
 // import { Switch } from "@mui/material";
 
 function LakeForm(props) {
@@ -28,6 +29,8 @@ function LakeForm(props) {
   //     </div>
   //   ),
   // });
+
+  const fileInputRef = useRef();
 
   const router = useRouter();
 
@@ -203,12 +206,12 @@ function LakeForm(props) {
     const files = event.target.files;
     //ADD MAX LENGTH
     console.log(files.length);
-    if (files.length > 5) {
+    if (files.length > 10) {
       event.target.value = null;
       setfilesArray(null);
       notificationCtx.showNotification({
         title: "Error!",
-        message: "You cannot add more than 5 files",
+        message: "You cannot add more than 10 files",
         status: "error",
       });
       return;
@@ -290,6 +293,23 @@ function LakeForm(props) {
     });
   };
 
+  const deletePreviewImagesHandler = () => {
+    fileInputRef.current.value = null;
+    setImagesForPreview(null);
+    setPreviews([]);
+  };
+
+  // const checkHandler = () => {
+  //   console.log("________________CHECK_____________________");
+  //   console.log(filesArray)
+  //   console.log(imagesForPreview)
+  //   console.log(previews)
+  // }
+
+  const handleText = forNewLake
+    ? "↓ add ↓ add ↓ add ↓ add ↓ add ↓ add ↓ add ↓ add ↓ add ↓ add ↓ add ↓ add ↓ add ↓ add ↓ add ↓ add ↓ add ↓ add ↓ add ↓ add ↓ add ↓ add ↓ add ↓ add ↓ add ↓ add ↓ add ↓ add ↓"
+    : "↓ edit ↓ edit ↓ edit ↓ edit ↓ edit ↓ edit ↓ edit ↓ edit ↓ edit ↓ edit ↓ edit ↓ edit ↓ edit ↓ edit ↓ edit ↓ edit ↓ edit ↓ edit ↓ edit ↓ edit ↓ edit ↓ edit ↓ edit ↓ edit ↓ edit ↓ edit ↓ edit ↓ edit ↓";
+
   return (
     <React.Fragment>
       <form
@@ -297,9 +317,40 @@ function LakeForm(props) {
         onSubmit={submitFormHandler}
         encType="multipart/form-data"
       >
-        <div className="w-full h-[6rem] overflow-hidden border-2 border-pageMenu bg-page2"></div>
-        <div className="grid grid-cols-12 grid-row-2 h-[80rem] sm:h-[70rem] md:h-[33rem] w-full overflow-hidden">
-          <div className="bg-page1 col-span-12 row-span-1 md:col-span-5 md:row-span-2 border-2 border-pageMenu w-full h-full overflow-hidden">
+        <div className="w-full h-[6rem] overflow-hidden border-2 border-pageMenu bg-page2">
+          <div className="relative flex items-center justify-center w-full h-full overflow-hidden">
+            <motion.span
+              animate={{
+                x: [-1000, 1000],
+              }}
+              transition={{
+                repeat: Infinity,
+                repeatType: "mirror",
+                duration: 90,
+                delay: 5,
+              }}
+              className="whitespace-nowrap absolute bottom-[1px] text-7xl font-page font-[1000] tracking-tight text-page1 overflow-hidden"
+            >
+              {handleText}
+            </motion.span>
+            <motion.span
+              animate={{
+                x: [-1000, 1000],
+              }}
+              transition={{
+                repeat: Infinity,
+                repeatType: "mirror",
+                duration: 90,
+                delay: 5,
+              }}
+              className="opacity-90 whitespace-nowrap absolute text-7xl font-page font-[1000] tracking-tight text-pageBlack overflow-hidden"
+            >
+              {handleText}
+            </motion.span>
+          </div>
+        </div>
+        <div className="grid grid-cols-12 grid-row-2 h-[100rem] sm:h-[90rem] md:h-[50rem] w-full overflow-hidden">
+          <div className="bg-page1 min-h-[20rem] col-span-12 row-span-1 md:col-span-5 md:row-span-2 border-2 border-pageMenu w-full h-full overflow-hidden">
             <div className="w-full h-full p-[4%] shadow-xl overflow-hidden">
               <div className="relative grid grid-rows-6 w-full h-full overflow-hidden">
                 <div className="flex justify-center items-center w-full h-full row-span-1 font-page font-[1000] tracking-tight text-pageMenu text-2xl sm:text-3xl md:text-3xl lg:text-4xl border-t-4 border-x-4 border-pageMenu overflow-hidden">
@@ -329,7 +380,10 @@ function LakeForm(props) {
                 </div>
                 <span className="font-page font-extrabold tracking-tight flex items-center justify-center w-full h-full bg-page2 border-b-4 border-x-4 border-pageMenu text-pageMenu overflow-hidden text-xl sm:text-2xl md:text-2l lg:text-2xl">
                   enable satellite map
-                  <Button variant="text" onChange={changeStyleHandler} className="m-2 bg-page1 text-pageMenus">map</Button>
+                  <Switch
+                    onChange={changeStyleHandler}
+                    className="m-2 saturate-50 grayscale-[60%]"
+                  />
                 </span>
               </div>
             </div>
@@ -368,7 +422,53 @@ function LakeForm(props) {
                       <div className="w-full h-full grid grid-cols-2">
                         <div className="saturate-[0.2] brightness-125 col-span-2 sm:col-span-1 flex items-center justify-center">
                           <TextField
-                            className="w-full mx-6 border-pageBlack"
+                            className="w-full border-pageBlack"
+                            sx={{
+                              marginTop: "10px",
+                              marginRight: "20px",
+                              marginBottom: "10px",
+                              marginLeft: "20px",
+                            }}
+                            required
+                            id="outlined-basic"
+                            label="title"
+                            variant="outlined"
+                            type="text"
+                            name="title"
+                            value={form.title}
+                            onChange={handleChange}
+                            helperText="choose a title that best describes this place"
+                          />
+                        </div>
+                        <div className="saturate-[0.2] brightness-125 col-span-2 sm:col-span-1 flex items-center justify-center">
+                          <TextField
+                            className="w-full border-pageBlack"
+                            sx={{
+                              marginTop: "10px",
+                              marginRight: "20px",
+                              marginBottom: "10px",
+                              marginLeft: "20px",
+                            }}
+                            required
+                            id="outlined-basic"
+                            label="location"
+                            variant="outlined"
+                            type="text"
+                            name="location"
+                            value={form.location}
+                            onChange={handleChange}
+                            helperText="e.g. city / mountain range / national park"
+                          />
+                        </div>
+                        <div className="saturate-[0.2] brightness-125 col-span-2 sm:col-span-1 flex items-center justify-center">
+                          <TextField
+                            className="w-full border-pageBlack"
+                            sx={{
+                              marginTop: "20px",
+                              marginRight: "20px",
+                              marginBottom: "10px",
+                              marginLeft: "20px",
+                            }}
                             required
                             id="outlined-read-only-input"
                             label="latitude"
@@ -384,7 +484,13 @@ function LakeForm(props) {
                         </div>
                         <div className="saturate-[0.2] brightness-125 col-span-2 sm:col-span-1 flex items-center justify-center">
                           <TextField
-                            className="w-full mx-6 border-pageBlack"
+                            className="w-full border-pageBlack"
+                            sx={{
+                              marginTop: "20px",
+                              marginRight: "20px",
+                              marginBottom: "10px",
+                              marginLeft: "20px",
+                            }}
                             required
                             id="outlined-read-only-input"
                             label="longitude"
@@ -398,37 +504,16 @@ function LakeForm(props) {
                             helperText="select coordinates on the map"
                           />
                         </div>
-                        <div className="saturate-[0.2] brightness-125 col-span-2 sm:col-span-1 flex items-center justify-center">
-                          <TextField
-                            className="w-full mx-6 border-pageBlack"
-                            required
-                            id="outlined-basic"
-                            label="title"
-                            variant="outlined"
-                            type="text"
-                            name="title"
-                            value={form.title}
-                            onChange={handleChange}
-                            // helperText="choose a title that best describes this place"
-                          />
-                        </div>
-                        <div className="saturate-[0.2] brightness-125 col-span-2 sm:col-span-1 flex items-center justify-center">
-                          <TextField
-                            className="w-full mx-6 border-pageBlack"
-                            required
-                            id="outlined-basic"
-                            label="Location"
-                            variant="outlined"
-                            type="text"
-                            name="location"
-                            value={form.location}
-                            onChange={handleChange}
-                          />
-                        </div>
                         <div className="saturate-[0.2] brightness-125 col-span-2 sm:col-span-2 flex items-center justify-center">
                           <TextField
                             maxRows={5}
-                            className="w-full mx-6 border-pageBlack"
+                            className="w-full border-pageBlack"
+                            sx={{
+                              marginTop: "10px",
+                              marginRight: "20px",
+                              marginBottom: "10px",
+                              marginLeft: "20px",
+                            }}
                             required
                             id="outlined-basic"
                             label="desciption"
@@ -438,17 +523,18 @@ function LakeForm(props) {
                             multiline
                             value={form.description}
                             onChange={handleChange}
+                            helperText="describe this place, important information about it, whether it's visited by many people or not"
                           />
                         </div>
                         <div className="col-span-2 sm:col-span-2 flex items-center justify-center">
                           <div className="flex items-center justify-center w-full">
                             <label
                               htmlFor="dropzone-file"
-                              className="flex flex-row items-center justify-center w-full mx-6 h-[56px] border-2 border-pageMenu border-dashed rounded-lg cursor-pointer bg-page1 dark:hover:bg-bray-800 hover:bg-page2"
+                              className="flex flex-row items-center justify-center w-full mt-6 mx-6 mb-8 h-[56px] border-2 border-pageMenu border-dashed rounded-lg cursor-pointer bg-page1 dark:hover:bg-bray-800 hover:bg-page2"
                             >
                               <div className="flex flex-row items-center justify-center pt-3">
                                 <svg
-                                  className="w-8 h-8 mb-4 text-pageMenu"
+                                  className="w-8 h-8 mb-4 text-pageMenu mx-2"
                                   aria-hidden="true"
                                   xmlns="http://www.w3.org/2000/svg"
                                   fill="none"
@@ -464,11 +550,15 @@ function LakeForm(props) {
                                 </svg>
                                 <p className="mb-2 text-sm text-pageMenu">
                                   <span className="font-page font-extrabold ps-2">
-                                    click to upload
+                                    click to upload photos
+                                  </span>
+                                  <span className="font-page ps-2">
+                                    {`You have uploaded ${previews.length} images`}{" "}
                                   </span>
                                 </p>
                               </div>
                               <input
+                                ref={fileInputRef}
                                 id="dropzone-file"
                                 type="file"
                                 className="hidden"
@@ -491,14 +581,195 @@ function LakeForm(props) {
         </div>
         <div className="p-[4%] md:p-[1.5%] w-full overflow-hidden border-2 border-pageMenu bg-page1">
           <div className="w-full h-full overflow-hidden border-4 border-pageMenu">
-            <span className="flex w-full h-[3rem] bg-page1">photo</span>
-            <span className="flex w-full h-[3rem] bg-page1">photo</span>
-            <span className="flex w-full h-[3rem] bg-page1">photo</span>
-            <span className="flex w-full h-[3rem] bg-page1">photo</span>
-            <span className="flex w-full h-[3rem] bg-page1">photo</span>
+            <span className="flex w-full h-[5rem] bg-page1 overflow-hidden">
+              <div className="relative flex justify-center items-center w-full h-full row-span-1 font-page font-[1000] tracking-tight text-pageMenu text-2xl sm:text-3xl md:text-3xl lg:text-4xl border-b-4 border-pageMenu overflow-hidden">
+                <svg
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 0.1 }}
+                  transition={{ delay: 1.5 }}
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 -5 40 5"
+                  className="absolute h-full overflow-hidden opacity-20"
+                >
+                  <path d="M0 0l2-5h2L2 0H0m4 0l2-5h2L6 0H4m4 0l2-5h2l-2 5H8m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2"></path>
+                </svg>
+                <span className="absolute overflow-hidden">
+                  3. check your photos
+                </span>
+              </div>
+            </span>
+            <div className="w-full h-full grid grid-cols-12">
+              <AnimatePresence>
+                {previews.map((preview, index) => {
+                  return (
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.5 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.5 }}
+                      transition={{ type: "spring", duration: 1.2 }}
+                      // key={index}
+                      className="shadow-xl relative m-10 sm:m-6 items-center justify-center flex col-span-12 sm:col-span-6 md:col-span-4 lg:col-span-3 h-[20rem] sm:h-[15rem] lg:h-[17rem] bg-page2 border-4 border-pageMenu"
+                    >
+                      <img
+                        key={index}
+                        src={preview}
+                        alt={`Preview ${index + 1}`}
+                        className="h-full w-full object-cover"
+                        // style={{objectFit: 'cover'}}
+                      />
+                      <motion.div
+                        onClick={deletePreviewImagesHandler}
+                        initial={{
+                          backgroundColor: "rgba(255, 255, 255)",
+                          opacity: 0.5,
+                        }}
+                        whileHover={{
+                          backgroundColor: "rgba(255, 255, 255)",
+                          opacity: 1,
+                        }}
+                        className="absolute bottom-0 flex justify-center items-center w-full h-1/4 font-page tracking-tight"
+                      >
+                        click to delete
+                      </motion.div>
+                    </motion.div>
+                  );
+                })}
+              </AnimatePresence>
+            </div>
+            {previews.length === 0 && (
+              <span className="flex items-center justify-center py-24 w-full h-[3rem] bg-page1 text-lg">
+                add photos...
+              </span>
+            )}
           </div>
         </div>
+        {!forNewLake && (
+          <div className="p-[4%] md:p-[1.5%] w-full overflow-hidden border-2 border-pageMenu bg-page1">
+            <div className="w-full h-full overflow-hidden border-4 border-pageMenu">
+              <span className="flex w-full h-[5rem] bg-page1 overflow-hidden">
+                <div className="relative flex justify-center items-center w-full h-full row-span-1 font-page font-[1000] tracking-tight text-pageMenu text-2xl sm:text-3xl md:text-3xl lg:text-4xl border-b-4 border-pageMenu overflow-hidden">
+                  <svg
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 0.1 }}
+                    transition={{ delay: 1.5 }}
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 -5 40 5"
+                    className="absolute h-full overflow-hidden opacity-20"
+                  >
+                    <path d="M0 0l2-5h2L2 0H0m4 0l2-5h2L6 0H4m4 0l2-5h2l-2 5H8m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2"></path>
+                  </svg>
+                  <span className="absolute overflow-hidden">
+                    4. delete images
+                  </span>
+                </div>
+              </span>
+              <div className="w-full h-full grid grid-cols-12">
+                <AnimatePresence>
+                  {props.images &&
+                    props.images.map((image) => {
+                      return (
+                        <motion.div
+                          key={image.filename}
+                          initial={{ opacity: 0, scale: 0.5 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          exit={{ opacity: 0, scale: 0.5 }}
+                          transition={{ type: "spring", duration: 1.2 }}
+                          className="shadow-xl relative m-10 sm:m-6 items-center justify-center flex col-span-12 sm:col-span-6 md:col-span-4 lg:col-span-3 h-[20rem] sm:h-[15rem] lg:h-[17rem] bg-page2 border-4 border-pageMenu"
+                        >
+                          <Image
+                            src={image.url}
+                            alt="Hello"
+                            width={1000}
+                            height={1000}
+                            placeholder="blur"
+                            blurDataURL={"/image.png"}
+                            className="w-full h-full object-cover"
+                          />
+                          <motion.div
+                            initial={{
+                              backgroundColor: "#EEE0C9",
+                              opacity: 1,
+                            }}
+                            whileHover={{
+                              backgroundColor: "#F1F0E8",
+                              opacity: 1,
+                            }}
+                            className="absolute bottom-0 flex justify-center items-center w-full h-1/6"
+                          >
+                            <input
+                              className="w-6 h-6 mx-2 flex justify-center items-center saturate-[0.2] brightness-125"
+                              onChange={checkboxChangeHandler}
+                              value={image.filename}
+                              id={image.filename}
+                              type="checkbox"
+                            />
+                            <label
+                              className="w-full h-full flex justify-start items-center font-page tracking-tight"
+                              htmlFor={image.filename}
+                            >
+                              remove?
+                            </label>
+                          </motion.div>
+                        </motion.div>
+                      );
+                    })}
+                </AnimatePresence>
+              </div>
+              {/* {previews.map((preview, index) => {
+              return (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.5 }}
+                  transition={{ type: "spring", duration: 1.2 }}
+                  key={index}
+                  className="relative m-10 sm:m-6 items-center justify-center flex col-span-12 sm:col-span-6 md:col-span-4 lg:col-span-3 h-[25rem] sm:h-[20rem] lg:h-[25rem] bg-page2 border-4 border-pageMenu"
+                >
+                  <img
+                    key={index}
+                    src={preview}
+                    alt={`Preview ${index + 1}`}
+                    className="h-full w-full object-cover"
+                    // style={{objectFit: 'cover'}}
+                  />
+                  <motion.div
+                    onClick={deletePreviewImagesHandler}
+                    initial={{
+                      backgroundColor: "rgba(255, 255, 255)",
+                      opacity: 0.5,
+                    }}
+                    whileHover={{
+                      backgroundColor: "rgba(255, 255, 255)",
+                      opacity: 1,
+                    }}
+                    className="absolute bottom-0 flex justify-center items-center w-full h-1/4"
+                  >
+                    click to delete
+                  </motion.div>
+                </motion.div>
+              );
+            })} */}
+            </div>
+          </div>
+        )}
+        <div className="flex justify-center items-center w-full bg-page2 h-[10rem] border-2 border-pageMenu">
+          <motion.button
+            // animate={{
+            //   filter: ['brightness(0.90)', 'brightness(1.10)']
+            // }}
+            // transition={{
+            //   repeat: Infinity,
+            //   repeatType: "mirror",
+            //   duration: 1.2,
+            // }}
+            whileHover={{scale: 1.1}}
+            className="tracking-tight text-pageMenu text-3xl md:text-4xl lg:text-5xl font-extrabold font-page shadow-xl w-1/2 sm:w-1/3 h-1/2 bg-page3 rounded-lg border-4 border-pageMenu"
+          >
+            upload
+          </motion.button>
+        </div>
       </form>
+      {/* <div onClick={checkHandler}>Checking</div> */}
     </React.Fragment>
   );
 }

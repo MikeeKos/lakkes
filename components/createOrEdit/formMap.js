@@ -109,7 +109,7 @@ function FormMap(props) {
               key="Marker"
               longitude={marker.lng}
               latitude={marker.lat}
-              color="white"
+              color="black"
               draggable
               onDrag={onMarkerDrag}
               onDragEnd={onMarkerDragEnd}

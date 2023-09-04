@@ -33,8 +33,6 @@ function Layout(props) {
           status={activeNotification.status}
         ></Notification>
       )}
-      <div>Hello</div>
-      <hr></hr>
       <Footer />
     </React.Fragment>
   );
