@@ -28,7 +28,6 @@ function HomePage(props) {
     <React.Fragment>
       <div>
         <FirstView lakes={props.lakes}/>
-        <FeaturedPosts lakes={props.lakes} />
       </div>
     </React.Fragment>
   );
