@@ -752,21 +752,23 @@ function LakeForm(props) {
             </div>
           </div>
         )}
-        <div className="flex justify-center items-center w-full bg-page2 h-[10rem] border-2 border-pageMenu">
-          <motion.button
-            // animate={{
-            //   filter: ['brightness(0.90)', 'brightness(1.10)']
-            // }}
-            // transition={{
-            //   repeat: Infinity,
-            //   repeatType: "mirror",
-            //   duration: 1.2,
-            // }}
-            whileHover={{scale: 1.1}}
-            className="tracking-tight text-pageMenu text-3xl md:text-4xl lg:text-5xl font-extrabold font-page shadow-xl w-1/2 sm:w-1/3 h-1/2 bg-page3 rounded-lg border-4 border-pageMenu"
-          >
-            upload
-          </motion.button>
+        <div className="flex justify-center items-center w-full bg-page1 h-[10rem] border-2 border-pageMenu">
+          <div className="flex justify-center items-center w-full mx-5 sm:mx-7 md:mx-4 lg:mx-5 h-[70%] bg-page2 border-4 border-pageMenu">
+            <motion.button
+              // animate={{
+              //   filter: ['brightness(0.90)', 'brightness(1.10)']
+              // }}
+              // transition={{
+              //   repeat: Infinity,
+              //   repeatType: "mirror",
+              //   duration: 1.2,
+              // }}
+              whileHover={{ scale: 1.1 }}
+              className="tracking-tight text-pageMenu text-2xl md:text-3xl lg:text-4xl font-extrabold font-page shadow-xl w-1/2 sm:w-1/3 h-1/2 bg-page3 rounded-lg border-4 border-pageMenu"
+            >
+              upload
+            </motion.button>
+          </div>
         </div>
       </form>
       {/* <div onClick={checkHandler}>Checking</div> */}

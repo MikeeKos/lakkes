@@ -163,7 +163,7 @@ function PostCarousel(props) {
   const direction = props.arrow;
   return (
     <React.Fragment>
-      {direction === "right" && (
+      {direction === "left" && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -186,7 +186,7 @@ function PostCarousel(props) {
           </div>
         </motion.div>
       )}
-      {direction === "left" && (
+      {direction === "right" && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

@@ -84,7 +84,7 @@ function FirstView(props) {
       className="relative w-full h-full flex items-center justify-center"
     >
       <svg
-        className="absolute w-full h-full left-5 opacity-0 sm:opacity-100"
+        className="absolute w-full h-full sm:left-5 opacity-0 sm:opacity-100"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
       >

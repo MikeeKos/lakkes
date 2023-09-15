@@ -3,9 +3,11 @@ import Lake from "../../models/Lake";
 import { connectDatabase } from "../../helpers/db-util";
 import React from "react";
 import mongoose from "mongoose";
+import List from "../../components/lakes/list";
 
 function AllLakesPage(props) {
-  return <AllLakes lakes={props.lakes} />;
+  // return <AllLakes lakes={props.lakes} />;
+  return <List lakes={props.lakes}></List>;
 }
 
 export async function getServerSideProps() {
@@ -18,7 +20,7 @@ export async function getServerSideProps() {
       notFound: true,
     };
   }
-  
+
   try {
     const result = await Lake.find({});
     console.log("CLOSING CONNECTION");

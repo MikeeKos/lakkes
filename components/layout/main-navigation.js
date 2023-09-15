@@ -469,7 +469,7 @@ function MainNavigation() {
         </div>
       </div> */}
 
-      <div className="scale-[1.15] sm:scale-110 font-body flex items-center justify-center h-full">
+      <div className="scale-[1.19] sm:scale-110 font-body flex items-center justify-center h-full">
         <div className="h-full sticky w-min flex items-center justify-center">
           <div className="mx-3 sm:mx-5">
             <Link href="/" className="relative">
