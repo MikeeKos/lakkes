@@ -118,7 +118,8 @@ function FirstView(props) {
 
   return (
     <React.Fragment>
-      <div className="grid grid-cols-12 grid-row-2 h-[85vh] md:h-[60vh] w-full">
+      <div className="w-full h-[30rem] bg-page1 border-2 border-pageMenu"></div>
+      <div className="grid grid-cols-12 grid-row-2 h-[45rem] md:h-[30rem] w-full">
         <div className="bg-page1 col-span-12 md:col-span-4 md:row-span-2 border-2 border-pageMenu w-full overflow-hidden h-full">
           <MainWelcome />
         </div>
@@ -126,7 +127,6 @@ function FirstView(props) {
           <CluserMap lakes={props.lakes} />
         </div>
       </div>
-
       <div className="grid grid-cols-12 grid-row-7 h-[45rem] w-full">
         <div className="row-span-1 col-span-12 h-full w-full">
           <div className="grid grid-cols-12 w-full h-full">
@@ -146,7 +146,7 @@ function FirstView(props) {
           <PostCarousel lakes={props.lakes} arrow={arrowClicked}/>
         </div>
       </div>
-      <div className="w-full h-[40rem] border-2 border-pageMenu">
+      <div className="w-full h-[40rem] border-2 border-pageMenu bg-page2">
         <Display />
       </div>
     </React.Fragment>

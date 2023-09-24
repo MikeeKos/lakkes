@@ -7,7 +7,7 @@ import mongoose from "mongoose";
 function SingleLakePage(props) {
   return (
     <React.Fragment>
-      <LakeContent lake={props.lake} lakeAuthorName={props.lakeAuthorName} />;
+      <LakeContent lake={props.lake} lakeAuthorName={props.lakeAuthorName} />
     </React.Fragment>
   );
 }

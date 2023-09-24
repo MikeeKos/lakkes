@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import CluserMap from "../home-page/cluser-map";
 import { motion } from "framer-motion";
 import ImageCarousel from "./image-carousel";
 import Link from "next/link";
+import ListClusterMap from "./list-cluster-map";
 
 function List(props) {
+  // const [zoomLevel, setZoomLevel] = useState(5);
+  const [sateliteMap, setSateliteMap] = useState(false);
+
   const lakes = props.lakes;
   // lakes.map((el) => {
   //   return (
@@ -69,6 +73,62 @@ function List(props) {
     </div>
   );
 
+  // const zoomInHandler = () => {
+  //   setZoomLevel((prevLevel) => prevLevel + 1);
+  // }
+
+  const normalMapSVG = (
+    // <svg
+    //   xmlns="http://www.w3.org/2000/svg"
+    //   fill="#383434"
+    //   viewBox="0 0 24 24"
+    //   className="hover:scale-110 duration-100 w-[80%] h-[80%] sm:w-[70%] sm:h-[70%] md:w-[70%] md:h-[70%]"
+    // >
+    //   <g fill="#000" fillRule="evenodd" clipRule="evenodd">
+    //     <path d="M4 11a7 7 0 1114 0 7 7 0 01-14 0zm7-9a9 9 0 105.618 16.032l3.675 3.675a1 1 0 001.414-1.414l-3.675-3.675A9 9 0 0011 2z"></path>
+    //     <path d="M10 14a1 1 0 102 0v-2h2a1 1 0 100-2h-2V8a1 1 0 10-2 0v2H8a1 1 0 100 2h2v2z"></path>
+    //   </g>
+    // </svg>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      className="hover:scale-110 duration-100 w-[80%] h-[80%] sm:w-[70%] sm:h-[70%] md:w-[70%] md:h-[70%]"
+      onClick={() => setSateliteMap(false)}
+    >
+      <g stroke="#383434" strokeLinecap="round">
+        <path
+          strokeWidth={2}
+          d="M8.574 20.352l3.381-6.763a.05.05 0 01.09 0l3.381 6.763c.022.044-.026.09-.07.066l-3.331-1.904a.05.05 0 00-.05 0l-3.332 1.904c-.043.025-.091-.021-.07-.066zM20.5 18.5l-4-15M3.5 18.5l4-15M12 10.5v-2M12 5.5v-2"
+        ></path>
+      </g>
+    </svg>
+  );
+
+  const sateliteMapSVG = (
+    // <svg
+    //   xmlns="http://www.w3.org/2000/svg"
+    //   fill="#383434"
+    //   viewBox="0 0 20 20"
+    //   className="hover:scale-110 duration-100 w-[80%] h-[80%] sm:w-[70%] sm:h-[70%] md:w-[70%] md:h-[70%]"
+    // >
+    //   <path
+    //     fill="#000"
+    //     fillRule="evenodd"
+    //     d="M9 4a5 5 0 100 10A5 5 0 009 4zM2 9a7 7 0 1112.6 4.2.999.999 0 01.107.093l3 3a1 1 0 01-1.414 1.414l-3-3a.999.999 0 01-.093-.107A7 7 0 012 9zm10.5 0a1 1 0 00-1-1h-5a1 1 0 100 2h5a1 1 0 001-1z"
+    //   ></path>
+    // </svg>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      className="hover:scale-110 duration-100 w-[80%] h-[80%] sm:w-[70%] sm:h-[70%] md:w-[70%] md:h-[70%]"
+      onClick={() => setSateliteMap(true)}
+      fill="#383434"
+    >
+      <path d="M18 10a4 4 0 10-4-4 4 4 0 004 4zm0-6a2 2 0 11-2 2 2 2 0 012-2zm-1.15 8.47a1 1 0 00-1.7 0l-1 1.63-3.29-5.6a1 1 0 00-1.72 0l-7 12A1 1 0 003 22h18a1 1 0 00.85-1.53zM10.45 20H4.74L10 11l2.94 5-1.25 2zm2.35 0l1.49-2.37.71-1.06 1-1.68L19.2 20z"></path>
+    </svg>
+  );
+
   return (
     <React.Fragment>
       {/* <div className="bg-page3 w-full h-[10rem] border-2 border-pageMenu">
@@ -77,16 +137,17 @@ function List(props) {
       <div className="border-2 border-pageMenu">{listSlider}</div>
       <div className="w-full h-[30rem] md:h-[20rem] bg-page2 md:bg-page1 border-2 border-pageMenu">
         <div className="w-full h-full md:grid md:grid-cols-12">
-          <div className="w-full h-[20rem] md:h-full md:col-span-11">
-            <CluserMap lakes={props.lakes}/>
+          <div className="w-full h-[25rem] md:h-full md:col-span-11 bg-page1">
+            {/* <CluserMap lakes={props.lakes} /> */}
+            <ListClusterMap lakes={props.lakes} sateliteMap={sateliteMap}/>
           </div>
-          <div className="w-full h-[10rem] md:h-full md:col-span-1">
+          <div className="w-full h-[5rem] md:h-full md:col-span-1">
             <div className="flex w-full h-full md:grid md:grid-rows-2">
               <div className="flex items-center justify-center w-1/2 md:w-full h-full md:row-span-1 border-e-2 border-t-4 md:border-0 md:border-b-2 md:border-s-4 border-pageMenu">
-                +
+                {normalMapSVG}
               </div>
               <div className="flex items-center justify-center w-1/2 md:w-full h-full md:row-span-1 border-s-2 border-t-4 md:border-0 md:border-t-2 md:border-s-4 border-pageMenu">
-                -
+                {sateliteMapSVG}
               </div>
             </div>
           </div>

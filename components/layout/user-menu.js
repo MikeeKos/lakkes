@@ -52,7 +52,7 @@ function UserMenu() {
               ? "var(--scale-hover-1)"
               : "var(--scale-animate-1)",
           }}
-          className="sm:border-b-[0.2em] border-b-[0.18em] border-pageMenu rounded-sm z-10 sm:[--scale-hover-1:6rem] sm:[--scale-animate-1:2.5rem] [--scale-hover-1:4.5rem] [--scale-animate-1:2rem]"
+          className="sm:border-b-[0.2em] border-b-[0.18em] border-pageMenu rounded-sm z-10 sm:[--scale-hover-1:6rem] sm:[--scale-animate-1:2.5rem] [--scale-hover-1:5rem] [--scale-animate-1:2.4rem]"
           onMouseEnter={homepageHandleMouseEnter}
           onMouseLeave={homepageHandleMouseLaeve}
           onClick={homepageOnClickHandler}
@@ -63,7 +63,7 @@ function UserMenu() {
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
-                className="w-8 h-8 sm:w-10 sm:h-10"
+                className="m-1 sm:m-0 w-8 h-8 sm:w-10 sm:h-10"
               >
                 <g
                   stroke="#383434"

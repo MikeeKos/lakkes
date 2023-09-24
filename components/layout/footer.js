@@ -15,7 +15,7 @@ function Footer() {
         <div className="w-full h-full grid grid-cols-12">
           <div className="w-full h-full col-span-7">
             <div className="w-full h-full grid grid-cols-12">
-              <div className="font-page w-full h-full col-span-4 md:col-span-2 flex justify-center items-center text-sm sm:text-lg text-page1 tracking-wider px-1 sm:px-2">
+              <div className="font-page w-full h-full col-span-4 md:col-span-2 flex justify-center items-center text-xs sm:text-lg text-page1 tracking-wider px-1 sm:px-2">
                 begin your adventure →
               </div>
               <div className="relative w-full h-full col-span-4 md:col-span-8 flex justify-center items-center">

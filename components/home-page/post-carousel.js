@@ -155,6 +155,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import CarouselElement from "./carousel-element";
 import CarouselDescription from "./carousel-description";
+import MainWelcome from "./main-welcome";
 
 function PostCarousel(props) {
   // const carouselArray = props.lakes.slice(0, 3);
@@ -170,14 +171,14 @@ function PostCarousel(props) {
           transition={{ duration: 0.9 }}
           className="w-full h-full grid grid-cols-12 grid-rows-2"
         >
-          <div className="p-[4%] sm:col-span-6 sm:row-span-2 col-span-12 row-span-1 border-2 border-pageMenu">
+          <div className="p-[4%] md:col-span-6 md:row-span-2 col-span-12 row-span-1 border-2 border-pageMenu">
             <div className="relative w-full h-full">
               <div className="absolute w-full h-full border-4 border-pageMenu">
                 Hi
               </div>
             </div>
           </div>
-          <div className="p-[4%] sm:col-span-6 sm:row-span-2 col-span-12 row-span-1 border-2 border-pageMenu">
+          <div className="p-[4%] md:col-span-6 md:row-span-2 col-span-12 row-span-1 border-2 border-pageMenu">
             <div className="relative w-full h-full">
               <div className="absolute w-full h-full border-4 border-pageMenu">
                 Hi
