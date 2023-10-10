@@ -61,7 +61,7 @@ function LakeContent(props) {
   const handleText = `↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text}`;
 
   const firstSlider = (
-    <div className="w-full h-[6rem] overflow-hidden bg-page2 md:bg-page3">
+    <div className="w-full h-[6rem] overflow-hidden bg-page2">
       <div className="relative flex items-center justify-center w-full h-full overflow-hidden">
         <motion.span
           animate={{
@@ -73,7 +73,7 @@ function LakeContent(props) {
             duration: 90,
             delay: 5,
           }}
-          className="whitespace-nowrap absolute bottom-[1px] text-7xl font-page font-[1000] tracking-tight text-page1 md:text-page4 overflow-hidden"
+          className="whitespace-nowrap absolute bottom-[1px] text-7xl font-page font-[1000] tracking-tight text-page1 overflow-hidden"
         >
           {handleText}
         </motion.span>
@@ -128,7 +128,7 @@ function LakeContent(props) {
 
   return (
     <React.Fragment>
-      <div className="w-full h-[0rem] md:h-[4rem] md:border-y-2 md:border-x-2 md:border-pageMenu md:bg-page2 overflow-hidden flex justify-center items-center">
+      {/* <div className="w-full h-[0rem] md:h-[4rem] md:border-y-2 md:border-x-2 md:border-pageMenu md:bg-page2 overflow-hidden flex justify-center items-center">
         <svg
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.1 }}
@@ -139,7 +139,7 @@ function LakeContent(props) {
         >
           <path d="M0 0l2-5h2L2 0H0m4 0l2-5h2L6 0H4m4 0l2-5h2l-2 5H8m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2"></path>
         </svg>
-      </div>
+      </div> */}
       <div className="w-full h-[60rem] md:h-[30rem] overflow-hidden bg-page1 border-x-2 border-pageMenu">
         <div className="w-full h-full md:grid md:grid-cols-12">
           <div className="w-hull h-1/2 md:h-full md:col-span-5 border-2 border-pageMenu">
@@ -198,8 +198,8 @@ function LakeContent(props) {
           </div>
         </div>
       </div>
-      <div className="relative w-full h-[40rem] md:h-[28rem] overflow-hidden bg-page2 flex justify-center items-center border-y-2 md:border-b-4 md:border-x-2 border-pageMenu">
-        <svg
+      <div className="relative w-full h-[40rem] md:h-[20rem] overflow-hidden bg-page2 flex justify-center items-center md:border-x-2 border-pageMenu">
+        {/* <svg
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.1 }}
           transition={{ delay: 1.5 }}
@@ -208,8 +208,8 @@ function LakeContent(props) {
           className="z-10 top-0 absolute h-[0rem] md:h-[4rem] overflow-hidden opacity-20"
         >
           <path d="M0 0l2-5h2L2 0H0m4 0l2-5h2L6 0H4m4 0l2-5h2l-2 5H8m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2"></path>
-        </svg>
-        <div className="w-full h-[40rem] md:h-[20rem] overflow-hidden border-x-2 md:border-x-0 border-b-2 md:border-t-2 border-pageMenu">
+        </svg> */}
+        <div className="w-full h-[40rem] md:h-[20rem] overflow-hidden border-x-2 md:border-x-0 border-b-2 border-pageMenu">
           <div className="w-full h-full md:grid md:grid-cols-12">
             <div className="flex w-hull h-[30%] md:h-full md:col-span-5 border-2 border-pageMenu bg-page1">
               <div className="flex items-center justify-center w-1/2 h-full border-e-2 border-pageMenu">
@@ -359,7 +359,7 @@ function LakeContent(props) {
             </div>
           </div>
         </div>
-        <svg
+        {/* <svg
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.1 }}
           transition={{ delay: 1.5 }}
@@ -368,7 +368,7 @@ function LakeContent(props) {
           className="z-10 bottom-0 absolute h-[0rem] md:h-[4rem] overflow-hidden opacity-20"
         >
           <path d="M0 0l2-5h2L2 0H0m4 0l2-5h2L6 0H4m4 0l2-5h2l-2 5H8m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2"></path>
-        </svg>
+        </svg> */}
       </div>
       <CommentsBlock eventId={lakeId} />
     </React.Fragment>

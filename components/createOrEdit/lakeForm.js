@@ -6,7 +6,7 @@
 // otherwise it renders data in <input />'s elements and functions as edit form
 
 import React, { useState, useContext, useEffect, useRef } from "react";
-import classes from "./lakeForm.module.css";
+// import classes from "./lakeForm.module.css";
 import { useRouter } from "next/router";
 // import { mutate } from "swr";
 import NotificationContext from "../../store/notification-context";
@@ -18,7 +18,9 @@ import dynamic from "next/dynamic";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { Switch } from "@mui/material";
+import { useSession } from "next-auth/react";
 // import { Switch } from "@mui/material";
+import Link from "next/link";
 
 function LakeForm(props) {
   // const FormMap = dynamic(() => import("./formMap"), {
@@ -29,6 +31,7 @@ function LakeForm(props) {
   //     </div>
   //   ),
   // });
+  const { data: session, status } = useSession();
 
   const fileInputRef = useRef();
 
@@ -44,6 +47,7 @@ function LakeForm(props) {
   const [previews, setPreviews] = useState([]);
   const [checkboxArray, setCheckboxArray] = useState([]);
   const [sateliteMap, setSateliteMap] = useState(false);
+  const [errorArray, setErrorArray] = useState([]);
 
   const [form, setForm] = useState({
     title: lakeForm.title,
@@ -168,6 +172,7 @@ function LakeForm(props) {
 
   function submitFormHandler(event) {
     event.preventDefault();
+    setErrorArray([]);
     const errors = formValidate();
 
     if (Object.keys(errors).length === 0) {
@@ -191,9 +196,21 @@ function LakeForm(props) {
       console.log(errors);
       notificationCtx.showNotification({
         title: "Error!",
-        message: "Invalid user data (FORMVALIDATE FAILED)",
+        message: "Invalid data, please correct your form",
         status: "error",
       });
+      // Object.keys(errors).forEach((key) => {
+      //   console.log("ERRRRRRRORRRR");
+      //   console.log(errors[key]);
+      //   setErrorArray((prev) => [...prev, { [key]: errors[key] }]);
+      // });
+      Object.keys(errors).forEach((key) => {
+        setErrorArray((prev) => [...prev, { type: key, message: errors[key] }]);
+      });
+      console.log(
+        "HERE CHEKING FOR ERROR ARRAY _ _  _ _ _ _ _ _  __ _ _ _ _ _ _ _ _"
+      );
+      console.log(errorArray);
     }
   }
 
@@ -250,6 +267,12 @@ function LakeForm(props) {
 
   //client side validation
   const formValidate = () => {
+    console.log("START CHECKING");
+    console.log(form.title);
+    console.log(form.description);
+    console.log(form.location);
+    console.log(form.latitude);
+    console.log(form.longitude);
     let err = {};
     if (!form.title) {
       err.title = "Title is required";
@@ -271,6 +294,16 @@ function LakeForm(props) {
       if (!filesArray || filesArray.length === 0) {
         err.images = "Images are required";
       }
+    }
+    if (form.title.length < 1 || form.title.length > 30) {
+      err.titleLength = "Title should be between 1 and 30 characters";
+    }
+    if (form.description.length < 1 || form.description.length > 1000) {
+      err.descriptionLength =
+        "Description should be between 1 and 1000 characters";
+    }
+    if (form.location.length < 1 || form.location.length > 30) {
+      err.locationLength = "Location should be between 1 and 30 characters";
     }
     return err;
   };
@@ -349,6 +382,57 @@ function LakeForm(props) {
             </motion.span>
           </div>
         </div>
+        {errorArray.length !== 0 && (
+          <div className="w-full h-[15rem] bg-page1 border-2 border-pageMenu">
+            <div className="w-full h-full grid grid-cols-12">
+              <div className="w-full h-full col-span-3 bg-pageMenu border-e-4 border-pageMenu p-3 text-center flex items-center justify-center">
+                <span className="font-body text-page1 font-bold text-xl">
+                  What's wrong with your form?
+                </span>
+              </div>
+              <div className="w-full h-full col-span-9 bg-page1 p-5 overflow-y-scroll">
+                <ul>
+                  {errorArray.map((error, index) => (
+                    <li
+                      className="font-page text-base tracking-wide text-pageMenu p-1"
+                      key={index}
+                    >
+                      <span className="text-2xl font-page text-pageMenu">
+                        •
+                      </span>{" "}
+                      {error.message}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        )}
+        {!session && (
+          <div className="flex justify-center items-center w-full bg-page1 h-[15rem] border-2 border-pageMenu">
+            <div className="w-full h-full grid grid-cols-12">
+              <div className="w-full h-full border-e-4 border-pageMenu col-span-4 bg-page2 flex items-center justify-center border-b-4">
+                <div className="w-4/5 sm:w-3/5 lg:w-1/2 h-1/3 flex items-center justify-center">
+                  <Link href="/auth" className="w-full h-full">
+                    <motion.div
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
+                      className="tracking-tight text-pageMenu text-2xl md:text-3xl lg:text-4xl font-extrabold font-page shadow-xl w-full h-full bg-page3 border-4 border-pageMenu flex items-center justify-center hover:cursor-pointer"
+                    >
+                      log in
+                    </motion.div>
+                  </Link>
+                </div>
+              </div>
+              <div className="w-full h-full col-span-8 flex items-center justify-center p-5">
+                <div className="flex items-center justify-center py-24 w-full h-[3rem] bg-page1 text-sm sm:text-lg border-4 border-pageMenu shadow-lg p-5">
+                  You are not logged in. You can test the form, but you cannot
+                  add your own lake. Please log in.
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
         <div className="grid grid-cols-12 grid-row-2 h-[100rem] sm:h-[90rem] md:h-[50rem] w-full overflow-hidden">
           <div className="bg-page1 min-h-[20rem] col-span-12 row-span-1 md:col-span-5 md:row-span-2 border-2 border-pageMenu w-full h-full overflow-hidden">
             <div className="w-full h-full p-[4%] shadow-xl overflow-hidden">
@@ -437,7 +521,7 @@ function LakeForm(props) {
                             name="title"
                             value={form.title}
                             onChange={handleChange}
-                            helperText="choose a title that best describes this place"
+                            helperText="choose a title that best describes this place (1-30 characters)"
                           />
                         </div>
                         <div className="saturate-[0.2] brightness-125 col-span-2 sm:col-span-1 flex items-center justify-center">
@@ -457,7 +541,7 @@ function LakeForm(props) {
                             name="location"
                             value={form.location}
                             onChange={handleChange}
-                            helperText="e.g. city / mountain range / national park"
+                            helperText="e.g. city / mountain range / national park (1-30 characters)"
                           />
                         </div>
                         <div className="saturate-[0.2] brightness-125 col-span-2 sm:col-span-1 flex items-center justify-center">
@@ -523,7 +607,7 @@ function LakeForm(props) {
                             multiline
                             value={form.description}
                             onChange={handleChange}
-                            helperText="describe this place, important information about it, whether it's visited by many people or not"
+                            helperText="describe this place, important information about it, whether it's visited by many people or not (1-1000 characters)"
                           />
                         </div>
                         <div className="col-span-2 sm:col-span-2 flex items-center justify-center">
@@ -752,24 +836,26 @@ function LakeForm(props) {
             </div>
           </div>
         )}
-        <div className="flex justify-center items-center w-full bg-page1 h-[10rem] border-2 border-pageMenu">
-          <div className="flex justify-center items-center w-full mx-5 sm:mx-7 md:mx-4 lg:mx-5 h-[70%] bg-page2 border-4 border-pageMenu">
-            <motion.button
-              // animate={{
-              //   filter: ['brightness(0.90)', 'brightness(1.10)']
-              // }}
-              // transition={{
-              //   repeat: Infinity,
-              //   repeatType: "mirror",
-              //   duration: 1.2,
-              // }}
-              whileHover={{ scale: 1.1 }}
-              className="tracking-tight text-pageMenu text-2xl md:text-3xl lg:text-4xl font-extrabold font-page shadow-xl w-1/2 sm:w-1/3 h-1/2 bg-page3 rounded-lg border-4 border-pageMenu"
-            >
-              upload
-            </motion.button>
+        {session && (
+          <div className="flex justify-center items-center w-full bg-page1 h-[10rem] border-2 border-pageMenu">
+            <div className="flex justify-center items-center w-full mx-5 sm:mx-7 md:mx-4 lg:mx-5 h-[70%] bg-page2 border-4 border-pageMenu">
+              <motion.button
+                // animate={{
+                //   filter: ['brightness(0.90)', 'brightness(1.10)']
+                // }}
+                // transition={{
+                //   repeat: Infinity,
+                //   repeatType: "mirror",
+                //   duration: 1.2,
+                // }}
+                whileHover={{ scale: 1.1 }}
+                className="tracking-tight text-pageMenu text-2xl md:text-3xl lg:text-4xl font-extrabold font-page shadow-xl w-1/2 sm:w-1/3 h-1/2 bg-page3 rounded-lg border-4 border-pageMenu"
+              >
+                upload
+              </motion.button>
+            </div>
           </div>
-        </div>
+        )}
       </form>
       {/* <div onClick={checkHandler}>Checking</div> */}
     </React.Fragment>

@@ -59,6 +59,8 @@ const handler = async (req, res) => {
           return res.status(500).json({ message: "Something went wrong" });
         }
         const uploadedImages = req.files;
+        console.log("REQ FILES CHECKING IF THERE ARE 10 FILES")
+        console.log(req.files.length)
         const fileSchema = Joi.object({
           fieldname: Joi.string().required(),
           originalname: Joi.string().required(),
@@ -74,6 +76,14 @@ const handler = async (req, res) => {
           return res
             .status(422)
             .json({ message: "Uploaded files are not valid" });
+        }
+
+        //check if there are correct number of files for validation
+        if (req.files.length < 1 || req.files.length > 10) {
+          req.files.map(async (file) => {
+            await uploader.destroy(file.filename, { invalidate: true });
+          });
+          return res.status(400).json({ message: "You must add between 1 and 10 images" });
         }
 
         //Check data validity
@@ -95,9 +105,9 @@ const handler = async (req, res) => {
             .json({ message: "Data could not be processed" });
         }
         const JSONPayloadSchema = Joi.object({
-          title: Joi.string().required(),
-          description: Joi.string().required(),
-          location: Joi.string().required(),
+          title: Joi.string().min(1).max(30).required(),
+          description: Joi.string().min(1).max(1000).required(),
+          location: Joi.string().min(1).max(30).required(),
           longitude: Joi.number().min(-180).max(180).required(),
           latitude: Joi.number().min(-90).max(90).required(),
         });

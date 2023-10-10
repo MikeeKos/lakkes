@@ -12,8 +12,8 @@ function ListOfComments(props) {
 
   return (
     <React.Fragment>
-      <div className="w-full h-full p-5">
-        <div className="w-full h-full border-4 border-pageMenu p-3">
+      <div className="w-full h-full p-5 shadow-xl bg-page2 md:bg-page1">
+        <div className="w-full h-full border-4 border-pageMenu p-3 bg-page1 shadow-xl">
           <div className="flex flex-row">
             <svg
               xmlns="http://www.w3.org/2000/svg"

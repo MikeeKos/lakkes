@@ -6,7 +6,7 @@ const LakeSchema = new mongoose.Schema({
     type: String,
     required: true,
     minlength: [1, "Title cannot be shorter than 1"],
-    maxlength: [100, "Title cannot be more than 100 characters"],
+    maxlength: [30, "Title cannot be more than 100 characters"],
   },
   subtitle: {
     type: String,
@@ -24,7 +24,7 @@ const LakeSchema = new mongoose.Schema({
     type: String,
     required: true,
     minlength: [1, "Location must have at least 1 character"],
-    maxlength: [200, "Location cannot be more than 200 characters"],
+    maxlength: [30, "Location cannot be more than 200 characters"],
   },
   comments: [
     {
@@ -62,5 +62,9 @@ const LakeSchema = new mongoose.Schema({
     ref: "User",
   },
 });
+
+LakeSchema.path("images").validate(function (images) {
+  return images.length <= 10;
+}, "Images array must have less than 10 elements.");
 
 export default mongoose.models.Lake || mongoose.model("Lake", LakeSchema);

@@ -91,7 +91,7 @@ function CommentsBlock(props) {
       <div
         className={`w-full h-[8rem] ${
           showComments ? "border-b-4" : "border-b-2"
-        } border-x-4 border-pageMenu flex items-center justify-center bg-page1`}
+        } border-x-4 border-pageMenu flex items-center justify-center bg-page1 md:bg-page2`}
       >
         <motion.button
           whileHover={{ scale: 1.05 }}
@@ -117,8 +117,8 @@ function CommentsBlock(props) {
       </div>
       <AnimatePresence>
         {comments && showComments && (
-          <div className="relative w-full h-[57rem] md:h-[38rem] md:border-b-2 md:border-pageMenu bg-page2 flex justify-center items-center md:border-x-4">
-            <svg
+          <div className="relative w-full h-[57rem] md:h-[30rem] md:border-pageMenu bg-page2 flex justify-center items-center md:border-x-4">
+            {/* <svg
               initial={{ opacity: 0 }}
               animate={{ opacity: 0.1 }}
               transition={{ delay: 1.5 }}
@@ -127,15 +127,15 @@ function CommentsBlock(props) {
               className="z-10 top-0 absolute h-[0rem] md:h-[4rem] overflow-hidden opacity-20"
             >
               <path d="M0 0l2-5h2L2 0H0m4 0l2-5h2L6 0H4m4 0l2-5h2l-2 5H8m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2"></path>
-            </svg>
+            </svg> */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.5 }}
-              className="w-full h-[57rem] md:h-[30rem] bg-page1 md:grid md:grid-cols-12 md:border-t-4 md:border-pageMenu"
+              className="w-full h-[57rem] md:h-[30rem] bg-page1 md:grid md:grid-cols-12 md:border-pageMenu"
             >
-              <div className="w-full h-[50%] md:h-full border-b-2 md:border-b-4 border-x-4 md:border-s-0 md:border-e-2 border-pageMenu md:col-span-4">
+              <div className="w-full h-[50%] md:h-full border-b-2 border-x-4 md:border-s-0 md:border-e-2 border-pageMenu md:col-span-4">
                 <div className="relative w-full h-[6rem] bg-page4 border-b-4 border-pageMenu flex items-center justify-center">
                   <span className="absolute text-center whitespace-nowrap text-4xl md:text-[2rem] lg:text-[2.8rem] font-page font-[1000] tracking-tight text-page1 overflow-hidden">
                     add comment
@@ -144,18 +144,18 @@ function CommentsBlock(props) {
                     add comment
                   </span>
                 </div>
-                <div className="w-full h-full py-5 overflow-hidden">
+                <div className="w-full h-full py-5 overflow-hidden scale-90 sm:scale-100">
                   <AddComment onAddComment={addCommentHandler} />
 
                   {/* <div className="w-full h-[calc(100%-6rem)] border-4 border-pageMenu"></div> */}
                 </div>
               </div>
-              <div className="w-full h-[50%] md:h-full border-y-2 md:border-b-4 border-x-4 md:border-s-2 md:border-e-0 md:border-t-0 border-pageMenu md:col-span-8">
+              <div className="w-full h-[50%] md:h-full border-y-2 md:border-b-2 border-x-4 md:border-s-2 md:border-e-0 md:border-t-0 border-pageMenu md:col-span-8">
                 {/* <ListOfComments /> */}
                 <ListOfComments items={comments} />
               </div>
             </motion.div>
-            <svg
+            {/* <svg
               initial={{ opacity: 0 }}
               animate={{ opacity: 0.1 }}
               transition={{ delay: 1.5 }}
@@ -164,7 +164,7 @@ function CommentsBlock(props) {
               className="z-10 bottom-0 absolute h-[0rem] md:h-[4rem] lg:h-[3.9rem] overflow-hidden opacity-20"
             >
               <path d="M0 0l2-5h2L2 0H0m4 0l2-5h2L6 0H4m4 0l2-5h2l-2 5H8m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2"></path>
-            </svg>
+            </svg> */}
           </div>
         )}
       </AnimatePresence>

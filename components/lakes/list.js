@@ -39,7 +39,7 @@ function List(props) {
     "↓ all lakes ↓ all lakes ↓ all lakes ↓ all lakes ↓ all lakes ↓ all lakes ↓ all lakes ↓ all lakes ↓ all lakes ↓ all lakes ↓ all lakes ↓ all lakes ↓ all lakes ↓ all lakes ↓ all lakes ↓ all lakes ↓ all lakes ↓ all lakes ↓ all lakes ↓ all lakes ↓ all lakes ↓ all lakes ↓ all lakes ↓ all lakes";
 
   const listSlider = (
-    <div className="w-full h-[6rem] overflow-hidden bg-page2">
+    <div className="w-full h-[5rem] overflow-hidden bg-page2">
       <div className="relative flex items-center justify-center w-full h-full overflow-hidden">
         <motion.span
           animate={{
@@ -51,7 +51,7 @@ function List(props) {
             duration: 90,
             delay: 5,
           }}
-          className="whitespace-nowrap absolute bottom-[1px] text-7xl font-page font-[1000] tracking-tight text-page1 overflow-hidden"
+          className="whitespace-nowrap absolute bottom-[-3px] text-7xl font-page font-[1000] tracking-tight text-page1 overflow-hidden"
         >
           {handleText}
         </motion.span>
@@ -139,7 +139,7 @@ function List(props) {
         <div className="w-full h-full md:grid md:grid-cols-12">
           <div className="w-full h-[25rem] md:h-full md:col-span-11 bg-page1">
             {/* <CluserMap lakes={props.lakes} /> */}
-            <ListClusterMap lakes={props.lakes} sateliteMap={sateliteMap}/>
+            <ListClusterMap lakes={props.lakes} sateliteMap={sateliteMap} />
           </div>
           <div className="w-full h-[5rem] md:h-full md:col-span-1">
             <div className="flex w-full h-full md:grid md:grid-rows-2">
@@ -202,6 +202,18 @@ function List(props) {
             );
           })}
         </div>
+      </div>
+      <div className="w-full h-[0rem] md:h-[5rem] md:border-y-2 md:border-x-2 md:border-pageMenu bg-page1 overflow-hidden flex justify-center items-center">
+        <svg
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.1 }}
+          transition={{ delay: 1.5 }}
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 -5 40 5"
+          className="absolute h-[0rem] md:h-[5rem] overflow-hidden opacity-20"
+        >
+          <path d="M0 0l2-5h2L2 0H0m4 0l2-5h2L6 0H4m4 0l2-5h2l-2 5H8m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2"></path>
+        </svg>
       </div>
     </React.Fragment>
   );

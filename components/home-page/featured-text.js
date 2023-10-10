@@ -31,7 +31,7 @@ function FeaturedText() {
           duration: 90,
           delay: 5,
         }}
-        className="opacity-90 whitespace-nowrap absolute text-7xl font-page font-[1000] tracking-tight text-pageBlack overflow-hidden"
+        className="whitespace-nowrap absolute text-7xl font-page font-[1000] tracking-tight text-pageMenu overflow-hidden"
       >
         ↓ fetaured ↓ featured ↓ featured ↓ featured ↓ featured ↓ featured ↓ featured ↓ featured
         ↓ fetaured ↓ featured ↓ featured ↓ featured ↓ featured ↓ featured ↓ featured ↓ featured

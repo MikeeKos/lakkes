@@ -3,7 +3,7 @@ import React from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { motion } from "framer-motion";
 
-function CarouselDescription(props) {
+function CarouselDescriptionSide(props) {
   const num = props.lakeNumber;
   const lake = props.lakes[num];
 
@@ -28,16 +28,16 @@ function CarouselDescription(props) {
   const copyToClipboardText = `${lake.geometry.coordinates[1]}, ${lake.geometry.coordinates[0]}`;
 
   return (
-    <div className="absolute w-full h-full overflow-hidden">
+    <div className="absolute w-full h-full overflow-hidden border-t-4 border-pageMenu sm:border-t-4 sm:border-s-0 md:border-t-0 md:border-s-4">
       <div className="relative w-full h-full bg-page1 grid row-span-3 font-page">
         <Link
           href={`/list/${lake._id}`}
-          className="h-[2.4rem] truncate px-2 pt-2 me-2 text-2xl font-bold tracking-tight text-pageMenu"
+          className="h-[2.0rem] sm:h-[2.4rem] truncate px-1 pt-0 me-2 text-2xl font-bold tracking-tight text-pageMenu"
         >
           {lake.title}
         </Link>
 
-        <span className="h-[1.4rem] flex items-center truncate px-2 font-normal text-xs text-pageMenu opacity-50">
+        <span className="h-[1.29rem] sm:h-[1.4rem] flex items-center truncate px-2 font-normal text-xs text-pageMenu opacity-50">
           <div>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -54,7 +54,7 @@ function CarouselDescription(props) {
           </div>
           <div>{lake.location}</div>
         </span>
-        <span className="h-[1.4rem] flex items-center truncate px-2 font-normal text-xs text-pageMenu opacity-50">
+        <span className="h-[1.29rem] sm:h-[1.4rem] flex items-center truncate px-2 font-normal text-xs text-pageMenu opacity-50 sm:opacity-0 md:opacity-50">
           <div>
             <CopyToClipboard text={copyToClipboardText}>
               <motion.svg
@@ -83,12 +83,12 @@ function CarouselDescription(props) {
             </CopyToClipboard>
           </div>
         </span>
-        <Link href={`/list/${lake._id}`}>
+        <Link href={`/list/${lake._id}`} className="opacity-0 sm:opacity-100">
           <span className="ps-2 text-ellipsis text-xs sm:text-sm line-clamp-2 sm:line-clamp-3 overflow-hidden h-[2.1rem] sm:h-[4.5em]">
             {lake.description}
           </span>
         </Link>
-        <div className="h-[3rem]"></div>
+        <div className="h-[3rem] opacity-0 sm:opacity-100"></div>
         <Link href={`/list/${lake._id}`}>
           <div className="hover:cursor-pointer absolute bottom-0 bg-page2 hover:bg-page1 duration-200 flex justify-center items-center w-full h-[1.5rem] sm:h-[1.8rem] md:h-[2rem] border-t-4 border-pageMenu">
             {goArrow}
@@ -101,4 +101,4 @@ function CarouselDescription(props) {
   );
 }
 
-export default CarouselDescription;
+export default CarouselDescriptionSide;

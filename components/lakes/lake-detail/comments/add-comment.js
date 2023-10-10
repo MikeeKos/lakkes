@@ -1,8 +1,10 @@
 import TextField from "@mui/material/TextField";
 import { motion } from "framer-motion";
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useContext } from "react";
+import NotificationContext from "../../../../store/notification-context";
 
 function AddComment(props) {
+  const notificationCtx = useContext(NotificationContext);
   const [isInvalid, setIsInvalid] = useState(false);
 
   // const emailInputRef = useRef();
@@ -18,8 +20,7 @@ function AddComment(props) {
     // const enteredComment = commentInputRef.current.value;
     const enteredComment = commentText;
 
-    console.log("KURWA TUTAJ")
-    console.log(enteredComment)
+    console.log(enteredComment);
 
     //client side validation
     // if (
@@ -46,15 +47,23 @@ function AddComment(props) {
 
   const cancelHandler = () => {
     setCommentText("");
-  }
+    // notificationCtx.showNotification({
+    //   title: "success!",
+    //   message: "successfully cancelled comment and added comment to database hello",
+    //   status: "pending",
+    // });
+  };
 
   const changeHandler = (event) => {
-    setCommentText(event.target.value)
-  }
+    setCommentText(event.target.value);
+  };
 
   return (
     <React.Fragment>
-      <form className="w-full h-[calc(100%-6rem)] flex flex-col items-center justify-center px-5" onSubmit={sendCommentHandler}>
+      <form
+        className="w-full h-[calc(100%-6rem)] flex flex-col items-center justify-center px-5"
+        onSubmit={sendCommentHandler}
+      >
         <TextField
           // maxRows={8}
           rows={8}

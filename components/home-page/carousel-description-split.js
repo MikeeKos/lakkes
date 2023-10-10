@@ -3,7 +3,7 @@ import React from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { motion } from "framer-motion";
 
-function CarouselDescription(props) {
+function CarouselDescriptionSplit(props) {
   const num = props.lakeNumber;
   const lake = props.lakes[num];
 
@@ -83,7 +83,7 @@ function CarouselDescription(props) {
             </CopyToClipboard>
           </div>
         </span>
-        <Link href={`/list/${lake._id}`}>
+        <Link href={`/list/${lake._id}`} className="opacity-100 sm:opacity-0 md:opacity-100">
           <span className="ps-2 text-ellipsis text-xs sm:text-sm line-clamp-2 sm:line-clamp-3 overflow-hidden h-[2.1rem] sm:h-[4.5em]">
             {lake.description}
           </span>
@@ -101,4 +101,4 @@ function CarouselDescription(props) {
   );
 }
 
-export default CarouselDescription;
+export default CarouselDescriptionSplit;

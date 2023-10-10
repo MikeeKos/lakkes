@@ -482,7 +482,7 @@ function MainNavigation() {
                       ? "var(--scale-hover-1)"
                       : "var(--scale-animate-1)",
                   }}
-                  className="sm:border-b-[0.2em] border-b-[0.18em] border-pageMenu rounded-sm z-10 sm:[--scale-hover-1:8rem] sm:[--scale-animate-1:2.25rem] [--scale-hover-1:5.8rem] [--scale-animate-1:1.8rem]"
+                  className="relative sm:border-b-[0.2em] border-b-[0.18em] border-pageMenu rounded-sm z-10 sm:[--scale-hover-1:8rem] sm:[--scale-animate-1:2.25rem] [--scale-hover-1:5.8rem] [--scale-animate-1:1.8rem]"
                   onMouseEnter={homepageHandleMouseEnter}
                   onMouseLeave={homepageHandleMouseLaeve}
                   onClick={homepageOnClickHandler}

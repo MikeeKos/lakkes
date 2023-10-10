@@ -8,11 +8,11 @@ function MainWelcome() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="relative h-full w-full grid place-items-center saturate-50"
+        className="relative h-full w-full grid place-items-center saturate-50 scale-90"
       >
-        <div className="opacity-90 flex items-center justify-center relative z-10 sm:text-[5em] text-[4em] text-justify p-5 w-full h-full">
-          <span className="p-4 sm:p-6 absolute font-page font-[1000] tracking-tight text-page1">find a place to rest</span>
-          <span className="p-2 absolute font-page font-[1000] tracking-tight text-pageBlack">find a place to rest</span>
+        <div className="flex items-center justify-center relative z-10 sm:text-[5em] text-[4em] text-center w-full h-full">
+          <span className="absolute top-[95px] right-[-10px] min-[379px]:top-[124px] min-[652px]:top-[92px] min-[778px]:top-[172px] min-[910px]:top-[196px] min-[1028px]:top-[138px] min-[1350px]:top-[172px] font-page text-page1 font-extrabold text-6xl sm:text-8xl md:text-5xl lg:text-7xl">find a place on the map</span>
+          <span className="absolute font-page text-pageMenu font-extrabold text-6xl sm:text-8xl md:text-5xl lg:text-7xl">find a place on the map</span>
         </div>
         <motion.div
           // initial={{

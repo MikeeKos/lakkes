@@ -435,7 +435,7 @@ function CluserMap(props) {
             // zoom: 3,
             longitude: 19.701310233479273,
             latitude: 51.54748821096632,
-            zoom: 5,
+            zoom: 3,
             // pitch: 40,
           }}
           pitch={40}
