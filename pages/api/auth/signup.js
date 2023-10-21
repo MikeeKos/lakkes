@@ -18,7 +18,7 @@ async function handler(req, res) {
   //server side validation
   if (!email || !password || !username) {
     res.status(422).json({
-      message: "Invalid input - email and password must exist",
+      message: "Email and password must exist",
     });
     return;
   }
@@ -28,6 +28,25 @@ async function handler(req, res) {
     client = await connectDatabase();
   } catch (error) {
     res.status(500).json({ message: error });
+    return;
+  }
+
+  if (password.length < 8) {
+    res
+      .status(422)
+      .json({ message: "password must be longer than 8 characters" });
+    return;
+  }
+
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  const isValidEmail = emailRegex.test(email);
+  if (!isValidEmail) {
+    res.status(422).json({ message: "please use valid email" });
+    return;
+  }
+
+  if (username.length > 30) {
+    res.status(422).json({ message: "username cannot be longer than 30 characters" });
     return;
   }
 
@@ -41,7 +60,11 @@ async function handler(req, res) {
     }
 
     const hashedPassword = await hashPassword(password);
-    const user = new User({ email: email, password: hashedPassword, username: username });
+    const user = new User({
+      email: email,
+      password: hashedPassword,
+      username: username,
+    });
     await user.save();
     res.status(201).json({ message: "successfully created user" });
   } catch (error) {

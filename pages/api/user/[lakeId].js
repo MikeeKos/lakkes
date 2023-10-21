@@ -113,7 +113,7 @@ async function handler(req, res) {
         }
         const JSONPayloadSchema = Joi.object({
           title: Joi.string().min(1).max(30).required(),
-          description: Joi.string().min(1).max(1000).required(),
+          description: Joi.string().min(1).max(5000).required(),
           location: Joi.string().min(1).max(30).required(),
           longitude: Joi.number().min(-180).max(180).required(),
           latitude: Joi.number().min(-90).max(90).required(),

@@ -337,6 +337,7 @@ import "@mapbox/mapbox-gl-geocoder/lib/mapbox-gl-geocoder.css";
 import React, { useEffect, useRef, useState } from "react";
 import GeocoderControl from "./geocoder";
 import Link from "next/link";
+import Image from "next/image";
 
 function CluserMap(props) {
   const [selectedLake, setSelectedLake] = useState();
@@ -460,10 +461,15 @@ function CluserMap(props) {
               key={lake._id}
               longitude={lake.geometry.coordinates[0]}
               latitude={lake.geometry.coordinates[1]}
-              color="white"
+              color="black"
+              anchor="top"
+              onClick={() => {
+                setSelectedLake(lake);
+                // setFlyToCoordinates(lake.geometry.coordinates);
+              }}
             >
-              <div>
-                <button
+              {/* <div> */}
+              {/* <div
                   onClick={(event) => {
                     event.preventDefault();
                     setSelectedLake(lake);
@@ -471,8 +477,8 @@ function CluserMap(props) {
                   }}
                 >
                   {lake.title}
-                </button>
-                {/* <Link href={`/list/${lake._id}`}>
+                </div> */}
+              {/* <Link href={`/list/${lake._id}`}>
                   <div>
                     CLICK HERE
                     <svg
@@ -485,7 +491,7 @@ function CluserMap(props) {
                     </svg>
                   </div>
                 </Link> */}
-              </div>
+              {/* </div> */}
             </Marker>
           ))}
           {selectedLake && (
@@ -500,8 +506,20 @@ function CluserMap(props) {
             >
               <div>
                 <Link href={`/list/${selectedLake._id}`}>
-                  {selectedLake.title}
+                  {selectedLake.title} →
                 </Link>
+                <div className="mt-2 w-[10rem] h-[5rem]">
+                  <Image
+                    src={selectedLake.images[0].url}
+                    alt="Image"
+                    placeholder="blur"
+                    height={1000}
+                    width={1000}
+                    blurDataURL={selectedLake.images[0].url}
+                    className="absolute w-[90%] h-[65%] object-cover overflow-hidden"
+                  />
+                </div>
+                {/* <img width="100%" src={selectedLake.images[0].url}></img> */}
               </div>
             </Popup>
           )}

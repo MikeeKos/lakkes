@@ -91,7 +91,7 @@ function CommentsBlock(props) {
       <div
         className={`w-full h-[8rem] ${
           showComments ? "border-b-4" : "border-b-2"
-        } border-x-4 border-pageMenu flex items-center justify-center bg-page1 md:bg-page2`}
+        } border-x-4 border-pageMenu flex items-center justify-center bg-page1`}
       >
         <motion.button
           whileHover={{ scale: 1.05 }}

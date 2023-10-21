@@ -49,7 +49,7 @@ function Logo() {
 
   return (
     <Link href="/">
-      <div className="flex items-center justify-center w-full h-full font-body overflow-hidden">
+      <div className="flex items-center justify-center w-full h-full font-body overflow-hidden shadow-[inset_0_-4px_8px_rgba(0,0,0,0.2)]">
         <motion.div
           initial={{ width: "var(--scale-animate-1)" }}
           whileHover={{ width: "var(--scale-hover-1)" }}

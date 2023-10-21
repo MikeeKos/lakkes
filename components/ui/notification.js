@@ -85,7 +85,7 @@ function Notification(props) {
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
-      className="w-8 h-8 sm:w-10 sm:h-10 hover:scale-110 active:scale-90 duration-100"
+      className="w-8 h-8 sm:w-10 sm:h-10 hover:scale-110 active:scale-90 duration-100 hover:cursor-pointer"
     >
       <g>
         <g>

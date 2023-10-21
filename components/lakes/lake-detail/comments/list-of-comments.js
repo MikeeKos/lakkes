@@ -52,8 +52,8 @@ function ListOfComments(props) {
             </div>
           )}
           {items.length === 0 && (
-            <div className="w-full h-[18rem] flex items-center justify-center pb-8">
-              <span className="font-page text-2xl sm:text-5xl md:text-4xl lg:text-5xl text-pageMenu font-extrabold tracking-wide text-center overflow-hidden">
+            <div className="w-full h-[18rem] flex items-center justify-center pb-8 bg-page1">
+              <span className="font-page text-2xl sm:text-5xl md:text-4xl lg:text-5xl text-pageMenu font-extrabold tracking-wide text-center overflow-hidden bg-page1 p-5">
                 no comments yet...
               </span>
             </div>

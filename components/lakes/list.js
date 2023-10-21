@@ -93,7 +93,7 @@ function List(props) {
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
-      className="hover:scale-110 duration-100 w-[80%] h-[80%] sm:w-[70%] sm:h-[70%] md:w-[70%] md:h-[70%]"
+      className="hover:scale-110 duration-100 w-[80%] h-[80%] sm:w-[70%] sm:h-[70%] md:w-[70%] md:h-[70%] hover:cursor-pointer"
       onClick={() => setSateliteMap(false)}
     >
       <g stroke="#383434" strokeLinecap="round">
@@ -121,7 +121,7 @@ function List(props) {
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
-      className="hover:scale-110 duration-100 w-[80%] h-[80%] sm:w-[70%] sm:h-[70%] md:w-[70%] md:h-[70%]"
+      className="hover:scale-110 duration-100 w-[80%] h-[80%] sm:w-[70%] sm:h-[70%] md:w-[70%] md:h-[70%] hover:cursor-pointer"
       onClick={() => setSateliteMap(true)}
       fill="#383434"
     >
@@ -135,61 +135,110 @@ function List(props) {
         <span>Hello</span>
       </div> */}
       <div className="border-2 border-pageMenu">{listSlider}</div>
-      <div className="w-full h-[30rem] md:h-[20rem] bg-page2 md:bg-page1 border-2 border-pageMenu">
-        <div className="w-full h-full md:grid md:grid-cols-12">
-          <div className="w-full h-[25rem] md:h-full md:col-span-11 bg-page1">
-            {/* <CluserMap lakes={props.lakes} /> */}
-            <ListClusterMap lakes={props.lakes} sateliteMap={sateliteMap} />
-          </div>
-          <div className="w-full h-[5rem] md:h-full md:col-span-1">
-            <div className="flex w-full h-full md:grid md:grid-rows-2">
-              <div className="flex items-center justify-center w-1/2 md:w-full h-full md:row-span-1 border-e-2 border-t-4 md:border-0 md:border-b-2 md:border-s-4 border-pageMenu">
-                {normalMapSVG}
-              </div>
-              <div className="flex items-center justify-center w-1/2 md:w-full h-full md:row-span-1 border-s-2 border-t-4 md:border-0 md:border-t-2 md:border-s-4 border-pageMenu">
-                {sateliteMapSVG}
+      <div className="w-full h-[48.1rem] md:h-[38.1rem] bg-page1 border-2 border-pageMenu p-5 overflow-hidden">
+        <div className="w-full h-full border-2 border-pageMenu shadow-xl">
+          <div className="w-full h-[30rem] md:h-[20rem] grid grid-cols-12">
+            <div className="relative w-full h-full col-span-2 border-2 border-pageMenu flex items-center justify-center lg:hover:bg-pageMenu lg:duration-700">
+              <span className="underline underline-offset-6 absolute w-full h-full flex items-center justify-center rotate-[270deg] font-page tracking-wide font-extrabold text-2xl sm:text-3xl md:text-xl text-pageMenu whitespace-nowrap lg:opacity-0">
+                find your perfect place
+              </span>
+              <span className="absolute w-full h-full flex items-center justify-center font-page tracking-wider font-extrabold lg:text-4xl text-pageMenu opacity-0 lg:opacity-100 px-5 hover:text-page1 lg:duration-700">
+                find your perfect place
+              </span>
+            </div>
+            <div className="w-full h-full col-span-10 border-2 border-pageMenu">
+              <div className="w-full h-[30rem] md:h-[20rem] bg-page2 md:bg-page1">
+                <div className="w-full h-full md:grid md:grid-cols-12">
+                  <div className="w-full h-[25rem] md:h-full md:col-span-11 bg-page1 md:border-b-2 md:border-pageMenu">
+                    {/* <CluserMap lakes={props.lakes} /> */}
+                    <ListClusterMap
+                      lakes={props.lakes}
+                      sateliteMap={sateliteMap}
+                    />
+                  </div>
+                  <div className="w-full h-[5rem] md:h-full md:col-span-1">
+                    <div className="flex w-full h-full md:grid md:grid-rows-2">
+                      <div className="flex items-center justify-center w-1/2 md:w-full h-full md:row-span-1 border-e-2 border-t-4 md:border-0 md:border-b-2 md:border-s-4 border-pageMenu">
+                        {normalMapSVG}
+                      </div>
+                      <div className="flex items-center justify-center w-1/2 md:w-full h-full md:row-span-1 border-s-2 border-t-4 md:border-0 md:border-t-2 md:border-s-4 border-pageMenu">
+                        {sateliteMapSVG}
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div className="w-full h-[15rem] grid grid-cols-12 grid-rows-6 border-b-2 border-t-2 border-pageMenu bg-page1">
-        <div className="col-span-5 row-span-1 flex ps-3 justify-start items-center font-page tracking-wide text-pageMenu">
-          {" "}
-          / ⇨ /list
-        </div>
-        <div className="col-span-7 row-span-1"></div>
-        <div className="col-span-8 row-span-2 font-page tracking-wider font-extrabold ps-3 text-pageMenu flex justify-start items-center">
-          <span className="text-3xl sm:text-4xl">list of lakes</span>
-        </div>
-        <div className="col-span-4 row-span-2">
-          <div className="w-full h-full p-3">
-            <div className="hover:scale-105 duration-100 w-full h-full border-4 bg-page2 border-pageMenu flex justify-center items-center shadow-[0px_4px_16px_rgba(17,17,26,0.05),_0px_8px_24px_rgba(17,17,26,0.05),_0px_16px_56px_rgba(17,17,26,0.05)]">
-              <Link
-                href={"/add"}
-                className="text-pageMenu font-page text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold drop-shadow-2xl"
-              >
-                add lake
+          <div className="w-full h-[15rem] grid grid-cols-12">
+            <div className="w-full h-full col-span-2 border-2 border-pageMenu border-b-4 flex items-center justify-center bg-page1 hover:bg-page2 md:bg-page2 duration-500 border-t-4">
+              <Link href="#lakes">
+                <motion.svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="-0.5 0 20 20"
+                  whileHover={{ scale: 1.05 }}
+                  className="w-10 h-10 sm:w-20 sm:h-20 lg:w-24 lg:h-24"
+                >
+                  <g>
+                    <g
+                      fill="none"
+                      fillRule="evenodd"
+                      stroke="none"
+                      strokeWidth="1"
+                    >
+                      <g fill="#383434" transform="translate(-420 -760)">
+                        <g transform="translate(56 160)">
+                          <path d="M369.277 604c.583 0 1.055-.448 1.055-1v-2c0-.552-.472-1-1.055-1-.582 0-1.055.448-1.055 1v2c0 .552.473 1 1.055 1m4.02 10.464l-1.915 1.683c-.332.315-1.05.092-1.05-.354v-5.136c0-.553-.472-1-1.055-1-.582 0-1.055.447-1.055 1v5.134c0 .446-.419.669-.75.354l-1.746-1.681a1.02 1.02 0 00-1.431 0c-.413.39-.382 1.024.03 1.415l3.37 3.18.385.356c.824.78 2.166.78 2.989 0l3.739-3.537a.963.963 0 00.012-1.414 1.138 1.138 0 00-1.523 0m9.48-6.104l-4.123 2.156a1.088 1.088 0 01-1.33-.122.973.973 0 01.137-1.524l1.259-.87h-8.963c-.582 0-1.059-.414-1.059-.967 0-.71.679-.967 1.05-.967l5.314-.007.404-4.318c.337-.957 1.284-1.526 2.327-1.328l3.744.332c.986.187 1.456 1.008 1.456 1.961v4.835c0 .329.07.633-.217.819"></path>
+                        </g>
+                      </g>
+                    </g>
+                  </g>
+                </motion.svg>
               </Link>
             </div>
+            <div className="w-full h-full col-span-10 border-2 border-pageMenu">
+              <div className="w-full h-[15rem] grid grid-cols-12 grid-rows-6 border-b-2 border-t-2 border-pageMenu bg-page1">
+                <div className="col-span-5 row-span-1 flex ps-3 justify-start items-center font-page tracking-wide text-pageMenu">
+                  {" "}
+                  / ⇨ /list
+                </div>
+                <div className="col-span-7 row-span-1"></div>
+                <div className="col-span-8 row-span-2 font-page tracking-wider font-extrabold ps-3 text-pageMenu flex justify-start items-center">
+                  <span className="text-2xl sm:text-4xl">list of lakes</span>
+                </div>
+                <div className="col-span-4 row-span-2">
+                  <div className="w-full h-full p-3">
+                    <Link
+                      href={"/add"}
+                      className="hover:scale-105 active:scale-95 duration-300 w-full h-full border-4 bg-page2 border-pageMenu flex justify-center items-center shadow-[0px_4px_16px_rgba(17,17,26,0.05),_0px_8px_24px_rgba(17,17,26,0.05),_0px_16px_56px_rgba(17,17,26,0.05)]"
+                    >
+                      <div className="text-pageMenu font-page text-md sm:text-2xl md:text-3xl lg:text-4xl font-extrabold drop-shadow-2xl">
+                        add
+                      </div>
+                    </Link>
+                  </div>
+                </div>
+                <div className="col-span-8 row-span-1 flex ps-3 justify-start items-center font-page tracking-wide text-pageMenu">
+                  number of lakes:{" "}
+                  <span className="font-bold ps-1">{lakes.length}</span>
+                </div>
+                <div className="col-span-4 row-span-1"></div>
+                <div className="col-span-12 row-span-2 flex justify-center items-center underline font-page text-xs sm:text-base">
+                  <span>lakes on page: &#40; {lakes.length} &#41;</span>
+                  <span className="ps-3">
+                    lakes in Poland: &#40; {lakesInPoland.length} &#41;
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        <div className="col-span-8 row-span-1 flex ps-3 justify-start items-center font-page tracking-wide text-pageMenu">
-          number of lakes:{" "}
-          <span className="font-bold ps-1">{lakes.length}</span>
-        </div>
-        <div className="col-span-4 row-span-1"></div>
-        <div className="col-span-12 row-span-2 flex justify-center items-center underline font-page ">
-          <span>lakes on page: &#40; {lakes.length} &#41;</span>
-          <span className="ps-3">
-            lakes in Poland: &#40; {lakesInPoland.length} &#41;
-          </span>
-        </div>
       </div>
+
       {/* <div className="w-full h-[25rem] border-2 border-pageMenu">
         <CluserMap lakes={lakes} />
       </div> */}
-      <div className="w-full h-full bg-page2">
+      <div className="w-full h-full bg-page2" id="lakes">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 border-2 border-pageMenu">
           {lakes.map((el) => {
             return (

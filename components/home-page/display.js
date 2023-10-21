@@ -42,7 +42,7 @@ function Display() {
   }, []);
 
   return (
-    <div className="relative w-full h-full flex items-center">
+    <div className="relative w-full h-full flex items-center shadow-[inset_0_-12px_24px_rgba(0,0,0,0.2)]">
       <AnimatePresence>
         {!isInView && (
           <motion.div
@@ -50,7 +50,7 @@ function Display() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ delay: 2.25 }}
-            className="absolute w-full h-full bg-page1 z-20 flex items-center justify-center"
+            className="absolute w-full h-full bg-page1 z-20 flex items-center justify-center shadow-[inset_0_-8px_16px_rgba(0,0,0,0.2)]"
           >
             <div className="w-full h-full grid grid-rows-2 grid-cols-2">
               <div className="w-full h-full col-span-2 row-span-1 border-b-4 border-pageMenu flex items-center justify-center">
@@ -58,7 +58,7 @@ function Display() {
                   how to contribute?
                 </span>
               </div>
-              <div className="w-full h-full col-span-1 row-span-1 border-e-4 border-pageMenu bg-page2 flex items-center justify-center">
+              <div className="w-full h-full col-span-1 row-span-1 border-e-4 border-pageMenu bg-page2 flex items-center justify-center shadow-[inset_0_-8px_16px_rgba(0,0,0,0.2)]">
                 <motion.span
                   animate={{
                     scale: [1, 0.95],

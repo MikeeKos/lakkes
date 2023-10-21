@@ -21,7 +21,15 @@ function AdminPanelPage(props) {
   }, [router, status]);
 
   if (status === "loading") {
-    return <div>Loading...</div>;
+    return (
+      <div>
+        <div className="w-full h-[30rem] border-2 border-pageMenu flex items-center justify-center bg-page1">
+          <span className="font-page text-2xl sm:text-5xl md:text-4xl lg:text-5xl text-pageMenu font-extrabold tracking-wide text-center overflow-hidden p-5 bg-page1">
+            loading...
+          </span>
+        </div>
+      </div>
+    );
   }
 
   if (status === "authenticated") {

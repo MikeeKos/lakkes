@@ -1,9 +1,11 @@
 import Link from "next/link";
-import React from "react";
+import React, {useContext} from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { motion } from "framer-motion";
+import NotificationContext from "../../store/notification-context";
 
 function CarouselDescriptionSide(props) {
+  const notificationCtx = useContext(NotificationContext);
   const num = props.lakeNumber;
   const lake = props.lakes[num];
 
@@ -27,12 +29,20 @@ function CarouselDescriptionSide(props) {
 
   const copyToClipboardText = `${lake.geometry.coordinates[1]}, ${lake.geometry.coordinates[0]}`;
 
+  const showCopyNotification = () => {
+    notificationCtx.showNotification({
+      title: "success!",
+      message: "The coordinates have been copied to the clipboard",
+      status: "success",
+    });
+  }
+
   return (
     <div className="absolute w-full h-full overflow-hidden border-t-4 border-pageMenu sm:border-t-4 sm:border-s-0 md:border-t-0 md:border-s-4">
       <div className="relative w-full h-full bg-page1 grid row-span-3 font-page">
         <Link
           href={`/list/${lake._id}`}
-          className="h-[2.0rem] sm:h-[2.4rem] truncate px-1 pt-0 me-2 text-2xl font-bold tracking-tight text-pageMenu"
+          className="h-[2.0rem] sm:h-[2.4rem] truncate px-1 pt-0 me-2 text-2xl font-bold tracking-tight text-pageMenu md:pt-2 md:ps-2"
         >
           {lake.title}
         </Link>
@@ -55,7 +65,7 @@ function CarouselDescriptionSide(props) {
           <div>{lake.location}</div>
         </span>
         <span className="h-[1.29rem] sm:h-[1.4rem] flex items-center truncate px-2 font-normal text-xs text-pageMenu opacity-50 sm:opacity-0 md:opacity-50">
-          <div>
+          <div onClick={showCopyNotification}>
             <CopyToClipboard text={copyToClipboardText}>
               <motion.svg
                 initial={{ scale: 1 }}
@@ -74,7 +84,7 @@ function CarouselDescriptionSide(props) {
               </motion.svg>
             </CopyToClipboard>
           </div>
-          <div className="truncate">
+          <div className="truncate" onClick={showCopyNotification}>
             <CopyToClipboard text={copyToClipboardText}>
               <span className="hover:underline hover:cursor-pointer">
                 copy : {lake.geometry.coordinates[1]},{" "}
@@ -83,8 +93,8 @@ function CarouselDescriptionSide(props) {
             </CopyToClipboard>
           </div>
         </span>
-        <Link href={`/list/${lake._id}`} className="opacity-0 sm:opacity-100">
-          <span className="ps-2 text-ellipsis text-xs sm:text-sm line-clamp-2 sm:line-clamp-3 overflow-hidden h-[2.1rem] sm:h-[4.5em]">
+        <Link href={`/list/${lake._id}`} className="opacity-0 sm:opacity-100 relative">
+          <span className="absolute w-full ps-2 text-ellipsis text-xs sm:text-sm line-clamp-2 sm:line-clamp-3 overflow-hidden h-[2.1rem] sm:h-[4.5em] break-words">
             {lake.description}
           </span>
         </Link>

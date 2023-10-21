@@ -1,9 +1,11 @@
 import Link from "next/link";
-import React from "react";
+import React, {useContext} from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { motion } from "framer-motion";
+import NotificationContext from "../../store/notification-context";
 
 function CarouselDescriptionSplit(props) {
+  const notificationCtx = useContext(NotificationContext);
   const num = props.lakeNumber;
   const lake = props.lakes[num];
 
@@ -26,6 +28,14 @@ function CarouselDescriptionSplit(props) {
   );
 
   const copyToClipboardText = `${lake.geometry.coordinates[1]}, ${lake.geometry.coordinates[0]}`;
+
+  const showCopyNotification = () => {
+    notificationCtx.showNotification({
+      title: "success!",
+      message: "The coordinates have been copied to the clipboard",
+      status: "success",
+    });
+  }
 
   return (
     <div className="absolute w-full h-full overflow-hidden">
@@ -55,7 +65,7 @@ function CarouselDescriptionSplit(props) {
           <div>{lake.location}</div>
         </span>
         <span className="h-[1.4rem] flex items-center truncate px-2 font-normal text-xs text-pageMenu opacity-50">
-          <div>
+          <div onClick={showCopyNotification}>
             <CopyToClipboard text={copyToClipboardText}>
               <motion.svg
                 initial={{ scale: 1 }}
@@ -74,7 +84,7 @@ function CarouselDescriptionSplit(props) {
               </motion.svg>
             </CopyToClipboard>
           </div>
-          <div className="truncate">
+          <div className="truncate" onClick={showCopyNotification}>
             <CopyToClipboard text={copyToClipboardText}>
               <span className="hover:underline hover:cursor-pointer">
                 copy : {lake.geometry.coordinates[1]},{" "}
@@ -83,8 +93,8 @@ function CarouselDescriptionSplit(props) {
             </CopyToClipboard>
           </div>
         </span>
-        <Link href={`/list/${lake._id}`} className="opacity-100 sm:opacity-0 md:opacity-100">
-          <span className="ps-2 text-ellipsis text-xs sm:text-sm line-clamp-2 sm:line-clamp-3 overflow-hidden h-[2.1rem] sm:h-[4.5em]">
+        <Link href={`/list/${lake._id}`} className="opacity-100 sm:opacity-0 md:opacity-100 relative">
+          <span className="absolute w-full ps-2 text-ellipsis text-xs sm:text-sm line-clamp-2 sm:line-clamp-3 overflow-hidden h-[2.1rem] sm:h-[4.5em] break-words">
             {lake.description}
           </span>
         </Link>

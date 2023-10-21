@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import NotificationContext from "../../store/notification-context";
 import { useRouter } from "next/router";
-import SlideInNotifications from "../ui/noti";
+// import SlideInNotifications from "../ui/noti";
 
 function Profile(props) {
   const notificationCtx = useContext(NotificationContext);
@@ -50,9 +50,13 @@ function Profile(props) {
     setShowEmail((prevState) => !prevState);
   };
 
-  const deleteLakeHandler = async (event) => {
-    const lakeId = event.target.id;
-    console.log("lakeId is: " + lakeId)
+  const deleteLakeHandler = async (lakeId) => {
+    console.log("CHECK LAKE ID");
+    console.log(lakeId);
+    // const lakeId = event.target.id;
+    // console.log("EVENT ELEMENT")
+    // console.log(event)
+    // console.log("lakeId is: " + lakeId)
     notificationCtx.showNotification({
       title: "delete",
       message: "Deleting your lake",
@@ -72,7 +76,7 @@ function Profile(props) {
         message: "Successfully deleted lake",
         status: "success",
       });
-      router.push('/')
+      router.push("/");
     } catch (error) {
       console.log("___client side try catch error___");
       console.log(error);
@@ -130,7 +134,7 @@ function Profile(props) {
                     </div>
                   </div>
                   <div className="flex items-center justify-center col-span-6 place-items-center">
-                    <span className="font-page font-bold tracking-wide text-[6vw] sm:text-[4vw]">
+                    <span className="font-page font-bold tracking-wide text-xs min-[480px]:text-xl sm:text-xs md:text-sm lg:text-xl text-center me-4 break-all">
                       {props.username}
                     </span>
                   </div>
@@ -187,7 +191,7 @@ function Profile(props) {
                     </span>
                   </div>
                   <div className="flex items-center justify-center col-span-3 place-items-center">
-                    <span className="font-page font-bold tracking-wide text-2xl min-[480px]:text-4xl sm:text-3xl lg:text-4xl">
+                    <span className="font-page font-bold tracking-wide text-xl min-[480px]:text-3xl sm:text-2xl lg:text-3xl overflow-x-scroll me-1">
                       {props.lakes.length}
                     </span>
                   </div>
@@ -209,7 +213,7 @@ function Profile(props) {
                     </span>
                   </div>
                   <div className="flex items-center justify-center col-span-3 place-items-center">
-                    <span className="font-page font-bold tracking-wide text-2xl min-[480px]:text-4xl sm:text-3xl lg:text-4xl">
+                    <span className="font-page font-bold tracking-wide text-xl min-[480px]:text-3xl sm:text-2xl lg:text-3xl overflow-x-scroll me-1">
                       {commentsNumber}
                     </span>
                   </div>
@@ -226,7 +230,7 @@ function Profile(props) {
                   <span className="px-1 sm:px-2 mt-1 w-full text-center sm:text-left font-page text-xl sm:text-4xl tracking-wide font-extrabold text-pageMenu">
                     manage your lakes
                   </span>
-                  <span className="px-1 mt-1 sm:px-2 opacity-25 font-page text-xs tracking-wide font-semibold text-pageMenu">
+                  <span className="px-1 mt-1 sm:px-2 opacity-50 font-page text-xs tracking-wide font-semibold text-pageMenu">
                     Welcome to the user's profile {props.username}. Here, you
                     can check your statistics, edit, delete, and manage your
                     lakes.
@@ -278,64 +282,72 @@ function Profile(props) {
                 </div>
               </div>
             </div>
-            <div className="w-full h-[calc(100%-5.7rem)] border-t-4 border-pageMenu p-5 overflow-y-scroll">
-              {props.lakes.map((el) => {
-                return (
-                  <div
-                    key={el._id}
-                    className="w-full h-[12rem] bg-page1 border-4 border-pageMenu mb-5"
-                  >
-                    <div className="relative w-full h-full grid grid-cols-12">
-                      <div
-                        className={`w-full h-full ${
-                          showLakeModal
-                            ? "absolute z-20"
-                            : "lg:col-span-9 md:col-span-8 sm:col-span-8 col-span-6"
-                        } p-2`}
-                      >
-                        <div className="w-full h-full bg-page1 flex flex-col">
-                          <span className="font-page text-pageMenu font-bold sm:tracking-wide text-[20px] min-[360px]:text-[24px] sm:text-[32px] lg:text-[36px] truncate">
-                            {el.title} - {el.location}
-                          </span>
-                          <span className="font-page text-pageMenu font-bold sm:tracking-wide text-[10px] min-[360px]:text-xs sm:text-base lg:text-lg truncate opacity-50">
-                            {el.subtitle}
-                          </span>
-                          <span className="mt-1 w-full h-[6.7rem] sm:h-[5.8rem] lg:h-[5rem] overflow-y-scroll bg-page1 font-page text-pageMenu font-bold text-[10px] min-[360px]:text-xs overflow-hidden">
-                            {el.description}
-                          </span>
+            {props.lakes.length === 0 && (
+              <div className="w-full h-[calc(100%-5.7rem)] border-t-4 border-pageMenu p-5 overflow-y-scroll flex items-center justify-center">
+                <span className="font-page text-2xl sm:text-5xl md:text-4xl lg:text-5xl text-pageMenu font-extrabold tracking-wide text-center overflow-hidden bg-page1 p-5">
+                  no lakes yet...
+                </span>
+              </div>
+            )}
+            {props.lakes.length !== 0 && (
+              <div className="w-full h-[calc(100%-5.7rem)] border-t-4 border-pageMenu p-5 overflow-y-scroll">
+                {props.lakes.map((el) => {
+                  return (
+                    <div
+                      key={el._id}
+                      className="w-full h-[12rem] bg-page1 border-4 border-pageMenu mb-5 shadow-lg"
+                    >
+                      <div className="relative w-full h-full grid grid-cols-12">
+                        <div
+                          className={`w-full h-full ${
+                            showLakeModal
+                              ? "absolute z-20"
+                              : "lg:col-span-9 md:col-span-8 sm:col-span-8 col-span-6"
+                          } p-2`}
+                        >
+                          <div className="w-full h-full bg-page1 flex flex-col">
+                            <span className="font-page text-pageMenu font-bold sm:tracking-wide text-[20px] min-[360px]:text-[24px] sm:text-[32px] lg:text-[36px] truncate">
+                              {el.title} - {el.location}
+                            </span>
+                            <span className="font-page text-pageMenu font-bold sm:tracking-wide text-[10px] min-[360px]:text-xs sm:text-base lg:text-lg truncate opacity-50">
+                              {el.subtitle}
+                            </span>
+                            <span className="mt-1 w-full h-[6.7rem] sm:h-[5.8rem] lg:h-[5rem] overflow-y-scroll bg-page1 font-page text-pageMenu font-bold text-[10px] min-[360px]:text-xs overflow-hidden break-words">
+                              {el.description}
+                            </span>
+                          </div>
                         </div>
-                      </div>
-                      <div className="w-full h-full lg:col-span-3 md:col-span-4 sm:col-span-4 col-span-6 p-2">
-                        <div className="relative w-full h-full grid grid-cols-2 grid-rows-2 gap-2">
-                          <Link
-                            href={`/list/${el._id}`}
-                            className="w-full h-full col-span-2 row-span-1"
-                          >
-                            <motion.div
-                              whileHover={{ scale: 1.05 }}
-                              whileTap={{ scale: 0.9 }}
-                              className="w-full h-full border-4 border-pageMenu flex items-center justify-center bg-page4 hover:cursor-pointer hover:shadow-2xl duration-100"
+                        <div className="w-full h-full lg:col-span-3 md:col-span-4 sm:col-span-4 col-span-6 p-2">
+                          <div className="relative w-full h-full grid grid-cols-2 grid-rows-2 gap-2">
+                            <Link
+                              href={`/list/${el._id}`}
+                              className="w-full h-full col-span-2 row-span-1"
                             >
-                              <span className="font-page text-pageMenu font-bold sm:tracking-wide text-[10px] min-[360px]:text-xs sm:text-base lg:text-lg text-center">
-                                show this lake
-                              </span>
-                            </motion.div>
-                          </Link>
-                          <Link
-                            href={`/list/${el._id}/edit`}
-                            className="w-full h-full col-span-1 row-span-1"
-                          >
-                            <motion.div
-                              whileHover={{ scale: 1.05 }}
-                              whileTap={{ scale: 0.9 }}
-                              className="w-full h-full border-4 border-pageMenu flex items-center justify-center bg-page1 hover:cursor-pointer hover:shadow-2xl duration-100"
+                              <motion.div
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.9 }}
+                                className="w-full h-full border-4 border-pageMenu flex items-center justify-center bg-page4 hover:cursor-pointer hover:shadow-2xl duration-100"
+                              >
+                                <span className="font-page text-pageMenu font-bold sm:tracking-wide text-[10px] min-[360px]:text-xs sm:text-base lg:text-lg text-center">
+                                  show this lake
+                                </span>
+                              </motion.div>
+                            </Link>
+                            <Link
+                              href={`/list/${el._id}/edit`}
+                              className="w-full h-full col-span-1 row-span-1"
                             >
-                              <span className="font-page text-pageMenu font-bold sm:tracking-wide text-[10px] min-[360px]:text-xs sm:text-base lg:text-lg text-center">
-                                edit
-                              </span>
-                            </motion.div>
-                          </Link>
-                          {/* <motion.div
+                              <motion.div
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.9 }}
+                                className="w-full h-full border-4 border-pageMenu flex items-center justify-center bg-page1 hover:cursor-pointer hover:shadow-2xl duration-100"
+                              >
+                                <span className="font-page text-pageMenu font-bold sm:tracking-wide text-[10px] min-[360px]:text-xs sm:text-base lg:text-lg text-center">
+                                  edit
+                                </span>
+                              </motion.div>
+                            </Link>
+                            {/* <motion.div
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.98 }}
                             className="absolute w-full h-full col-span-1 row-span-1 border-4 border-pageMenu z-20 bg-page2 flex items-center justify-center hover:cursor-pointer hover:shadow-2xl hover:scale-105 duration-100"
@@ -344,24 +356,25 @@ function Profile(props) {
                               are you sure?
                             </span>
                           </motion.div> */}
-                          <motion.div
-                            id={el._id}
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.9 }}
-                            onClick={deleteLakeHandler}
-                            className="w-full h-full col-span-1 row-span-1 border-4 border-pageMenu flex items-center justify-center bg-page2 hover:cursor-pointer hover:shadow-2xl duration-100"
-                          >
-                            <span className="font-page text-pageMenu font-bold sm:tracking-wide text-[10px] min-[360px]:text-xs sm:text-base lg:text-lg text-center">
-                              delete
-                            </span>
-                          </motion.div>
+                            <motion.div
+                              id={el._id}
+                              whileHover={{ scale: 1.05 }}
+                              whileTap={{ scale: 0.9 }}
+                              onClick={() => deleteLakeHandler(el._id)}
+                              className="w-full h-full col-span-1 row-span-1 border-4 border-pageMenu flex items-center justify-center bg-page2 hover:cursor-pointer hover:shadow-2xl duration-100"
+                            >
+                              <span className="font-page text-pageMenu font-bold sm:tracking-wide text-[10px] min-[360px]:text-xs sm:text-base lg:text-lg text-center">
+                                delete
+                              </span>
+                            </motion.div>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                );
-              })}
-            </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
         </div>
       </div>

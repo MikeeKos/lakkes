@@ -195,11 +195,12 @@ function ImageCarousel(props) {
             </CopyToClipboard>
           </div>
         </span>
-        <Link href={`/list/${lake._id}`}>
-          <span className="ps-2 text-ellipsis text-xs sm:text-sm line-clamp-2 sm:line-clamp-3 overflow-hidden h-[2.1rem] sm:h-[4.5em]">
+        <Link href={`/list/${lake._id}`} className="relative">
+          <span className="absolute w-full ps-2 text-ellipsis text-xs sm:text-sm line-clamp-2 sm:line-clamp-3 overflow-hidden h-[2.1rem] sm:h-[4.5em] break-words">
             {lake.description}
           </span>
         </Link>
+        <div className="w-full h-[2.1rem] sm:h-[4.5em]"></div>
         <div className="h-[3rem]"></div>
         <Link href={`/list/${lake._id}`}>
           <div className="hover:cursor-pointer absolute bottom-0 bg-page2 hover:bg-page1 duration-200 flex justify-center items-center w-full h-[1.5rem] sm:h-[1.8rem] md:h-[2rem] border-t-4 border-pageMenu">

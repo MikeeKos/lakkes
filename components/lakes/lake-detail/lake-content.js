@@ -25,43 +25,51 @@ function LakeContent(props) {
   const notificationCtx = useContext(NotificationContext);
   const lakeId = router.query.lakeId;
 
-  async function deleteHandler() {
+  // async function deleteHandler() {
+  //   notificationCtx.showNotification({
+  //     title: "deleting...",
+  //     message: ". . .",
+  //     status: "pending",
+  //   });
+  //   try {
+  //     const response = await fetch(`/api/user/${lakeId}`, {
+  //       method: "DELETE",
+  //     });
+
+  //     if (!response.ok) {
+  //       throw new Error(response.status);
+  //     }
+
+  //     notificationCtx.showNotification({
+  //       title: "success!",
+  //       message: "successfully removed object",
+  //       status: "success",
+  //     });
+  //     router.push("/");
+  //   } catch (error) {
+  //     console.log("___client side try catch error___");
+  //     console.log(error);
+  //     notificationCtx.showNotification({
+  //       title: "Error!",
+  //       message: "Something went wrong, when deleting lake",
+  //       status: "error",
+  //     });
+  //   }
+  // }
+
+  const showCopyNotification = () => {
     notificationCtx.showNotification({
-      title: "deleting...",
-      message: ". . .",
-      status: "pending",
+      title: "success!",
+      message: "The coordinates have been copied to the clipboard",
+      status: "success",
     });
-    try {
-      const response = await fetch(`/api/user/${lakeId}`, {
-        method: "DELETE",
-      });
-
-      if (!response.ok) {
-        throw new Error(response.status);
-      }
-
-      notificationCtx.showNotification({
-        title: "success!",
-        message: "successfully removed object",
-        status: "success",
-      });
-      router.push("/");
-    } catch (error) {
-      console.log("___client side try catch error___");
-      console.log(error);
-      notificationCtx.showNotification({
-        title: "Error!",
-        message: "Something went wrong, when deleting lake",
-        status: "error",
-      });
-    }
   }
 
   const text = props.lake.title.toLowerCase();
   const handleText = `↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text}`;
 
   const firstSlider = (
-    <div className="w-full h-[6rem] overflow-hidden bg-page2">
+    <div className="w-full h-[6rem] overflow-hidden bg-page2 md:bg-page3">
       <div className="relative flex items-center justify-center w-full h-full overflow-hidden">
         <motion.span
           animate={{
@@ -142,8 +150,8 @@ function LakeContent(props) {
       </div> */}
       <div className="w-full h-[60rem] md:h-[30rem] overflow-hidden bg-page1 border-x-2 border-pageMenu">
         <div className="w-full h-full md:grid md:grid-cols-12">
-          <div className="w-hull h-1/2 md:h-full md:col-span-5 border-2 border-pageMenu">
-            <div className="w-full h-full grid grid-cols-12">
+          <div className="w-hull h-1/2 md:h-full md:col-span-5 border-2 border-pageMenu p-5 overflow-hidden bg-page1 md:bg-page2">
+            <div className="w-full h-full grid grid-cols-12 border-4 border-pageMenu shadow-xl bg-page1">
               <div
                 className={`${
                   hightlight ? "shadow-[inset_-50px_-30px_150px_#46464620]" : ""
@@ -152,7 +160,7 @@ function LakeContent(props) {
                 <div className="border-b-4 border-pageMenu">{firstSlider}</div>
                 <div
                   id="yourDivId"
-                  className="font-page text-pageMenu pe-2 m-5 h-[20rem] overflow-y-scroll"
+                  className="font-page text-pageMenu pe-2 m-5 h-[16rem] overflow-y-scroll"
                 >
                   <div className="text-3xl font-bold tracking-wide truncate">
                     {props.lake.title}
@@ -162,7 +170,7 @@ function LakeContent(props) {
                     <span className="pe-1">-</span>
                     <span>{props.lake.subtitle}</span>
                   </div>
-                  <div>{props.lake.description}</div>
+                  <div className="break-words">{props.lake.description}</div>
                 </div>
               </div>
               <div className="w-full h-full col-span-1 border-s-4 border-pageMenu overflow-hidden">
@@ -171,7 +179,7 @@ function LakeContent(props) {
                     // initial={{ scale: 1 }}
                     whileHover={{ scale: 1.25 }}
                     whileTap={{ scale: 0.8 }}
-                    className="text-5xl text-pageMenu"
+                    className="text-5xl text-pageMenu hover:cursor-pointer"
                     onClick={upHandler}
                   >
                     ↑
@@ -182,7 +190,7 @@ function LakeContent(props) {
                     // initial={{ scale: 1 }}
                     whileHover={{ scale: 1.25 }}
                     whileTap={{ scale: 0.8 }}
-                    className="text-5xl text-pageMenu"
+                    className="text-5xl text-pageMenu hover:cursor-pointer"
                     onClick={downHandler}
                   >
                     ↓
@@ -191,8 +199,8 @@ function LakeContent(props) {
               </div>
             </div>
           </div>
-          <div className="w-full h-1/2 md:h-full md:col-span-7 border-2 border-pageMenu md:bg-page1 bg-page2 p-5">
-            <div className="w-full h-full border-4 border-pageMenu bg-page1">
+          <div className="w-full h-1/2 md:h-full md:col-span-7 border-2 border-pageMenu md:bg-page1 bg-page2 p-5 overflow-hidden">
+            <div className="w-full h-full border-4 border-pageMenu bg-page1 shadow-xl">
               <LakeCarousel lake={props.lake} />
             </div>
           </div>
@@ -221,7 +229,7 @@ function LakeContent(props) {
                   </div>
                   <div className="row-span-3 w-full h-full">
                     <div className="grid grid-cols-2 w-full">
-                      <div className="col-span-1 flex justify-end items-center">
+                      <div className="col-span-1 flex justify-end items-center" onClick={showCopyNotification}>
                         <CopyToClipboard text={copyToClipboardText}>
                           <motion.div
                             whileTap={{ scale: 0.7 }}
@@ -245,7 +253,7 @@ function LakeContent(props) {
                           </motion.div>
                         </CopyToClipboard>
                       </div>
-                      <div className="col-span-1 flex justify-start items-center">
+                      <div className="col-span-1 flex justify-start items-center" onClick={showCopyNotification}>
                         <CopyToClipboard text={copyToClipboardText}>
                           <motion.div whileHover={{ scale: 1.1 }}>
                             <span className="font-page text-pageMenu text-base sm:text-ld md:text-xl tracking-wide hover:underline hover:cursor-pointer">
@@ -346,8 +354,8 @@ function LakeContent(props) {
                 </div>
               </div>
             </div>
-            <div className="w-hull h-[70%] md:h-full md:col-span-7 border-2 border-pageMenu bg-page2 md:bg-page1 p-5">
-              <div className="w-full h-full border-4 border-pageMenu bg-page1">
+            <div className="w-hull h-[70%] md:h-full md:col-span-7 border-2 border-pageMenu bg-page2 p-5 overflow-hidden">
+              <div className="w-full h-full border-4 border-pageMenu bg-page1 shadow-xl">
                 <DetailMap
                   sateliteMap={sateliteMap}
                   initialCoordsFromEditPage={{

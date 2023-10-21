@@ -1,10 +1,11 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import classes from "./auth-form.module.css";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import TextField from "@mui/material/TextField";
 import { motion } from "framer-motion";
+import NotificationContext from "../../store/notification-context";
 
 async function createUser(email, password, username) {
   const response = await fetch("/api/auth/signup", {
@@ -18,13 +19,22 @@ async function createUser(email, password, username) {
   const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(data.message || "Something went wrong (AUTH API)");
+    throw new Error(data.message || "Something went wrong when signing in");
+  }
+
+  if (response.ok) {
+    await signIn("credentials", {
+      // redirect: false,
+      email: email,
+      password: password,
+    });
   }
 
   return data;
 }
 
 function AuthForm() {
+  const notificationCtx = useContext(NotificationContext);
   const [isLogin, setIsLogin] = useState(true);
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
@@ -45,6 +55,11 @@ function AuthForm() {
     //client side validation
 
     if (isLogin) {
+      notificationCtx.showNotification({
+        title: "sending your login info...",
+        message: "sending login info for verification",
+        status: "pending",
+      });
       console.log("___CHANGE LOGIN STATE TO SIGN IN___");
       const result = await signIn("credentials", {
         redirect: false,
@@ -54,11 +69,30 @@ function AuthForm() {
 
       console.log(result);
 
+      notificationCtx.showNotification({
+        title: "success!",
+        message: "successfully logged in",
+        status: "success",
+      });
+
+      if (result.error) {
+        notificationCtx.showNotification({
+          title: "Error!",
+          message: "email or password wrong",
+          status: "error",
+        });
+      }
+
       if (!result.error) {
         router.replace("/");
       }
     } else {
       const enteredUsername = usernameInputRef.current.value;
+      notificationCtx.showNotification({
+        title: "sending your register info...",
+        message: "sending register info for verification",
+        status: "pending",
+      });
       try {
         const result = await createUser(
           enteredEmail,
@@ -66,9 +100,36 @@ function AuthForm() {
           enteredUsername
         );
         console.log(result);
+        notificationCtx.showNotification({
+          title: "success!",
+          message: "You are successfully logged in",
+          status: "success",
+        });
       } catch (error) {
+        console.log("REGISTERING ERROR CHECK -> -> ->");
+        notificationCtx.showNotification({
+          title: "Error!",
+          message: error.message,
+          status: "error",
+        });
         console.log(error);
       }
+
+      // try {
+      //   const result = await signIn("credentials", {
+      //     redirect: false,
+      //     email: enteredEmail,
+      //     password: enteredPassword,
+      //   });
+
+      //   console.log(result);
+
+      //   if (!result.error) {
+      //     router.replace("/");
+      //   }
+      // } catch (error) {
+      //   console.log(error);
+      // }
     }
   }
 
@@ -189,7 +250,15 @@ function AuthForm() {
                 <div className="relative col-span-2 sm:col-span-4 w-full h-full border-pageMenu shadow-[inset_0_-16px_32px_rgba(0,0,0,0.5)]">
                   <div className="absolute w-full h-full flex items-center justify-center">
                     <div className="w-full h-full relative flex items-center justify-center">
-                      <span className={`absolute brightness-[4.5] hue-rotate-[90deg] saturate-50 ${isLogin ? "top-[11.2rem] sm:top-[9.3rem]" : "top-[8.3rem] sm:top-[2.4rem]"}`}>{bigText}</span>
+                      <span
+                        className={`absolute brightness-[4.5] hue-rotate-[90deg] saturate-50 ${
+                          isLogin
+                            ? "top-[11.2rem] sm:top-[9.3rem]"
+                            : "top-[8.3rem] sm:top-[2.4rem]"
+                        }`}
+                      >
+                        {bigText}
+                      </span>
                       <span className="absolute ">{bigText}</span>
                     </div>
                   </div>
@@ -197,8 +266,9 @@ function AuthForm() {
                 <div className="col-span-10 sm:col-span-8 relative w-full h-full border-s-4 border-pageMenu shadow-[inset_0_-16px_32px_rgba(0,0,0,0.5)]">
                   <div className="absolute flex items-center justify-center w-full h-full col-span-8">
                     <form
+                      autoComplete="off"
                       onSubmit={submitHandler}
-                      className="mx-6 w-full sm:w-[70%] md:w-[60%] lg:w-[40%] h-[30rem] bg-page1 border-4 border-pageMenu shadow-[inset_0_-8px_16px_rgba(0,0,0,0.6)]"
+                      className="mx-6 w-full sm:w-[70%] md:w-[60%] lg:w-[40%] h-[30rem] bg-page1 border-4 border-pageMenu shadow-[inset_0_-8px_16px_rgba(0,0,0,0.2)]"
                     >
                       <div className="flex justify-center items-center bg-page4 py-5 border-b-4 border-pageMenu shadow-[inset_0_-16px_32px_rgba(0,0,0,0.4)]">
                         <svg
@@ -275,7 +345,7 @@ function AuthForm() {
                       </div>
                       <div className="flex items-center justify-center">
                         <button
-                          className="tracking-tight text-xs sm:text-sm text-pageMenu font-page"
+                          className="tracking-tight text-xs sm:text-sm text-pageMenu font-page hover:underline"
                           type="button"
                           onClick={switchAuthModeHandler}
                         >

@@ -37,7 +37,7 @@ export const authOptions = {
           // client.close();
           console.log("CLOSING CONNECTION");
           mongoose.connection.close();
-          throw new Error("No user was found!");
+          throw new Error("wrong email or password");
         }
 
         console.log("user= ", user);
@@ -52,7 +52,7 @@ export const authOptions = {
           // client.close();
           console.log("CLOSING CONNECTION");
           mongoose.connection.close();
-          throw new Error("Invalid password! Try again!");
+          throw new Error("wrong email or password");
         }
 
         // client.close();

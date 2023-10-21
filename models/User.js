@@ -15,7 +15,7 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
     minlength: [1, "Username must have at least 1 character"],
-    maxlength: [100, "Username cannot be more than 1000 characters"],
+    maxlength: [30, "Username cannot be more than 30 characters"],
   },
 });
 

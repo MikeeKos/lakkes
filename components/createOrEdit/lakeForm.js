@@ -298,9 +298,9 @@ function LakeForm(props) {
     if (form.title.length < 1 || form.title.length > 30) {
       err.titleLength = "Title should be between 1 and 30 characters";
     }
-    if (form.description.length < 1 || form.description.length > 1000) {
+    if (form.description.length < 1 || form.description.length > 5000) {
       err.descriptionLength =
-        "Description should be between 1 and 1000 characters";
+        "Description should be between 1 and 5000 characters";
     }
     if (form.location.length < 1 || form.location.length > 30) {
       err.locationLength = "Location should be between 1 and 30 characters";
@@ -346,6 +346,7 @@ function LakeForm(props) {
   return (
     <React.Fragment>
       <form
+        autoComplete="off"
         id={formId}
         onSubmit={submitFormHandler}
         encType="multipart/form-data"
@@ -390,20 +391,22 @@ function LakeForm(props) {
                   What's wrong with your form?
                 </span>
               </div>
-              <div className="w-full h-full col-span-9 bg-page1 p-5 overflow-y-scroll">
-                <ul>
-                  {errorArray.map((error, index) => (
-                    <li
-                      className="font-page text-base tracking-wide text-pageMenu p-1"
-                      key={index}
-                    >
-                      <span className="text-2xl font-page text-pageMenu">
-                        •
-                      </span>{" "}
-                      {error.message}
-                    </li>
-                  ))}
-                </ul>
+              <div className="w-fll h-full p-5 col-span-9 overflow-hidden">
+                <div className="w-full h-full bg-page1 p-5 overflow-y-scroll shadow-lg border-4 border-pageMenu">
+                  <ul>
+                    {errorArray.map((error, index) => (
+                      <li
+                        className="font-page text-base tracking-wide text-pageMenu p-1"
+                        key={index}
+                      >
+                        <span className="text-2xl font-page text-pageMenu">
+                          •
+                        </span>{" "}
+                        {error.message}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
@@ -411,17 +414,19 @@ function LakeForm(props) {
         {!session && (
           <div className="flex justify-center items-center w-full bg-page1 h-[15rem] border-2 border-pageMenu">
             <div className="w-full h-full grid grid-cols-12">
-              <div className="w-full h-full border-e-4 border-pageMenu col-span-4 bg-page2 flex items-center justify-center border-b-4">
-                <div className="w-4/5 sm:w-3/5 lg:w-1/2 h-1/3 flex items-center justify-center">
-                  <Link href="/auth" className="w-full h-full">
-                    <motion.div
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
-                      className="tracking-tight text-pageMenu text-2xl md:text-3xl lg:text-4xl font-extrabold font-page shadow-xl w-full h-full bg-page3 border-4 border-pageMenu flex items-center justify-center hover:cursor-pointer"
-                    >
-                      log in
-                    </motion.div>
-                  </Link>
+              <div className="w-full h-full border-e-4 border-pageMenu col-span-4 bg-page1 flex items-center justify-center sm:border-b-4 sm:p-5">
+                <div className="w-full h-full bg-page2 flex items-center justify-center sm:border-4 border-b-4 border-pageMenu sm:border-pageMenu shadow-lg">
+                  <div className="w-4/5 sm:w-3/5 lg:w-1/2 h-1/3 flex items-center justify-center">
+                    <Link href="/auth" className="w-full h-full">
+                      <motion.div
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                        className="tracking-tight text-pageMenu text-xl md:text-3xl lg:text-4xl font-extrabold font-page shadow-xl w-full h-full bg-page3 border-4 border-pageMenu flex items-center justify-center hover:cursor-pointer"
+                      >
+                        log in
+                      </motion.div>
+                    </Link>
+                  </div>
                 </div>
               </div>
               <div className="w-full h-full col-span-8 flex items-center justify-center p-5">
@@ -436,7 +441,7 @@ function LakeForm(props) {
         <div className="grid grid-cols-12 grid-row-2 h-[100rem] sm:h-[90rem] md:h-[50rem] w-full overflow-hidden">
           <div className="bg-page1 min-h-[20rem] col-span-12 row-span-1 md:col-span-5 md:row-span-2 border-2 border-pageMenu w-full h-full overflow-hidden">
             <div className="w-full h-full p-[4%] shadow-xl overflow-hidden">
-              <div className="relative grid grid-rows-6 w-full h-full overflow-hidden">
+              <div className="relative grid grid-rows-6 w-full h-full overflow-hidden shadow-lg">
                 <div className="flex justify-center items-center w-full h-full row-span-1 font-page font-[1000] tracking-tight text-pageMenu text-2xl sm:text-3xl md:text-3xl lg:text-4xl border-t-4 border-x-4 border-pageMenu overflow-hidden">
                   <motion.svg
                     initial={{ opacity: 0 }}
@@ -474,7 +479,7 @@ function LakeForm(props) {
           </div>
           <div className="bg-page1 col-span-12 row-span-1 md:col-span-7 md:row-span-2 border-2 border-pageMenu w-full overflow-hidden h-full">
             <div className="w-full h-full p-[4%] md:p-[3%] lg:p-[2.8%] shadow-xl overflow-hidden">
-              <div className="relative grid grid-rows-6 w-full h-full overflow-hidden">
+              <div className="relative grid grid-rows-6 w-full h-full overflow-hidden shadow-lg">
                 <div className="flex justify-center items-center w-full h-full row-span-1 font-page font-[1000] tracking-tight text-pageMenu text-2xl sm:text-3xl md:text-3xl lg:text-4xl border-t-4 border-x-4 border-pageMenu overflow-hidden">
                   <motion.svg
                     initial={{ opacity: 0 }}
@@ -607,7 +612,7 @@ function LakeForm(props) {
                             multiline
                             value={form.description}
                             onChange={handleChange}
-                            helperText="describe this place, important information about it, whether it's visited by many people or not (1-1000 characters)"
+                            helperText="describe this place, important information about it, whether it's visited by many people or not (1-5000 characters)"
                           />
                         </div>
                         <div className="col-span-2 sm:col-span-2 flex items-center justify-center">
@@ -664,7 +669,7 @@ function LakeForm(props) {
           </div>
         </div>
         <div className="p-[4%] md:p-[1.5%] w-full overflow-hidden border-2 border-pageMenu bg-page1">
-          <div className="w-full h-full overflow-hidden border-4 border-pageMenu">
+          <div className="w-full h-full overflow-hidden border-4 border-pageMenu shadow-xl">
             <span className="flex w-full h-[5rem] bg-page1 overflow-hidden">
               <div className="relative flex justify-center items-center w-full h-full row-span-1 font-page font-[1000] tracking-tight text-pageMenu text-2xl sm:text-3xl md:text-3xl lg:text-4xl border-b-4 border-pageMenu overflow-hidden">
                 <svg
@@ -729,7 +734,7 @@ function LakeForm(props) {
         </div>
         {!forNewLake && (
           <div className="p-[4%] md:p-[1.5%] w-full overflow-hidden border-2 border-pageMenu bg-page1">
-            <div className="w-full h-full overflow-hidden border-4 border-pageMenu">
+            <div className="w-full h-full overflow-hidden border-4 border-pageMenu shadow-lg">
               <span className="flex w-full h-[5rem] bg-page1 overflow-hidden">
                 <div className="relative flex justify-center items-center w-full h-full row-span-1 font-page font-[1000] tracking-tight text-pageMenu text-2xl sm:text-3xl md:text-3xl lg:text-4xl border-b-4 border-pageMenu overflow-hidden">
                   <svg
@@ -838,7 +843,7 @@ function LakeForm(props) {
         )}
         {session && (
           <div className="flex justify-center items-center w-full bg-page1 h-[10rem] border-2 border-pageMenu">
-            <div className="flex justify-center items-center w-full mx-5 sm:mx-7 md:mx-4 lg:mx-5 h-[70%] bg-page2 border-4 border-pageMenu">
+            <div className="flex justify-center items-center w-full mx-5 sm:mx-7 md:mx-4 lg:mx-5 h-[70%] bg-page2 border-4 border-pageMenu shadow-lg">
               <motion.button
                 // animate={{
                 //   filter: ['brightness(0.90)', 'brightness(1.10)']

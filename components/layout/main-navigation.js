@@ -312,21 +312,45 @@ function MainNavigation() {
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
-        strokeWidth={1.7}
-        stroke="currentColor"
         className="w-7 h-7 sm:w-9 sm:h-9"
       >
-        <motion.path
-          stroke="#383434"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          initial={{ pathLength: 1 }}
-          animate={{ pathLength: authpageIsHovered ? [0, 1] : 1 }}
-          transition={{ duration: 1.5 }}
-          d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"
-        />
+        <g stroke="#383434" strokeWidth="1.7">
+          <motion.path
+            initial={{ pathLength: 1 }}
+            animate={{ pathLength: authpageIsHovered ? [0, 1] : 1 }}
+            transition={{ duration: 0.5 }}
+            d="M4 7c0-1.886 0-2.828.586-3.414C5.172 3 6.114 3 8 3h8c1.886 0 2.828 0 3.414.586C20 4.172 20 5.114 20 7v8c0 2.828 0 4.243-.879 5.121C18.243 21 16.828 21 14 21h-4c-2.828 0-4.243 0-5.121-.879C4 19.243 4 17.828 4 15V7z"
+          ></motion.path>
+          <motion.path
+            initial={{ pathLength: 1 }}
+            animate={{ pathLength: authpageIsHovered ? [0, 1] : 1 }}
+            transition={{ duration: 3.5 }}
+            strokeLinecap="round"
+            d="M15 18v3m-6-3v3M9 8h6M9 12h6"
+          ></motion.path>
+        </g>
       </svg>
     </div>
+    // <div>
+    //   <svg
+    //     xmlns="http://www.w3.org/2000/svg"
+    //     fill="none"
+    //     viewBox="0 0 24 24"
+    //     strokeWidth={1.7}
+    //     stroke="currentColor"
+    //     className="w-7 h-7 sm:w-9 sm:h-9"
+    //   >
+    //     <motion.path
+    //       stroke="#383434"
+    //       strokeLinecap="round"
+    //       strokeLinejoin="round"
+    //       initial={{ pathLength: 1 }}
+    //       animate={{ pathLength: authpageIsHovered ? [0, 1] : 1 }}
+    //       transition={{ duration: 1.5 }}
+    //       d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"
+    //     />
+    //   </svg>
+    // </div>
   );
 
   const logoutPage = (
@@ -469,7 +493,7 @@ function MainNavigation() {
         </div>
       </div> */}
 
-      <div className="scale-[1.19] sm:scale-110 font-body flex items-center justify-center h-full">
+      <div className="scale-[1.19] sm:scale-110 font-body flex items-center justify-center h-full md:shadow-[inset_0_-4px_8px_rgba(0,0,0,0.2)]">
         <div className="h-full sticky w-min flex items-center justify-center">
           <div className="mx-3 sm:mx-5">
             <Link href="/" className="relative">

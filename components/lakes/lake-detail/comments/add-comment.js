@@ -91,7 +91,7 @@ function AddComment(props) {
             className="me-2 hover:shadow-2xl duration-100 rounded-md border-4 border-pageMenu w-full py-4 mb-5 md:mb-8 flex justify-center bg-page2"
             onClick={cancelHandler}
           >
-            <span className="text-center text-2xl md:text-xl lg:text-2xl font-page font-[1000] tracking-tight text-pageMenu">
+            <span className="text-center text-2xl md:text-xl lg:text-2xl font-page font-[1000] tracking-tight text-pageMenu hover:cursor-pointer">
               cancel
             </span>
           </motion.span>

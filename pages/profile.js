@@ -7,6 +7,7 @@ import Profile from "../components/profile/profile";
 import { connectDatabase } from "../helpers/db-util";
 import mongoose from "mongoose";
 import Lake from "../models/Lake";
+import User from "../models/User";
 
 function ProfilePage(props) {
   const { data: session, status } = useSession();
@@ -25,13 +26,25 @@ function ProfilePage(props) {
   }, [router, status]);
 
   if (status === "loading") {
-    return <div>Loading...</div>;
+    return (
+      <div>
+        <div className="w-full h-[30rem] border-2 border-pageMenu flex items-center justify-center bg-page1 shadow-[inset_0_-4px_8px_rgba(0,0,0,0.2)]">
+          <span className="font-page text-2xl sm:text-5xl md:text-4xl lg:text-5xl text-pageMenu font-extrabold tracking-wide text-center overflow-hidden p-5 bg-page1">
+            loading...
+          </span>
+        </div>
+      </div>
+    );
   }
 
   if (status === "authenticated") {
     return (
       <div>
-        <Profile lakes={props.lakes} user={props.sessionObject} username={props.username}/>
+        <Profile
+          lakes={props.lakes}
+          user={props.sessionObject}
+          username={props.username}
+        />
       </div>
     );
   }
@@ -65,14 +78,19 @@ export async function getServerSideProps(context) {
 
   try {
     const allLakes = await Lake.find({}).populate("author");
-    const userLakes = []
+    const userLakes = [];
     allLakes.map((el) => {
-      if(el.author.email === userEmail) {
+      if (el.author.email === userEmail) {
         userLakes.push(el);
       }
-    })
+    });
     // const userLakes = allLakes.filter((el) => (el.author.email = userEmail));
-    const userUsername = userLakes[0].author.username;
+    console.log("CHECKING BUG HERE _____ -> -> -> -> -> -> -> ->");
+    const thisUser = await User.findOne({ email: userEmail });
+    // console.log("this user:")
+    console.log(JSON.parse(JSON.stringify(thisUser)));
+    console.log(JSON.parse(JSON.stringify(thisUser.username)));
+    // const userUsername = userLakes[0].author.username;
     // const result = await Lake.find({});
 
     console.log("CLOSING CONNECTION");
@@ -81,7 +99,7 @@ export async function getServerSideProps(context) {
       props: {
         sessionObject: JSON.parse(JSON.stringify(session)),
         lakes: JSON.parse(JSON.stringify(userLakes)),
-        username: userUsername
+        username: JSON.parse(JSON.stringify(thisUser.username)),
       },
     };
   } catch (error) {

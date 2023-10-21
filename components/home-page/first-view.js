@@ -200,7 +200,7 @@ function FirstView(props) {
 
   return (
     <React.Fragment>
-      <div className="w-full h-[60rem] lg:h-[30rem] bg-page1 border-2 border-pageMenu">
+      <div className="w-full h-[60rem] lg:h-[30rem] bg-page1 border-2 border-pageMenu shadow-[inset_0_-8px_16px_rgba(0,0,0,0.2)]">
         <div className="w-full h-full lg:grid lg:grid-cols-2">
           <div className="w-full h-1/2 lg:h-full lg:col-span-1 border-pageMenu p-3">
             <div className="relative w-full h-full border-pageMenu p-3">
@@ -332,7 +332,7 @@ function FirstView(props) {
                     <motion.div
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.9 }}
-                      className="w-2/3 h-2/3 sm:w-3/5 sm:h-4/5 bg-page2 flex items-center justify-center border-4 border-pageMenu hover:cursor-pointer hover:shadow-xl"
+                      className="w-2/3 h-2/3 sm:w-3/5 sm:h-4/5 bg-page2 flex items-center justify-center border-4 border-pageMenu hover:cursor-pointer shadow-lg hover:shadow-xl"
                     >
                       <span className="font-body font-extrabold text-pageMenu leading-[0px] text-2xl sm:text-4xl">
                         get started
@@ -552,7 +552,7 @@ function FirstView(props) {
         </div>
       </div>
       <div className="grid grid-cols-12 grid-row-2 h-[45rem] md:h-[30rem] w-full">
-        <div className="relative bg-page1 col-span-12 md:col-span-4 md:row-span-2 border-2 border-pageMenu w-full overflow-hidden h-full">
+        <div className="relative bg-page1 col-span-12 md:col-span-4 md:row-span-2 border-2 border-pageMenu w-full overflow-hidden h-full shadow-[inset_0_-8px_16px_rgba(0,0,0,0.2)]">
           <MainWelcome />
         </div>
         <div className="col-span-12 md:col-span-8 md:row-span-2 border-2 border-pageMenu w-full overflow-hidden h-full">
@@ -573,7 +573,7 @@ function FirstView(props) {
             </div>
           </div>
         </div>
-        <div className="bg-page1 row-span-6 col-span-12 h-full w-full overflow-hidden">
+        <div className="bg-page1 row-span-6 col-span-12 h-full w-full overflow-hidden shadow-[inset_0_-8px_16px_rgba(0,0,0,0.2)]">
           {/* <CarouselSwitch lakes={props.lakes} arrow={arrowClicked} /> */}
           <PostCarousel lakes={props.lakes} arrow={arrowClicked} />
         </div>

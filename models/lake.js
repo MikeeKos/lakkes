@@ -18,7 +18,7 @@ const LakeSchema = new mongoose.Schema({
     type: String,
     required: true,
     minlength: [1, "Description must have at least 1 character"],
-    maxlength: [1000, "Description cannot be more than 1000 characters"],
+    maxlength: [5000, "Description cannot be more than 5000 characters"],
   },
   location: {
     type: String,
