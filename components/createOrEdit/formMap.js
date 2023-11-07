@@ -1,4 +1,3 @@
-import classes from "./formMap.module.css";
 import Map, {
   Marker,
   NavigationControl,
@@ -15,9 +14,6 @@ import GeocoderControl from "../home-page/geocoder";
 function FormMap(props) {
   const [marker, setMarker] = useState();
 
-  console.log("___INITIAL COORDS____");
-  console.log(props.initialCoordsFromEditPage);
-
   useEffect(() => {
     if (props.initialCoordsFromEditPage) {
       setMarker(props.initialCoordsFromEditPage);
@@ -26,7 +22,6 @@ function FormMap(props) {
 
   const onMarkerDrag = (event) => {
     setMarker(event.lngLat);
-    console.log(event.lngLat);
     props.sendDataToForm(event.lngLat);
   };
 
@@ -39,21 +34,6 @@ function FormMap(props) {
     setMarker(event.lngLat);
     props.sendDataToForm(event.lngLat);
   }
-
-  // const onMarkerDrag = useCallback((event) => {
-  //   setMarker(event.lngLat);
-  //   props.sendDataToForm(event.lngLat);
-  // }, [props]);
-
-  // const onMarkerDragEnd = useCallback((event) => {
-  //   setMarker(event.lngLat);
-  //   props.sendDataToForm(event.lngLat);
-  // }, [props]);
-
-  // const onClick = useCallback((event) => {
-  //   setMarker(event.lngLat);
-  //   props.sendDataToForm(event.lngLat);
-  // }, [props]);
 
   const skyLayer = {
     id: "sky",
@@ -72,19 +52,20 @@ function FormMap(props) {
     config = {};
   }
 
-  const filter = props.sateliteMap ? "saturate-[0.8] grayscale-[10%] brightness-125" : "hue-rotate-[-30deg] saturate-[0.2] grayscale-[30%] brightness-105";
+  const filter = props.sateliteMap
+    ? "saturate-[0.8] grayscale-[10%] brightness-125"
+    : "hue-rotate-[-30deg] saturate-[0.2] grayscale-[30%] brightness-105";
 
   return (
     <React.Fragment>
-      <div className={`${filter} w-full h-full overflow-hidden border-4 border-pageMenu`}>
-      {/* <div className={classes["mapboxgl-canvas"]}> */}
+      <div
+        className={`${filter} w-full h-full overflow-hidden border-4 border-pageMenu`}
+      >
         <Map
-          // initialViewState={initialViewState}
           initialViewState={{
             longitude: 19.701310233479273,
             latitude: 51.54748821096632,
             zoom: 5,
-            // pitch: 40,
           }}
           pitch={40}
           mapStyle={
@@ -92,7 +73,6 @@ function FormMap(props) {
               ? "mapbox://styles/mapbox/satellite-v9"
               : "mapbox://styles/mapbox/outdoors-v12"
           }
-          // mapStyle="mapbox://styles/mapbox/satellite-v9"
           terrain={config}
           mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
           onClick={onClick}

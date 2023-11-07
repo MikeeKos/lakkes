@@ -1,36 +1,17 @@
-// props.lakeForm is:
-//   title: "...",
-//   description: "...",
-//   location: "...",
-// if forNewLake is equal to true, then this form is used for creating new object
-// otherwise it renders data in <input />'s elements and functions as edit form
 
 import React, { useState, useContext, useEffect, useRef } from "react";
-// import classes from "./lakeForm.module.css";
 import { useRouter } from "next/router";
-// import { mutate } from "swr";
 import NotificationContext from "../../store/notification-context";
 import axios from "axios";
 import Image from "next/image";
 import FormMap from "./formMap";
-import { AnimatePresence, delay, motion } from "framer-motion";
-import dynamic from "next/dynamic";
+import { AnimatePresence, motion } from "framer-motion";
 import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
 import { Switch } from "@mui/material";
 import { useSession } from "next-auth/react";
-// import { Switch } from "@mui/material";
 import Link from "next/link";
 
 function LakeForm(props) {
-  // const FormMap = dynamic(() => import("./formMap"), {
-  //   ssr: false,
-  //   loading: () => (
-  //     <div className="bg-page1 z-50 flex items-center justify-center text-pageBlack font-bold text-4xl h-full w-full border-4 border-pageMenu">
-  //       Loading...
-  //     </div>
-  //   ),
-  // });
   const { data: session, status } = useSession();
 
   const fileInputRef = useRef();
@@ -56,9 +37,6 @@ function LakeForm(props) {
     longitude: lakeForm.longitude,
     latitude: lakeForm.latitude,
   });
-
-  console.log("___WHAT CAME FROM FORM ROUTE___");
-  console.log(form);
 
   useEffect(() => {
     const createPreviews = () => {
@@ -102,8 +80,6 @@ function LakeForm(props) {
         config
       );
 
-      console.log("___AXIOS API RESPONSE___");
-      console.log("response", imageResponse);
       notificationCtx.showNotification({
         title: "success!",
         message: "successfully created new object",
@@ -111,8 +87,6 @@ function LakeForm(props) {
       });
       router.push(`/list/${imageResponse.data.data._id}`);
     } catch (error) {
-      console.log("___ERROR___");
-      console.log(error);
       notificationCtx.showNotification({
         title: "Error!",
         message: "Something went wrong, when creating lake",
@@ -123,17 +97,11 @@ function LakeForm(props) {
 
   //for editing existing lake object (PUT)
   async function putData(form) {
-    console.log("____IS FORM EVEN SEND FOR EDITING?____");
-    console.log(form);
-    console.log("___Show values___");
-    for (const value of form.values()) {
-      console.log(value);
-    }
     const { lakeId } = router.query;
 
     notificationCtx.showNotification({
       title: "sending...",
-      message: "sending lake data for verification (EDITING) ",
+      message: "sending lake data for verification",
       status: "pending",
     });
 
@@ -148,23 +116,17 @@ function LakeForm(props) {
         config
       );
 
-      console.log("___AXIOS API RESPONSE___");
-      console.log("response", imageResponse);
       notificationCtx.showNotification({
         title: "success!",
         message: "successfully edited object",
         status: "success",
       });
 
-      // MAKE IT WORK
-      // mutate(`/api/user/${lakeId}`, imageResponse, false); // Update the local data without a revalidation
       router.push(`/list/${lakeId}`);
     } catch (error) {
-      console.log(error);
-      // console.log(JSON.parse(error.message).message);
       notificationCtx.showNotification({
         title: "Error!",
-        message: "Something went wrong, when editing lake",
+        message: error.response.data.message,
         status: "error",
       });
     }
@@ -192,25 +154,15 @@ function LakeForm(props) {
 
       forNewLake ? postData(formData) : putData(formData);
     } else {
-      console.log("___FRONT END VALIDATION ERRORS___");
-      console.log(errors);
       notificationCtx.showNotification({
         title: "Error!",
         message: "Invalid data, please correct your form",
         status: "error",
       });
-      // Object.keys(errors).forEach((key) => {
-      //   console.log("ERRRRRRRORRRR");
-      //   console.log(errors[key]);
-      //   setErrorArray((prev) => [...prev, { [key]: errors[key] }]);
-      // });
+      
       Object.keys(errors).forEach((key) => {
         setErrorArray((prev) => [...prev, { type: key, message: errors[key] }]);
       });
-      console.log(
-        "HERE CHEKING FOR ERROR ARRAY _ _  _ _ _ _ _ _  __ _ _ _ _ _ _ _ _"
-      );
-      console.log(errorArray);
     }
   }
 
@@ -221,8 +173,6 @@ function LakeForm(props) {
 
   const changeFormHandler = (event) => {
     const files = event.target.files;
-    //ADD MAX LENGTH
-    console.log(files.length);
     if (files.length > 10) {
       event.target.value = null;
       setfilesArray(null);
@@ -267,12 +217,6 @@ function LakeForm(props) {
 
   //client side validation
   const formValidate = () => {
-    console.log("START CHECKING");
-    console.log(form.title);
-    console.log(form.description);
-    console.log(form.location);
-    console.log(form.latitude);
-    console.log(form.longitude);
     let err = {};
     if (!form.title) {
       err.title = "Title is required";
@@ -289,7 +233,7 @@ function LakeForm(props) {
     if (!form.longitude) {
       err.longitude = "Longitude is required";
     }
-    //add allowed formats
+
     if (forNewLake) {
       if (!filesArray || filesArray.length === 0) {
         err.images = "Images are required";
@@ -314,9 +258,6 @@ function LakeForm(props) {
       longitude: data.lng,
       latitude: data.lat,
     });
-    console.log(data);
-    console.log("CHANGING MAP");
-    console.log(form);
   };
 
   const changeStyleHandler = (event) => {
@@ -331,13 +272,6 @@ function LakeForm(props) {
     setImagesForPreview(null);
     setPreviews([]);
   };
-
-  // const checkHandler = () => {
-  //   console.log("________________CHECK_____________________");
-  //   console.log(filesArray)
-  //   console.log(imagesForPreview)
-  //   console.log(previews)
-  // }
 
   const handleText = forNewLake
     ? "↓ add ↓ add ↓ add ↓ add ↓ add ↓ add ↓ add ↓ add ↓ add ↓ add ↓ add ↓ add ↓ add ↓ add ↓ add ↓ add ↓ add ↓ add ↓ add ↓ add ↓ add ↓ add ↓ add ↓ add ↓ add ↓ add ↓ add ↓ add ↓"
@@ -498,16 +432,6 @@ function LakeForm(props) {
                 <div className="w-full h-full row-span-5">
                   <div className="w-full h-full">
                     <div className="w-full h-full border-4 border-pageMenu">
-                      {/* <div className="w-full h-full grid grid-cols-2">
-                  <div className="col-span-2 sm:col-span-1 flex items-center justify-center"></div>
-                  <div className="col-span-2 sm:col-span-1 flex items-center justify-center"></div>
-                </div> */}
-                      {/* <form
-                id={formId}
-                onSubmit={submitFormHandler}
-                encType="multipart/form-data"
-                className="w-full h-full grid grid-cols-2"
-              > */}
                       <div className="w-full h-full grid grid-cols-2">
                         <div className="saturate-[0.2] brightness-125 col-span-2 sm:col-span-1 flex items-center justify-center">
                           <TextField
@@ -660,7 +584,6 @@ function LakeForm(props) {
                           </div>
                         </div>
                       </div>
-                      {/* </form> */}
                     </div>
                   </div>
                 </div>
@@ -696,7 +619,6 @@ function LakeForm(props) {
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.5 }}
                       transition={{ type: "spring", duration: 1.2 }}
-                      // key={index}
                       className="shadow-xl relative m-10 sm:m-6 items-center justify-center flex col-span-12 sm:col-span-6 md:col-span-4 lg:col-span-3 h-[20rem] sm:h-[15rem] lg:h-[17rem] bg-page2 border-4 border-pageMenu"
                     >
                       <img
@@ -704,7 +626,6 @@ function LakeForm(props) {
                         src={preview}
                         alt={`Preview ${index + 1}`}
                         className="h-full w-full object-cover"
-                        // style={{objectFit: 'cover'}}
                       />
                       <motion.div
                         onClick={deletePreviewImagesHandler}
@@ -804,40 +725,6 @@ function LakeForm(props) {
                     })}
                 </AnimatePresence>
               </div>
-              {/* {previews.map((preview, index) => {
-              return (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.5 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.5 }}
-                  transition={{ type: "spring", duration: 1.2 }}
-                  key={index}
-                  className="relative m-10 sm:m-6 items-center justify-center flex col-span-12 sm:col-span-6 md:col-span-4 lg:col-span-3 h-[25rem] sm:h-[20rem] lg:h-[25rem] bg-page2 border-4 border-pageMenu"
-                >
-                  <img
-                    key={index}
-                    src={preview}
-                    alt={`Preview ${index + 1}`}
-                    className="h-full w-full object-cover"
-                    // style={{objectFit: 'cover'}}
-                  />
-                  <motion.div
-                    onClick={deletePreviewImagesHandler}
-                    initial={{
-                      backgroundColor: "rgba(255, 255, 255)",
-                      opacity: 0.5,
-                    }}
-                    whileHover={{
-                      backgroundColor: "rgba(255, 255, 255)",
-                      opacity: 1,
-                    }}
-                    className="absolute bottom-0 flex justify-center items-center w-full h-1/4"
-                  >
-                    click to delete
-                  </motion.div>
-                </motion.div>
-              );
-            })} */}
             </div>
           </div>
         )}
@@ -845,14 +732,6 @@ function LakeForm(props) {
           <div className="flex justify-center items-center w-full bg-page1 h-[10rem] border-2 border-pageMenu">
             <div className="flex justify-center items-center w-full mx-5 sm:mx-7 md:mx-4 lg:mx-5 h-[70%] bg-page2 border-4 border-pageMenu shadow-lg">
               <motion.button
-                // animate={{
-                //   filter: ['brightness(0.90)', 'brightness(1.10)']
-                // }}
-                // transition={{
-                //   repeat: Infinity,
-                //   repeatType: "mirror",
-                //   duration: 1.2,
-                // }}
                 whileHover={{ scale: 1.1 }}
                 className="tracking-tight text-pageMenu text-2xl md:text-3xl lg:text-4xl font-extrabold font-page shadow-xl w-1/2 sm:w-1/3 h-1/2 bg-page3 rounded-lg border-4 border-pageMenu"
               >
@@ -862,7 +741,6 @@ function LakeForm(props) {
           </div>
         )}
       </form>
-      {/* <div onClick={checkHandler}>Checking</div> */}
     </React.Fragment>
   );
 }

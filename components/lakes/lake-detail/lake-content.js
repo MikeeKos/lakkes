@@ -1,10 +1,10 @@
-import Link from "next/link";
+// import Link from "next/link";
 import { useRouter } from "next/router";
-import Image from "next/legacy/image";
-import classes from "./lake-content.module.css";
+// import Image from "next/legacy/image";
+// import classes from "./lake-content.module.css";
 import React, { useContext, useState } from "react";
 import NotificationContext from "../../../store/notification-context";
-import Comments from "../../comments/comments";
+// import Comments from "../../comments/comments";
 import LakeCarousel from "./lake-carousel";
 import { motion } from "framer-motion";
 import DetailMap from "./detail-map";
@@ -150,8 +150,8 @@ function LakeContent(props) {
       </div> */}
       <div className="w-full h-[60rem] md:h-[30rem] overflow-hidden bg-page1 border-x-2 border-pageMenu">
         <div className="w-full h-full md:grid md:grid-cols-12">
-          <div className="w-hull h-1/2 md:h-full md:col-span-5 border-2 border-pageMenu p-5 overflow-hidden bg-page1 md:bg-page2">
-            <div className="w-full h-full grid grid-cols-12 border-4 border-pageMenu shadow-xl bg-page1">
+          <div className="w-hull h-1/2 md:h-full md:col-span-5 border-2 border-pageMenu md:p-5 overflow-hidden bg-page1 md:bg-page2">
+            <div className="w-full h-full grid grid-cols-12 md:border-4 border-pageMenu shadow-xl bg-page1">
               <div
                 className={`${
                   hightlight ? "shadow-[inset_-50px_-30px_150px_#46464620]" : ""

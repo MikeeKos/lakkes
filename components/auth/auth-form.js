@@ -1,11 +1,26 @@
 import React, { useState, useRef, useContext } from "react";
-import classes from "./auth-form.module.css";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import TextField from "@mui/material/TextField";
 import { motion } from "framer-motion";
 import NotificationContext from "../../store/notification-context";
+
+function LetterLogin(props) {
+  return (
+    <span className="flex items-center justify-center font-body font-extrabold text-6xl sm:text-7xl text-pageMenu">
+      {props.letter}
+    </span>
+  );
+}
+
+function LetterRegister(props) {
+  return (
+    <span className="flex items-center justify-center font-body font-extrabold text-5xl sm:text-7xl text-pageMenu">
+      {props.letter}
+    </span>
+  );
+}
 
 async function createUser(email, password, username) {
   const response = await fetch("/api/auth/signup", {
@@ -19,12 +34,11 @@ async function createUser(email, password, username) {
   const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(data.message || "Something went wrong when signing in");
+    throw new Error(data.message || "something went wrong when signing in");
   }
 
   if (response.ok) {
     await signIn("credentials", {
-      // redirect: false,
       email: email,
       password: password,
     });
@@ -46,8 +60,6 @@ function AuthForm() {
   }
 
   async function submitHandler(event) {
-    console.log("Email" + emailInputRef.current.value);
-    console.log(event);
     event.preventDefault();
     const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
@@ -60,14 +72,11 @@ function AuthForm() {
         message: "sending login info for verification",
         status: "pending",
       });
-      console.log("___CHANGE LOGIN STATE TO SIGN IN___");
       const result = await signIn("credentials", {
         redirect: false,
         email: enteredEmail,
         password: enteredPassword,
       });
-
-      console.log(result);
 
       notificationCtx.showNotification({
         title: "success!",
@@ -99,84 +108,40 @@ function AuthForm() {
           enteredPassword,
           enteredUsername
         );
-        console.log(result);
+
         notificationCtx.showNotification({
           title: "success!",
           message: "You are successfully logged in",
           status: "success",
         });
       } catch (error) {
-        console.log("REGISTERING ERROR CHECK -> -> ->");
         notificationCtx.showNotification({
           title: "Error!",
           message: error.message,
           status: "error",
         });
-        console.log(error);
       }
-
-      // try {
-      //   const result = await signIn("credentials", {
-      //     redirect: false,
-      //     email: enteredEmail,
-      //     password: enteredPassword,
-      //   });
-
-      //   console.log(result);
-
-      //   if (!result.error) {
-      //     router.replace("/");
-      //   }
-      // } catch (error) {
-      //   console.log(error);
-      // }
     }
   }
 
   const bigText = isLogin ? (
     <div className="drop-shadow-2xl flex flex-col">
-      <span className="flex items-center justify-center font-body font-extrabold text-6xl sm:text-7xl text-pageMenu">
-        L
-      </span>
-      <span className="flex items-center justify-center font-body font-extrabold text-6xl sm:text-7xl text-pageMenu">
-        O
-      </span>
-      <span className="flex items-center justify-center font-body font-extrabold text-6xl sm:text-7xl text-pageMenu">
-        G
-      </span>
-      <span className="flex items-center justify-center font-body font-extrabold text-6xl sm:text-7xl text-pageMenu">
-        I
-      </span>
-      <span className="flex items-center justify-center font-body font-extrabold text-6xl sm:text-7xl text-pageMenu">
-        N
-      </span>
+      <LetterLogin letter={"L"} />
+      <LetterLogin letter={"O"} />
+      <LetterLogin letter={"G"} />
+      <LetterLogin letter={"I"} />
+      <LetterLogin letter={"N"} />
     </div>
   ) : (
     <div className="drop-shadow-2xl flex flex-col">
-      <span className="flex items-center justify-center font-body font-extrabold text-5xl sm:text-7xl text-pageMenu">
-        R
-      </span>
-      <span className="flex items-center justify-center font-body font-extrabold text-5xl sm:text-7xl text-pageMenu">
-        E
-      </span>
-      <span className="flex items-center justify-center font-body font-extrabold text-5xl sm:text-7xl text-pageMenu">
-        G
-      </span>
-      <span className="flex items-center justify-center font-body font-extrabold text-5xl sm:text-7xl text-pageMenu">
-        I
-      </span>
-      <span className="flex items-center justify-center font-body font-extrabold text-5xl sm:text-7xl text-pageMenu">
-        S
-      </span>
-      <span className="flex items-center justify-center font-body font-extrabold text-5xl sm:text-7xl text-pageMenu">
-        T
-      </span>
-      <span className="flex items-center justify-center font-body font-extrabold text-5xl sm:text-7xl text-pageMenu">
-        E
-      </span>
-      <span className="flex items-center justify-center font-body font-extrabold text-5xl sm:text-7xl text-pageMenu">
-        R
-      </span>
+      <LetterRegister letter={"R"} />
+      <LetterRegister letter={"E"} />
+      <LetterRegister letter={"G"} />
+      <LetterRegister letter={"I"} />
+      <LetterRegister letter={"S"} />
+      <LetterRegister letter={"T"} />
+      <LetterRegister letter={"E"} />
+      <LetterRegister letter={"R"} />
     </div>
   );
 
@@ -290,7 +255,6 @@ function AuthForm() {
                       <div className="flex justify-center saturate-[0.2] brightness-125">
                         <TextField
                           sx={{
-                            // marginTop: "10px",
                             marginRight: "20px",
                             marginBottom: "10px",
                             marginLeft: "20px",

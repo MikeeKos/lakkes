@@ -111,6 +111,47 @@ async function handler(req, res) {
             .status(400)
             .json({ message: "Data could not be processed" });
         }
+
+        console.log(
+          "100110101010101100 ownerOfThisPost.images.length how many images in database"
+        );
+        console.log(ownerOfThisPost.images.length);
+        console.log(
+          "10011110010101010 JSONImagesArray.length how many checked for deletion"
+        );
+        console.log(JSONImagesArray.length);
+        console.log(
+          "1100101001010101010 uploadedImages.length how many uploaded to cloudinary "
+        );
+        console.log(uploadedImages.length);
+
+        console.log("MATH");
+        console.log(
+          ownerOfThisPost.images.length +
+            uploadedImages.length -
+            JSONImagesArray.length
+        );
+
+        if (ownerOfThisPost.images.length + uploadedImages.length > 10) {
+          req.files.map(async (file) => {
+            await uploader.destroy(file.filename, { invalidate: true });
+          });
+          return res
+            .status(422)
+            .json({ message: "You cannnot have more than 10 photos" });
+        }
+
+        if (ownerOfThisPost.images.length === JSONImagesArray.length) {
+          if (uploadedImages.length === 0) {
+            req.files.map(async (file) => {
+              await uploader.destroy(file.filename, { invalidate: true });
+            });
+            return res
+              .status(422)
+              .json({ message: "You cannnot have object without images" });
+          }
+        }
+
         const JSONPayloadSchema = Joi.object({
           title: Joi.string().min(1).max(30).required(),
           description: Joi.string().min(1).max(5000).required(),
@@ -165,6 +206,12 @@ async function handler(req, res) {
           filename: file.filename,
         }));
         lake.images.push(...images);
+
+        // console.log("OOOOOOOOO LENGTH OF IMAGES IN DATABASE")
+        // console.log(lake.images.length)
+        // console.log("OOOOOOOOO LENGTH OF IMAGES FROM CHECKBOX")
+        // console.log(JSONImagesArray.length)
+
         if (JSONImagesArray.length !== 0) {
           JSONImagesArray.map(async (image) => {
             await uploader.destroy(image, { invalidate: true });
