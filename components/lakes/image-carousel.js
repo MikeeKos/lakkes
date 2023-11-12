@@ -7,12 +7,10 @@ import Link from "next/link";
 
 function ImageCarousel(props) {
   const lake = props.lake;
-
   const firstObj = [];
   lake.images.map((img) => {
     firstObj.push(img.url);
   });
-
   const [count, setCount] = useState(0);
   const [ref, { width }] = useMeasure();
   const [tuple, setTuple] = useState([null, count]);
@@ -22,7 +20,6 @@ function ImageCarousel(props) {
   }
 
   const prev = tuple[0];
-
   const direction = count > prev ? "increasing" : "decreasing";
 
   function increaseCounter() {

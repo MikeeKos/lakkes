@@ -12,12 +12,6 @@ function Display() {
 
   const isInView = useInView(dragFieldRef);
 
-  if (isInView) {
-    console.log("isInView Fired");
-  } else {
-    console.log("is not in view now");
-  }
-
   useEffect(() => {
     const updateOffset = () => {
       if (wrapperRef.current && contentRef.current) {
@@ -354,28 +348,6 @@ function Display() {
       </div>
     </div>
   );
-
-  // return (
-  //   <div className="w-full h-full bg-page1 p-10">
-  //     <motion.div
-  //       ref={carousel}
-  //       className="relative w-full h-full bg-page4 overflow-hidden"
-  //     >
-  //       <motion.div
-  //         drag="x"
-  //         dragConstraints={{ right: 0, left: -carouselWidth }}
-  //         key={JSON.stringify(width)}
-  //         className="w-full h-full flex items-center bg-page2"
-  //       >
-  //         <motion.div className="min-w-[15rem] min-h-[22.5rem] bg-pageMenu m-2 rounded-lg"></motion.div>
-  //         <motion.div className="min-w-[15rem] min-h-[22.5rem] bg-pageMenu m-2 rounded-lg"></motion.div>
-  //         <motion.div className="min-w-[15rem] min-h-[22.5rem] bg-pageMenu m-2 rounded-lg"></motion.div>
-  //         <motion.div className="min-w-[15rem] min-h-[22.5rem] bg-pageMenu m-2 rounded-lg"></motion.div>
-  //       </motion.div>
-  //       <div ref={ref} className="w-full h-full"></div>
-  //     </motion.div>
-  //   </div>
-  // );
 }
 
 export default Display;

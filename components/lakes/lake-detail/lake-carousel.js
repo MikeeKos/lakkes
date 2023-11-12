@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import useMeasure from "react-use-measure";
 import Image from "next/image";
-// import { CopyToClipboard } from "react-copy-to-clipboard";
-// import Link from "next/link";
 
 function LakeCarousel(props) {
   const lake = props.lake;

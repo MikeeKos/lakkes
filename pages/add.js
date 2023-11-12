@@ -1,9 +1,4 @@
-// props.lakeForm is:
-//   title: "...",
-//   description: "...",
-//   location: "...",
-
-import LakeForm from "../components/createOrEdit/lakeForm";
+import LakeForm from "../components/create-or-edit/lakeForm";
 
 function NewLakePage() {
   const lakeForm = {

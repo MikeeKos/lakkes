@@ -3,17 +3,10 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import NotificationContext from "../../store/notification-context";
 import { useRouter } from "next/router";
-// import SlideInNotifications from "../ui/noti";
 
 function Profile(props) {
   const notificationCtx = useContext(NotificationContext);
   const router = useRouter();
-  console.log("This user lakes");
-  console.log(props.lakes);
-  // console.log("This user");
-  // console.log(props.user.user.email);
-  // console.log("Username");
-  // console.log(props.username);
 
   let commentsNumber = 0;
   props.lakes.map((el) => {
@@ -22,27 +15,16 @@ function Profile(props) {
 
   const [showEmail, setShowEmail] = useState(false);
   const [showLakeModal, setShowLakeModal] = useState(false);
-
   const showLakeModalHandler = () => {
     setShowLakeModal((prevState) => !prevState);
   };
-
-  // const [homepageAnimationStarted, setHomePageAnimationStarted] =
-  //   useState(false);
   const [homepageIsHovered, setHomepageIsHovered] = useState(false);
-  // const [homepageIsClicked, setHomepageIsClicked] = useState(false);
-
-  // const homepageOnClickHandler = () => {
-  //   setHomepageIsClicked(true);
-  // };
 
   const homepageHandleMouseEnter = () => {
-    // setHomePageAnimationStarted(true);
     setHomepageIsHovered(true);
   };
 
   const homepageHandleMouseLaeve = () => {
-    // setHomePageAnimationStarted(false);
     setHomepageIsHovered(false);
   };
 
@@ -51,12 +33,6 @@ function Profile(props) {
   };
 
   const deleteLakeHandler = async (lakeId) => {
-    console.log("CHECK LAKE ID");
-    console.log(lakeId);
-    // const lakeId = event.target.id;
-    // console.log("EVENT ELEMENT")
-    // console.log(event)
-    // console.log("lakeId is: " + lakeId)
     notificationCtx.showNotification({
       title: "delete",
       message: "Deleting your lake",
@@ -78,8 +54,6 @@ function Profile(props) {
       });
       router.push("/");
     } catch (error) {
-      console.log("___client side try catch error___");
-      console.log(error);
       notificationCtx.showNotification({
         title: "Error!",
         message: "Something went wrong, when deleting lake",
@@ -90,18 +64,12 @@ function Profile(props) {
 
   return (
     <React.Fragment>
-      {/* <div className="w-full h-[10rem] bg-page3">
-        <SlideInNotifications />
-      </div> */}
-      {/* <div>Hello there</div> */}
-      {/* <span>{props.username}</span> */}
       <div className="md:flex md:flex-row">
         <div className="w-full md:w-[25%] h-[20rem] sm:h-[10rem] md:h-[40rem] border-2 border-pageMenu bg-page2 overflow-hidden">
           <div className="w-full h-full grid grid-rows-2 grid-cols-2 gap-4 p-4 sm:grid-cols-4 sm:grid-rows-1 md:grid-rows-4 md:grid-cols-1">
             <div
               onMouseEnter={homepageHandleMouseEnter}
               onMouseLeave={homepageHandleMouseLaeve}
-              // onClick={homepageOnClickHandler}
               className="relative group col-span-1 row-span-1 bg-pageMenu shadow-2xl"
             >
               <div className="w-full h-full relative overflow-hidden group bg-page1">
@@ -347,15 +315,6 @@ function Profile(props) {
                                 </span>
                               </motion.div>
                             </Link>
-                            {/* <motion.div
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.98 }}
-                            className="absolute w-full h-full col-span-1 row-span-1 border-4 border-pageMenu z-20 bg-page2 flex items-center justify-center hover:cursor-pointer hover:shadow-2xl hover:scale-105 duration-100"
-                          >
-                            <span className="font-page text-pageMenu font-bold sm:tracking-wide text-[10px] min-[360px]:text-xs sm:text-lg lg:text-lg text-center">
-                              are you sure?
-                            </span>
-                          </motion.div> */}
                             <motion.div
                               id={el._id}
                               whileHover={{ scale: 1.05 }}

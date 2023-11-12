@@ -1,10 +1,6 @@
-// import Link from "next/link";
 import { useRouter } from "next/router";
-// import Image from "next/legacy/image";
-// import classes from "./lake-content.module.css";
 import React, { useContext, useState } from "react";
 import NotificationContext from "../../../store/notification-context";
-// import Comments from "../../comments/comments";
 import LakeCarousel from "./lake-carousel";
 import { motion } from "framer-motion";
 import DetailMap from "./detail-map";
@@ -14,48 +10,9 @@ import CommentsBlock from "./comments/comments-block";
 function LakeContent(props) {
   const [hightlight, setHightlight] = useState(false);
   const [sateliteMap, setSateliteMap] = useState(false);
-  // console.log(props.lake.geometry.coordinates[0])
-  // console.log(props.lake.geometry.coordinates[1])
-  // console.log(props.lake.gometry.coordinates[0])
-  // console.log(props.lake.gometry.coordinates[1])
-
-  console.log("___WHOLE LAKE OBJECT___");
-  console.log(props.lake);
   const router = useRouter();
   const notificationCtx = useContext(NotificationContext);
   const lakeId = router.query.lakeId;
-
-  // async function deleteHandler() {
-  //   notificationCtx.showNotification({
-  //     title: "deleting...",
-  //     message: ". . .",
-  //     status: "pending",
-  //   });
-  //   try {
-  //     const response = await fetch(`/api/user/${lakeId}`, {
-  //       method: "DELETE",
-  //     });
-
-  //     if (!response.ok) {
-  //       throw new Error(response.status);
-  //     }
-
-  //     notificationCtx.showNotification({
-  //       title: "success!",
-  //       message: "successfully removed object",
-  //       status: "success",
-  //     });
-  //     router.push("/");
-  //   } catch (error) {
-  //     console.log("___client side try catch error___");
-  //     console.log(error);
-  //     notificationCtx.showNotification({
-  //       title: "Error!",
-  //       message: "Something went wrong, when deleting lake",
-  //       status: "error",
-  //     });
-  //   }
-  // }
 
   const showCopyNotification = () => {
     notificationCtx.showNotification({
@@ -63,7 +20,7 @@ function LakeContent(props) {
       message: "The coordinates have been copied to the clipboard",
       status: "success",
     });
-  }
+  };
 
   const text = props.lake.title.toLowerCase();
   const handleText = `↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text} ↓ ${text}`;
@@ -103,15 +60,8 @@ function LakeContent(props) {
     </div>
   );
 
-  // const handleMouseEnter = () => {
-  //   const divElement = document.getElementById("yourDivId"); // Replace 'yourDivId' with the actual ID of your div
-  //   if (divElement) {
-  //     divElement.scrollTop = divElement.scrollHeight;
-  //   }
-  // };
-
   const upHandler = () => {
-    const divElement = document.getElementById("yourDivId"); // Replace 'yourDivId' with the actual ID of your div
+    const divElement = document.getElementById("yourDivId");
     if (divElement) {
       divElement.scrollTop = 0; // Scroll to the top
     }
@@ -122,7 +72,7 @@ function LakeContent(props) {
   };
 
   const downHandler = () => {
-    const divElement = document.getElementById("yourDivId"); // Replace 'yourDivId' with the actual ID of your div
+    const divElement = document.getElementById("yourDivId");
     if (divElement) {
       divElement.scrollTop = divElement.scrollHeight;
     }
@@ -136,18 +86,6 @@ function LakeContent(props) {
 
   return (
     <React.Fragment>
-      {/* <div className="w-full h-[0rem] md:h-[4rem] md:border-y-2 md:border-x-2 md:border-pageMenu md:bg-page2 overflow-hidden flex justify-center items-center">
-        <svg
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 0.1 }}
-          transition={{ delay: 1.5 }}
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 -5 40 5"
-          className="absolute h-[0rem] md:h-[4rem] overflow-hidden opacity-20"
-        >
-          <path d="M0 0l2-5h2L2 0H0m4 0l2-5h2L6 0H4m4 0l2-5h2l-2 5H8m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2"></path>
-        </svg>
-      </div> */}
       <div className="w-full h-[60rem] md:h-[30rem] overflow-hidden bg-page1 border-x-2 border-pageMenu">
         <div className="w-full h-full md:grid md:grid-cols-12">
           <div className="w-hull h-1/2 md:h-full md:col-span-5 border-2 border-pageMenu md:p-5 overflow-hidden bg-page1 md:bg-page2">
@@ -176,7 +114,6 @@ function LakeContent(props) {
               <div className="w-full h-full col-span-1 border-s-4 border-pageMenu overflow-hidden">
                 <div className="flex justify-center items-center w-full h-1/2 border-b-2 border-pageMenu overflow-hidden">
                   <motion.span
-                    // initial={{ scale: 1 }}
                     whileHover={{ scale: 1.25 }}
                     whileTap={{ scale: 0.8 }}
                     className="text-5xl text-pageMenu hover:cursor-pointer"
@@ -187,7 +124,6 @@ function LakeContent(props) {
                 </div>
                 <div className="flex justify-center items-center w-full h-1/2 border-t-2 border-pageMenu overflow-hidden">
                   <motion.span
-                    // initial={{ scale: 1 }}
                     whileHover={{ scale: 1.25 }}
                     whileTap={{ scale: 0.8 }}
                     className="text-5xl text-pageMenu hover:cursor-pointer"
@@ -207,16 +143,6 @@ function LakeContent(props) {
         </div>
       </div>
       <div className="relative w-full h-[40rem] md:h-[20rem] overflow-hidden bg-page2 flex justify-center items-center md:border-x-2 border-pageMenu">
-        {/* <svg
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 0.1 }}
-          transition={{ delay: 1.5 }}
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 -5 40 5"
-          className="z-10 top-0 absolute h-[0rem] md:h-[4rem] overflow-hidden opacity-20"
-        >
-          <path d="M0 0l2-5h2L2 0H0m4 0l2-5h2L6 0H4m4 0l2-5h2l-2 5H8m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2"></path>
-        </svg> */}
         <div className="w-full h-[40rem] md:h-[20rem] overflow-hidden border-x-2 md:border-x-0 border-b-2 border-pageMenu">
           <div className="w-full h-full md:grid md:grid-cols-12">
             <div className="flex w-hull h-[30%] md:h-full md:col-span-5 border-2 border-pageMenu bg-page1">
@@ -229,7 +155,10 @@ function LakeContent(props) {
                   </div>
                   <div className="row-span-3 w-full h-full">
                     <div className="grid grid-cols-2 w-full">
-                      <div className="col-span-1 flex justify-end items-center" onClick={showCopyNotification}>
+                      <div
+                        className="col-span-1 flex justify-end items-center"
+                        onClick={showCopyNotification}
+                      >
                         <CopyToClipboard text={copyToClipboardText}>
                           <motion.div
                             whileTap={{ scale: 0.7 }}
@@ -253,7 +182,10 @@ function LakeContent(props) {
                           </motion.div>
                         </CopyToClipboard>
                       </div>
-                      <div className="col-span-1 flex justify-start items-center" onClick={showCopyNotification}>
+                      <div
+                        className="col-span-1 flex justify-start items-center"
+                        onClick={showCopyNotification}
+                      >
                         <CopyToClipboard text={copyToClipboardText}>
                           <motion.div whileHover={{ scale: 1.1 }}>
                             <span className="font-page text-pageMenu text-base sm:text-ld md:text-xl tracking-wide hover:underline hover:cursor-pointer">
@@ -367,16 +299,6 @@ function LakeContent(props) {
             </div>
           </div>
         </div>
-        {/* <svg
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 0.1 }}
-          transition={{ delay: 1.5 }}
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 -5 40 5"
-          className="z-10 bottom-0 absolute h-[0rem] md:h-[4rem] overflow-hidden opacity-20"
-        >
-          <path d="M0 0l2-5h2L2 0H0m4 0l2-5h2L6 0H4m4 0l2-5h2l-2 5H8m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2"></path>
-        </svg> */}
       </div>
       <CommentsBlock eventId={lakeId} />
     </React.Fragment>

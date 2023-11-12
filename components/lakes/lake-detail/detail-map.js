@@ -8,21 +8,10 @@ import Map, {
 } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import "@mapbox/mapbox-gl-geocoder/lib/mapbox-gl-geocoder.css";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import GeocoderControl from "../../../components/home-page/geocoder";
 
 function DetailMap(props) {
-  // const [marker, setMarker] = useState();
-
-  // console.log("___INITIAL COORDS____");
-  // console.log(props.initialCoordsFromEditPage);
-
-  // useEffect(() => {
-  //   if (props.initialCoordsFromEditPage) {
-  //     setMarker(props.initialCoordsFromEditPage);
-  //   }
-  // }, []);
-
   const skyLayer = {
     id: "sky",
     type: "sky",
@@ -40,7 +29,9 @@ function DetailMap(props) {
     config = {};
   }
 
-  const filter = props.sateliteMap ? "saturate-[0.8] grayscale-[10%] brightness-125" : "hue-rotate-[-30deg] saturate-[0.2] grayscale-[30%] brightness-105";
+  const filter = props.sateliteMap
+    ? "saturate-[0.8] grayscale-[10%] brightness-125"
+    : "hue-rotate-[-30deg] saturate-[0.2] grayscale-[30%] brightness-105";
 
   return (
     <React.Fragment>
@@ -59,7 +50,6 @@ function DetailMap(props) {
           }
           terrain={config}
           mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
-          // onClick={onClick}
         >
           <GeocoderControl
             mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
@@ -68,17 +58,12 @@ function DetailMap(props) {
           <GeolocateControl position="top-left" />
           <FullscreenControl position="top-left" />
           <NavigationControl position="top-left" />
-          {/* {marker && ( */}
-            <Marker
-              key="Marker"
-              longitude={props.initialCoordsFromEditPage.lng}
-              latitude={props.initialCoordsFromEditPage.lat}
-              color="black"
-              // draggable
-              // onDrag={onMarkerDrag}
-              // onDragEnd={onMarkerDragEnd}
-            />
-          {/* )} */}
+          <Marker
+            key="Marker"
+            longitude={props.initialCoordsFromEditPage.lng}
+            latitude={props.initialCoordsFromEditPage.lat}
+            color="black"
+          />
           <Source
             id="mapbox-dem"
             type="raster-dem"

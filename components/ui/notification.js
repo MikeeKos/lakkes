@@ -1,23 +1,11 @@
-//sztuczna intelignecja
-//eportal prezentacje
-//moze bedzie zerowy termin
-//termin ostatniego wykladu - sesja
-//cena koncowa - ocena z kolokwium
-
-//elementy elektroniki i elektrotechniki
-
 import { useContext } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-
-// import classes from "./notification.module.css";
 import NotificationContext from "../../store/notification-context";
 
 function Notification(props) {
   const notificationCtx = useContext(NotificationContext);
 
   const { title, message, status } = props;
-
-  // let statusClasses = '';
 
   let typeOfNotificationSVG;
 
@@ -101,12 +89,6 @@ function Notification(props) {
     </svg>
   );
 
-  // const activeClasses = `${classes.notification} ${statusClasses}`;
-
-  // <div className={activeClasses} onClick={notificationCtx.hideNotification}>
-  //   <h2>{title}</h2>
-  //   <p>{message}</p>
-  // </div>
   return (
     <AnimatePresence>
       <motion.div
@@ -139,114 +121,3 @@ function Notification(props) {
 }
 
 export default Notification;
-
-//
-//
-//
-//
-//ver 1
-//
-//
-//
-//
-//
-//
-// import { useContext } from 'react';
-
-// import classes from './notification.module.css';
-// import NotificationContext from '../../store/notification-context';
-
-// function Notification(props) {
-//   const notificationCtx = useContext(NotificationContext);
-
-//   const { title, message, status } = props;
-
-//   let statusClasses = '';
-
-//   if (status === 'success') {
-//     statusClasses = classes.success;
-//   }
-
-//   if (status === 'error') {
-//     statusClasses = classes.error;
-//   }
-
-//   if (status === 'pending') {
-//     statusClasses = classes.pending;
-//   }
-
-//   const activeClasses = `${classes.notification} ${statusClasses}`;
-
-//   return (
-//     <div className={activeClasses} onClick={notificationCtx.hideNotification}>
-//       <h2>{title}</h2>
-//       <p>{message}</p>
-//     </div>
-//   );
-// }
-
-// export default Notification;
-
-//
-//
-//
-//
-//
-//
-//
-//ver 2
-//
-//
-//
-//
-// import React, { useContext } from "react";
-
-// // import classes from "./notification.module.css";
-// import NotificationContext from "../../store/notification-context";
-
-// function Notification(props) {
-//   const notificationCtx = useContext(NotificationContext);
-
-//   const { title, message, status } = props;
-
-//   // let statusClasses = "";
-
-//   if (status === "success") {
-//     // statusClasses = classes.success;
-//   }
-
-//   if (status === "error") {
-//     // statusClasses = classes.error;
-//   }
-
-//   if (status === "pending") {
-//     // statusClasses = classes.pending;
-//   }
-
-//   // const activeClasses = `${classes.notification} ${statusClasses}`;
-
-//   return (
-//     // <div className={activeClasses} onClick={notificationCtx.hideNotification}>
-//     //   <h2>{title}</h2>
-//     //   <p>{message}</p>
-//     // </div>
-//     <React.Fragment>
-//       <div
-//         className="fixed bottom-5 w-full h-20 text-pageMenu"
-//         onClick={notificationCtx.hideNotification}
-//       >
-//         <div className="w-full h-full grid grid-cols-12">
-//           <div className="col-span-2 sm:col-span-1 border-2 bg-page2">V</div>
-//           <div className="col-span-8 sm:col-span-10 border-2 bg-page1">
-//             <p>{message}</p>
-//           </div>
-//           <div className="col-span-2 sm:col-span-1 border-2 bg-page2">
-//             <h2>{title}</h2>
-//           </div>
-//         </div>
-//       </div>
-//     </React.Fragment>
-//   );
-// }
-
-// export default Notification;

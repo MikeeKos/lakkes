@@ -16,31 +16,19 @@ export const authOptions = {
     CredentialProvider({
       name: "credentials",
       authorize: async (credentials) => {
-        console.log("credentials= ", credentials);
-
-        // const client = await connectToClient();
-        // const db = client.db();
-        // const user = await userExists(db, "users", {
-        //   email: credentials.email,
-        // });
-
         let client;
         try {
           client = await connectDatabase();
         } catch (error) {
           throw new Error("Cannot connect to database");
         }
+
         const user = await User.findOne({ email: credentials.email });
 
         if (!user) {
-          // no user with the entered email
-          // client.close();
-          console.log("CLOSING CONNECTION");
           mongoose.connection.close();
           throw new Error("wrong email or password");
         }
-
-        console.log("user= ", user);
 
         // found a user with that email address, check for password
         const isValid = await verifyPassword(
@@ -49,17 +37,11 @@ export const authOptions = {
         );
 
         if (!isValid) {
-          // client.close();
-          console.log("CLOSING CONNECTION");
           mongoose.connection.close();
           throw new Error("wrong email or password");
         }
 
-        // client.close();
-        console.log("CLOSING CONNECTION");
         mongoose.connection.close();
-
-        // authorization succeeded
 
         // return object that is encoded for JWT token
         return { email: user.email };

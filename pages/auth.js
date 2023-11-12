@@ -5,7 +5,6 @@ import { useEffect } from "react";
 
 function AuthPage() {
   const { data: session, status } = useSession();
-  console.log(session);
 
   const router = useRouter();
 

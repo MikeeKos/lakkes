@@ -1,10 +1,52 @@
 import Link from "next/link";
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { motion } from "framer-motion";
-import NotificationContext from "../../store/notification-context";
+import NotificationContext from "../../../../store/notification-context";
 
-function CarouselDescriptionSplit(props) {
+function CarouselDesc(props) {
+  const variant = props.variant;
+
+  let container = "";
+  let link = "";
+  let span = "";
+  let secondSpan = "";
+  let secondLink = "";
+  let div = "";
+
+  if (variant === "normal") {
+    container = "absolute w-full h-full overflow-hidden";
+    link =
+      "h-[2.4rem] truncate px-2 pt-2 me-2 text-2xl font-bold tracking-tight text-pageMenu";
+    span =
+      "h-[1.4rem] flex items-center truncate px-2 font-normal text-xs text-pageMenu opacity-50";
+    secondSpan =
+      "h-[1.4rem] flex items-center truncate px-2 font-normal text-xs text-pageMenu opacity-50";
+    secondLink = "relative";
+    div = "h-[3rem]";
+  } else if (variant === "side") {
+    container =
+      "absolute w-full h-full overflow-hidden border-t-4 border-pageMenu sm:border-t-4 sm:border-s-0 md:border-t-0 md:border-s-4";
+    link =
+      "h-[2.0rem] sm:h-[2.4rem] truncate px-1 pt-0 me-2 text-2xl font-bold tracking-tight text-pageMenu md:pt-2 md:ps-2";
+    span =
+      "h-[1.29rem] sm:h-[1.4rem] flex items-center truncate px-2 font-normal text-xs text-pageMenu opacity-50";
+    secondSpan =
+      "h-[1.29rem] sm:h-[1.4rem] flex items-center truncate px-2 font-normal text-xs text-pageMenu opacity-50 sm:opacity-0 md:opacity-50";
+    secondLink = "opacity-0 sm:opacity-100 relative";
+    div = "h-[3rem] opacity-0 sm:opacity-100";
+  } else if (variant === "split") {
+    container = "absolute w-full h-full overflow-hidden";
+    link =
+      "h-[2.4rem] truncate px-2 pt-2 me-2 text-2xl font-bold tracking-tight text-pageMenu";
+    span =
+      "h-[1.4rem] flex items-center truncate px-2 font-normal text-xs text-pageMenu opacity-50";
+    secondSpan =
+      "h-[1.4rem] flex items-center truncate px-2 font-normal text-xs text-pageMenu opacity-50";
+    secondLink = "opacity-100 sm:opacity-0 md:opacity-100 relative";
+    div = "h-[3rem]";
+  }
+
   const notificationCtx = useContext(NotificationContext);
   const num = props.lakeNumber;
   const lake = props.lakes[num];
@@ -35,19 +77,16 @@ function CarouselDescriptionSplit(props) {
       message: "The coordinates have been copied to the clipboard",
       status: "success",
     });
-  }
+  };
 
   return (
-    <div className="absolute w-full h-full overflow-hidden">
+    <div className={container}>
       <div className="relative w-full h-full bg-page1 grid row-span-3 font-page">
-        <Link
-          href={`/list/${lake._id}`}
-          className="h-[2.4rem] truncate px-2 pt-2 me-2 text-2xl font-bold tracking-tight text-pageMenu"
-        >
+        <Link href={`/list/${lake._id}`} className={link}>
           {lake.title}
         </Link>
 
-        <span className="h-[1.4rem] flex items-center truncate px-2 font-normal text-xs text-pageMenu opacity-50">
+        <span className={span}>
           <div>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -64,7 +103,7 @@ function CarouselDescriptionSplit(props) {
           </div>
           <div>{lake.location}</div>
         </span>
-        <span className="h-[1.4rem] flex items-center truncate px-2 font-normal text-xs text-pageMenu opacity-50">
+        <span className={secondSpan}>
           <div onClick={showCopyNotification}>
             <CopyToClipboard text={copyToClipboardText}>
               <motion.svg
@@ -93,12 +132,12 @@ function CarouselDescriptionSplit(props) {
             </CopyToClipboard>
           </div>
         </span>
-        <Link href={`/list/${lake._id}`} className="opacity-100 sm:opacity-0 md:opacity-100 relative">
+        <Link href={`/list/${lake._id}`} className={secondLink}>
           <span className="absolute w-full ps-2 text-ellipsis text-xs sm:text-sm line-clamp-2 sm:line-clamp-3 overflow-hidden h-[2.1rem] sm:h-[4.5em] break-words">
             {lake.description}
           </span>
         </Link>
-        <div className="h-[3rem]"></div>
+        <div className={div}></div>
         <Link href={`/list/${lake._id}`}>
           <div className="hover:cursor-pointer absolute bottom-0 bg-page2 hover:bg-page1 duration-200 flex justify-center items-center w-full h-[1.5rem] sm:h-[1.8rem] md:h-[2rem] border-t-4 border-pageMenu">
             {goArrow}
@@ -111,4 +150,4 @@ function CarouselDescriptionSplit(props) {
   );
 }
 
-export default CarouselDescriptionSplit;
+export default CarouselDesc;

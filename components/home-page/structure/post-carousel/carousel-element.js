@@ -5,30 +5,11 @@ import Image from "next/image";
 
 function CarouselElement(props) {
   const num = props.lakeNumber;
-  // const firstObj = [];
-  // props.lakes[num].images.map((img) => {
-  //   firstObj.push(img.url);
-  // });
 
-  // const lakeObj = props.lakes[num];
   const firstObj = [];
   props.lakes[num].images.map((img) => {
     firstObj.push(img.url);
   });
-
-  // console.log(firstObj.length);
-  // console.log("___Object___");
-  // console.log(lakeObj);
-
-  // props.lakes[1].images.map((img) => {
-  //   secondObj.push(img.url)
-  // });
-
-  // props.lakes[2].images.map((img) => {
-  //   thirdObj.push(img.url)
-  // });
-
-  // console.log(firstObj);
 
   const [count, setCount] = useState(0);
   const [ref, { width }] = useMeasure();
@@ -118,7 +99,6 @@ function CarouselElement(props) {
               exit="exit"
               //whatever you pass in custom will end up in variants
               custom={{ direction, width }}
-              // transition={{ duration: 0.5 }}
               className="contrast-[0.80] grayscale-[15%] brightness-110 absolute flex justify-center items-center w-full h-full"
             >
               <Image
@@ -130,18 +110,6 @@ function CarouselElement(props) {
                 blurDataURL={firstObj[count]}
                 className="w-full h-full object-cover"
               />
-              {/* <Image
-            src="/homepage2.jpg"
-            alt="Image"
-            placeholder="blur"
-            fill={true}
-            style={{ borderRadius: "10px", overflow: "hidden" }}
-            blurDataURL={"/homepage2.jpg"}
-            sizes="1000px"
-            // sizes="100px"
-          /> */}
-              {/* <img className="w-full h-full object-cover" src={firstObj[count]} alt="..."/> */}
-              {/* {count} */}
             </motion.div>
           </AnimatePresence>
         </div>
@@ -159,7 +127,5 @@ let variants = {
     x: direction === "increasing" ? -width : width,
   }),
 };
-
-// let colors = ["bg-red-500", "bg-blue-500", "bg-green-500", "bg-yellow-500"];
 
 export default CarouselElement;

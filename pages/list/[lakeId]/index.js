@@ -27,7 +27,6 @@ export async function getServerSideProps({ params }) {
     const lakeAuthorName = getUserName.author.username;
 
     const lake = await Lake.findById(params.lakeId);
-    console.log("CLOSING CONNECTION");
     mongoose.connection.close();
     return {
       props: {
@@ -36,7 +35,6 @@ export async function getServerSideProps({ params }) {
       },
     };
   } catch (error) {
-    console.log("CLOSING CONNECTION");
     mongoose.connection.close();
     return {
       notFound: true,

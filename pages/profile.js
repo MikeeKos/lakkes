@@ -11,12 +11,6 @@ import User from "../models/User";
 
 function ProfilePage(props) {
   const { data: session, status } = useSession();
-  console.log(session);
-  console.log(status);
-
-  console.log("___SERVER SIDE SESSION FROM GETSERVERSIDEPROPS___");
-  console.log(props.sessionObject);
-
   const router = useRouter();
 
   useEffect(() => {
@@ -52,8 +46,6 @@ function ProfilePage(props) {
 
 export async function getServerSideProps(context) {
   const session = await getServerSession(context.req, context.res, authOptions);
-  console.log("___SHOW CURRENT SESSION___");
-  console.log(session);
 
   if (!session) {
     return {
@@ -65,7 +57,6 @@ export async function getServerSideProps(context) {
   }
 
   const userEmail = session.user.email;
-  console.log(userEmail);
 
   let client;
   try {
@@ -84,16 +75,9 @@ export async function getServerSideProps(context) {
         userLakes.push(el);
       }
     });
-    // const userLakes = allLakes.filter((el) => (el.author.email = userEmail));
-    console.log("CHECKING BUG HERE _____ -> -> -> -> -> -> -> ->");
-    const thisUser = await User.findOne({ email: userEmail });
-    // console.log("this user:")
-    console.log(JSON.parse(JSON.stringify(thisUser)));
-    console.log(JSON.parse(JSON.stringify(thisUser.username)));
-    // const userUsername = userLakes[0].author.username;
-    // const result = await Lake.find({});
 
-    console.log("CLOSING CONNECTION");
+    const thisUser = await User.findOne({ email: userEmail });
+
     mongoose.connection.close();
     return {
       props: {
@@ -103,7 +87,6 @@ export async function getServerSideProps(context) {
       },
     };
   } catch (error) {
-    console.log("CLOSING CONNECTION");
     mongoose.connection.close();
     return {
       notFound: true,

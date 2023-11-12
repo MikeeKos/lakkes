@@ -1,8 +1,7 @@
 import Link from "next/link";
-import { useSession, signOut } from "next-auth/react";
-import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
+import React from "react";
+import { motion } from "framer-motion";
 
 function Footer() {
   const { data: session, status } = useSession();

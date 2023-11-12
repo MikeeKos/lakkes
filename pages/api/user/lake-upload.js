@@ -8,8 +8,8 @@ import { authOptions } from "../auth/[...nextauth]";
 import { getServerSession } from "next-auth";
 import User from "../../../models/User";
 import Joi from "joi";
-
 import mbxGeocoding from "@mapbox/mapbox-sdk/services/geocoding";
+
 const mapBoxToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
 const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
 
@@ -59,8 +59,6 @@ const handler = async (req, res) => {
           return res.status(500).json({ message: "Something went wrong" });
         }
         const uploadedImages = req.files;
-        console.log("REQ FILES CHECKING IF THERE ARE 10 FILES")
-        console.log(req.files.length)
         const fileSchema = Joi.object({
           fieldname: Joi.string().required(),
           originalname: Joi.string().required(),
@@ -83,7 +81,9 @@ const handler = async (req, res) => {
           req.files.map(async (file) => {
             await uploader.destroy(file.filename, { invalidate: true });
           });
-          return res.status(400).json({ message: "You must add between 1 and 10 images" });
+          return res
+            .status(400)
+            .json({ message: "You must add between 1 and 10 images" });
         }
 
         //Check data validity

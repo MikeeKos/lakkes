@@ -8,7 +8,6 @@ import { motion, AnimatePresence } from "framer-motion";
 function CommentsBlock(props) {
   const { eventId } = props;
   const notificationCtx = useContext(NotificationContext);
-
   const [showComments, setShowComments] = useState(false);
   const [comments, setComments] = useState(null);
 
@@ -25,16 +24,12 @@ function CommentsBlock(props) {
           throw new Error(text);
         }
 
-        //delete later
         const data = await response.json();
-        console.log("POPULATING TEST");
-        console.log(data.comments);
         setComments(data.comments);
       } catch (error) {
-        console.log(error);
         notificationCtx.showNotification({
           title: "Error!",
-          message: "Something went wrong, when catching comments",
+          message: "something went wrong, when catching comments",
           status: "error",
         });
       }
@@ -63,21 +58,14 @@ function CommentsBlock(props) {
       }
 
       const data = await response.json();
-      //delete later
-      console.log(data);
       notificationCtx.showNotification({
         title: "success!",
         message: "successfully created new object",
         status: "success",
       });
-      console.log("DATA FROM POST REQUEST");
-      console.log(data.comment);
       const newComment = data.comment;
       setComments((oldArray) => [...oldArray, newComment]);
-      console.log("IS LATEST CHANGE WORK?");
-      console.log(comments);
     } catch (error) {
-      console.log(error);
       notificationCtx.showNotification({
         title: "Error!",
         message: "Something went wrong, when creating comment",
@@ -118,16 +106,6 @@ function CommentsBlock(props) {
       <AnimatePresence>
         {comments && showComments && (
           <div className="relative w-full h-[57rem] md:h-[30rem] md:border-pageMenu bg-page2 flex justify-center items-center md:border-x-4">
-            {/* <svg
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 0.1 }}
-              transition={{ delay: 1.5 }}
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 -5 40 5"
-              className="z-10 top-0 absolute h-[0rem] md:h-[4rem] overflow-hidden opacity-20"
-            >
-              <path d="M0 0l2-5h2L2 0H0m4 0l2-5h2L6 0H4m4 0l2-5h2l-2 5H8m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2"></path>
-            </svg> */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -146,25 +124,12 @@ function CommentsBlock(props) {
                 </div>
                 <div className="w-full h-full py-5 overflow-hidden scale-90 sm:scale-100">
                   <AddComment onAddComment={addCommentHandler} />
-
-                  {/* <div className="w-full h-[calc(100%-6rem)] border-4 border-pageMenu"></div> */}
                 </div>
               </div>
               <div className="w-full h-[50%] md:h-full border-y-2 md:border-b-2 border-x-4 md:border-s-2 md:border-e-0 md:border-t-0 border-pageMenu md:col-span-8">
-                {/* <ListOfComments /> */}
                 <ListOfComments items={comments} />
               </div>
             </motion.div>
-            {/* <svg
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 0.1 }}
-              transition={{ delay: 1.5 }}
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 -5 40 5"
-              className="z-10 bottom-0 absolute h-[0rem] md:h-[4rem] lg:h-[3.9rem] overflow-hidden opacity-20"
-            >
-              <path d="M0 0l2-5h2L2 0H0m4 0l2-5h2L6 0H4m4 0l2-5h2l-2 5H8m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2m4 0l2-5h2l-2 5h-2"></path>
-            </svg> */}
           </div>
         )}
       </AnimatePresence>

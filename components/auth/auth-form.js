@@ -111,7 +111,7 @@ function AuthForm() {
 
         notificationCtx.showNotification({
           title: "success!",
-          message: "You are successfully logged in",
+          message: "you are successfully logged in",
           status: "success",
         });
       } catch (error) {

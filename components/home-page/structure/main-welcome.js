@@ -11,20 +11,14 @@ function MainWelcome() {
         className="relative h-full w-full grid place-items-center saturate-50 scale-90"
       >
         <div className="flex items-center justify-center relative z-10 sm:text-[5em] text-[4em] text-center w-full h-full">
-          <span className="absolute top-[95px] right-[-10px] min-[379px]:top-[124px] min-[652px]:top-[92px] min-[778px]:top-[172px] min-[910px]:top-[196px] min-[1028px]:top-[138px] min-[1350px]:top-[172px] font-page text-page1 font-extrabold text-6xl sm:text-8xl md:text-5xl lg:text-7xl">find a place on the map</span>
-          <span className="absolute font-page text-pageMenu font-extrabold text-6xl sm:text-8xl md:text-5xl lg:text-7xl">find a place on the map</span>
+          <span className="absolute top-[95px] right-[-10px] min-[379px]:top-[124px] min-[652px]:top-[92px] min-[778px]:top-[172px] min-[910px]:top-[196px] min-[1028px]:top-[138px] min-[1350px]:top-[172px] font-page text-page1 font-extrabold text-6xl sm:text-8xl md:text-5xl lg:text-7xl">
+            find a place on the map
+          </span>
+          <span className="absolute font-page text-pageMenu font-extrabold text-6xl sm:text-8xl md:text-5xl lg:text-7xl">
+            find a place on the map
+          </span>
         </div>
         <motion.div
-          // initial={{
-          //   rotate: -7,
-          //   x: -12,
-          //   y: 0,
-          // }}
-          // animate={{
-          //   rotate: -18,
-          //   x: -95,
-          //   y: 12,
-          // }}
           animate={{
             rotate: [-7, -18],
             x: [-12, -95],
@@ -46,20 +40,9 @@ function MainWelcome() {
             style={{ borderRadius: "10px", overflow: "hidden" }}
             blurDataURL={"/homepage1.jpg"}
             sizes="1000px"
-            // sizes="300px"
           />
         </motion.div>
         <motion.div
-          // initial={{
-          //   rotate: -2,
-          //   x: -6,
-          //   y: 0,
-          // }}
-          // animate={{
-          //   rotate: -6,
-          //   x: -40,
-          //   y: 2,
-          // }}
           animate={{
             rotate: [-2, -6],
             x: [-6, -40],
@@ -81,20 +64,9 @@ function MainWelcome() {
             style={{ borderRadius: "10px", overflow: "hidden" }}
             blurDataURL={"/homepage2.jpg"}
             sizes="1000px"
-            // sizes="100px"
           />
         </motion.div>
         <motion.div
-          // initial={{
-          //   rotate: 2,
-          //   x: 6,
-          //   y: 0,
-          // }}
-          // animate={{
-          //   rotate: 6,
-          //   x: 18,
-          //   y: 2,
-          // }}
           animate={{
             rotate: [2, 6],
             x: [6, 18],
@@ -116,20 +88,9 @@ function MainWelcome() {
             style={{ borderRadius: "10px", overflow: "hidden" }}
             blurDataURL={"/homepage3.jpg"}
             sizes="1000px"
-            // sizes="100px"
           />
         </motion.div>
         <motion.div
-          // initial={{
-          //   rotate: 8,
-          //   x: 6,
-          //   y: 0,
-          // }}
-          // animate={{
-          //   rotate: 15,
-          //   x: 78,
-          //   y: 14,
-          // }}
           animate={{
             rotate: [10, 15],
             x: [16, 78],
@@ -151,23 +112,9 @@ function MainWelcome() {
             style={{ borderRadius: "10px", overflow: "hidden" }}
             blurDataURL={"/homepage4.jpg"}
             sizes="1000px"
-            // sizes="300px"
           />
         </motion.div>
         <motion.div
-          // initial={{
-          //   rotate: 0,
-          //   x: 0,
-          //   y: 0,
-          //   opacity: 0,
-          // }}
-          // animate={{
-          //   rotate: -28,
-          //   x: 95,
-          //   y: -70,
-          //   opacity: 1,
-          // }}
-          // transition={{ delay: 3 }}
           animate={{
             rotate: [0, -28],
             x: [0, 95],
@@ -194,19 +141,6 @@ function MainWelcome() {
           />
         </motion.div>
         <motion.div
-          // initial={{
-          //   rotate: 0,
-          //   x: 0,
-          //   y: 0,
-          //   opacity: 0,
-          // }}
-          // animate={{
-          //   rotate: 25,
-          //   x: 65,
-          //   y: 90,
-          //   opacity: 1,
-          // }}
-          // transition={{ delay: 3 }}
           animate={{
             rotate: [0, 25],
             x: [0, 65],
@@ -233,19 +167,6 @@ function MainWelcome() {
           />
         </motion.div>
         <motion.div
-          // initial={{
-          //   rotate: 0,
-          //   x: 0,
-          //   y: 0,
-          //   opacity: 0,
-          // }}
-          // animate={{
-          //   rotate: 15,
-          //   x: 0,
-          //   y: -20,
-          //   opacity: 1,
-          // }}
-          // transition={{ delay: 3 }}
           animate={{
             rotate: [0, 15],
             x: [0, 2],
@@ -272,21 +193,6 @@ function MainWelcome() {
           />
         </motion.div>
         <motion.div
-          // initial={{
-          //   rotate: 0,
-          //   x: 0,
-          //   y: 0,
-          //   opacity: 0,
-          //   scale: 1
-          // }}
-          // animate={{
-          //   rotate: 110,
-          //   x: 60,
-          //   y: 5,
-          //   opacity: 1,
-          //   scale: 1.5
-          // }}
-          // transition={{ delay: 3 }}
           animate={{
             rotate: [0, 110],
             x: [0, 60],
@@ -315,43 +221,9 @@ function MainWelcome() {
             </g>
           </svg>
         </motion.div>
-        {/* <div className="absolute uppercase text-5xl text-pageWhite h-full w-full">
-          <div className="relative h-full w-full sm:h-full sm:w-[60%] sm:right-20 right-0 md:right-0 md:h-full md:w-full flex justify-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="-7 -8.183 35.39 30.09"
-              fill="#E3F4F4"
-              className="h-full absolute left-1"
-            >
-              <path d="M0-5c7-4 19-6 26 5 3 6 3 8 1 15-3 7-11 8-18 6-11-3-16-3-16-10C-7 1-3-3 0-5"></path>
-            </svg>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="-11.378 -15.381 50.29 43.43"
-              fill="#D2E9E9"
-              className="h-full absolute"
-
-            >
-              <path d="M-5-14c12-4 23 1 36 11 12 10 9 22 0 25-11 4-6 8-17 5-16-6-21-9-24-25-3-12-1-12 5-16"></path>
-            </svg>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="-10.329 -20.127 56.74 47.17"
-              fill="#C4DFDF"
-              className="h-full absolute right-1"
-            >
-              <path d="M-5-14c10-7 12-4 23-6 12-1 13 4 22 12s9 20-3 24c-14 2-10 10-23 11-19 1-26-16-24-25 2-7-1-12 5-16"></path>
-            </svg>
-          </div>
-        </div> */}
       </motion.div>
     </React.Fragment>
   );
 }
-
-// pageLight: "#E3F4F4",
-// pageMedium: "#D2E9E9",
-// pageStrong: "#C4DFDF",
-// pageDarkBlue: "#A3CDCD",
 
 export default MainWelcome;

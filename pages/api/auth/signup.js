@@ -5,7 +5,6 @@ import User from "../../../models/User";
 
 async function handler(req, res) {
   if (req.method !== "POST") {
-    console.log("___Method was not POST___");
     res.status(422).json({
       message: "Method was not POST",
     });
@@ -46,7 +45,9 @@ async function handler(req, res) {
   }
 
   if (username.length > 30) {
-    res.status(422).json({ message: "username cannot be longer than 30 characters" });
+    res
+      .status(422)
+      .json({ message: "username cannot be longer than 30 characters" });
     return;
   }
 
@@ -54,7 +55,6 @@ async function handler(req, res) {
     const emailIsUsed = await User.findOne({ email: email });
     if (emailIsUsed) {
       res.status(422).json({ message: "Email is already in use" });
-      console.log("CLOSING CONNECTION");
       mongoose.connection.close();
       return;
     }
@@ -71,7 +71,6 @@ async function handler(req, res) {
     res.status(422).json({ message: "Failed to create user" });
   }
 
-  console.log("CLOSING CONNECTION");
   mongoose.connection.close();
 }
 

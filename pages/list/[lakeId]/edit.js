@@ -1,13 +1,11 @@
 import { useRouter } from "next/router";
 import useSWR from "swr";
-import LakeForm from "../../../components/createOrEdit/lakeForm";
+import LakeForm from "../../../components/create-or-edit/lakeForm";
 import React from "react";
 import { connectDatabase } from "../../../helpers/db-util";
 import Lake from "../../../models/Lake";
-// import User from "../../../models/User";
 import mongoose from "mongoose";
 import { getServerSession } from "next-auth";
-// import { authOptions } from "./api/auth/[...nextauth]";
 import { authOptions } from "../../api/auth/[...nextauth]";
 
 const fetcher = (url) =>
@@ -16,9 +14,6 @@ const fetcher = (url) =>
     .then((json) => json.data);
 
 const EditLake = (props) => {
-  // console.log("___ARE PROPS THERE___");
-  // console.log(props.images);
-
   const router = useRouter();
   const { lakeId } = router.query;
   const {
@@ -40,8 +35,6 @@ const EditLake = (props) => {
     );
   if (!lake) return null;
 
-  console.log("___LAKE FROM GETSERVERSIDEPROPS____");
-  console.log(lake);
   const lakeForm = {
     title: lake.title,
     description: lake.description,
@@ -74,21 +67,15 @@ export async function getServerSideProps(context) {
     };
   }
 
-  console.log("SESSION ON EDIT PAGE");
-  console.log(session);
-
   try {
     const ownerOfThisPost = await Lake.findById(lakeId).populate("author");
     if (session.user.email !== ownerOfThisPost.author.email) {
-      console.log("THIS USER IS NOT OWNER OF THIS LAKE")
-      console.log("CLOSING CONNECTION");
       mongoose.connection.close();
       return {
         notFound: true,
       };
     }
   } catch (error) {
-    console.log("CLOSING CONNECTION");
     mongoose.connection.close();
     return {
       notFound: true,
@@ -98,7 +85,6 @@ export async function getServerSideProps(context) {
   try {
     const lake = await Lake.findById(lakeId).populate("images");
     const images = lake.images;
-    console.log("CLOSING CONNECTION");
     mongoose.connection.close();
     return {
       props: {
@@ -106,7 +92,6 @@ export async function getServerSideProps(context) {
       },
     };
   } catch (error) {
-    console.log("CLOSING CONNECTION");
     mongoose.connection.close();
     return {
       notFound: true,

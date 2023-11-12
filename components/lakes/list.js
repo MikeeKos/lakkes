@@ -1,24 +1,12 @@
 import React, { useState } from "react";
-import CluserMap from "../home-page/cluser-map";
 import { motion } from "framer-motion";
 import ImageCarousel from "./image-carousel";
 import Link from "next/link";
 import ListClusterMap from "./list-cluster-map";
 
 function List(props) {
-  // const [zoomLevel, setZoomLevel] = useState(5);
   const [sateliteMap, setSateliteMap] = useState(false);
-
   const lakes = props.lakes;
-  // lakes.map((el) => {
-  //   return (
-  //     el.images.map((imgs) => {
-  //       return (
-  //         console.log(imgs.url)
-  //       )
-  //     })
-  //   )
-  // })
 
   function extractLastWord(input) {
     const words = input.split(/\s+/);
@@ -33,7 +21,6 @@ function List(props) {
     }
     lakesInPoland.push(country);
   });
-  console.log(lakesInPoland);
 
   const handleText =
     "↓ all lakes ↓ all lakes ↓ all lakes ↓ all lakes ↓ all lakes ↓ all lakes ↓ all lakes ↓ all lakes ↓ all lakes ↓ all lakes ↓ all lakes ↓ all lakes ↓ all lakes ↓ all lakes ↓ all lakes ↓ all lakes ↓ all lakes ↓ all lakes ↓ all lakes ↓ all lakes ↓ all lakes ↓ all lakes ↓ all lakes ↓ all lakes";
@@ -73,22 +60,7 @@ function List(props) {
     </div>
   );
 
-  // const zoomInHandler = () => {
-  //   setZoomLevel((prevLevel) => prevLevel + 1);
-  // }
-
   const normalMapSVG = (
-    // <svg
-    //   xmlns="http://www.w3.org/2000/svg"
-    //   fill="#383434"
-    //   viewBox="0 0 24 24"
-    //   className="hover:scale-110 duration-100 w-[80%] h-[80%] sm:w-[70%] sm:h-[70%] md:w-[70%] md:h-[70%]"
-    // >
-    //   <g fill="#000" fillRule="evenodd" clipRule="evenodd">
-    //     <path d="M4 11a7 7 0 1114 0 7 7 0 01-14 0zm7-9a9 9 0 105.618 16.032l3.675 3.675a1 1 0 001.414-1.414l-3.675-3.675A9 9 0 0011 2z"></path>
-    //     <path d="M10 14a1 1 0 102 0v-2h2a1 1 0 100-2h-2V8a1 1 0 10-2 0v2H8a1 1 0 100 2h2v2z"></path>
-    //   </g>
-    // </svg>
     <svg
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
@@ -106,18 +78,6 @@ function List(props) {
   );
 
   const sateliteMapSVG = (
-    // <svg
-    //   xmlns="http://www.w3.org/2000/svg"
-    //   fill="#383434"
-    //   viewBox="0 0 20 20"
-    //   className="hover:scale-110 duration-100 w-[80%] h-[80%] sm:w-[70%] sm:h-[70%] md:w-[70%] md:h-[70%]"
-    // >
-    //   <path
-    //     fill="#000"
-    //     fillRule="evenodd"
-    //     d="M9 4a5 5 0 100 10A5 5 0 009 4zM2 9a7 7 0 1112.6 4.2.999.999 0 01.107.093l3 3a1 1 0 01-1.414 1.414l-3-3a.999.999 0 01-.093-.107A7 7 0 012 9zm10.5 0a1 1 0 00-1-1h-5a1 1 0 100 2h5a1 1 0 001-1z"
-    //   ></path>
-    // </svg>
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
@@ -131,9 +91,6 @@ function List(props) {
 
   return (
     <React.Fragment>
-      {/* <div className="bg-page3 w-full h-[10rem] border-2 border-pageMenu">
-        <span>Hello</span>
-      </div> */}
       <div className="border-2 border-pageMenu">{listSlider}</div>
       <div className="w-full h-[48.1rem] md:h-[38.1rem] bg-page1 border-2 border-pageMenu p-5 overflow-hidden">
         <div className="w-full h-full border-2 border-pageMenu shadow-xl">
@@ -150,7 +107,6 @@ function List(props) {
               <div className="w-full h-[30rem] md:h-[20rem] bg-page2 md:bg-page1">
                 <div className="w-full h-full md:grid md:grid-cols-12">
                   <div className="w-full h-[25rem] md:h-full md:col-span-11 bg-page1 md:border-b-2 md:border-pageMenu">
-                    {/* <CluserMap lakes={props.lakes} /> */}
                     <ListClusterMap
                       lakes={props.lakes}
                       sateliteMap={sateliteMap}
@@ -234,10 +190,6 @@ function List(props) {
           </div>
         </div>
       </div>
-
-      {/* <div className="w-full h-[25rem] border-2 border-pageMenu">
-        <CluserMap lakes={lakes} />
-      </div> */}
       <div className="w-full h-full bg-page2" id="lakes">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 border-2 border-pageMenu">
           {lakes.map((el) => {

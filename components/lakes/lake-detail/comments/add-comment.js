@@ -1,57 +1,21 @@
 import TextField from "@mui/material/TextField";
 import { motion } from "framer-motion";
-import React, { useRef, useState, useContext } from "react";
-import NotificationContext from "../../../../store/notification-context";
+import React, { useState } from "react";
 
 function AddComment(props) {
-  const notificationCtx = useContext(NotificationContext);
-  const [isInvalid, setIsInvalid] = useState(false);
-
-  // const emailInputRef = useRef();
-  // const nameInputRef = useRef();
-  // const commentInputRef = useRef();
   const [commentText, setCommentText] = useState("");
 
   function sendCommentHandler(event) {
     event.preventDefault();
-
-    // const enteredEmail = emailInputRef.current.value;
-    // const enteredName = nameInputRef.current.value;
-    // const enteredComment = commentInputRef.current.value;
     const enteredComment = commentText;
-
-    console.log(enteredComment);
-
-    //client side validation
-    // if (
-    //   !enteredEmail ||
-    //   enteredEmail.trim() === "" ||
-    //   !enteredEmail.includes("@") ||
-    //   !enteredName ||
-    //   enteredName.trim() === "" ||
-    //   !enteredComment ||
-    //   enteredComment.trim() === ""
-    // ) {
-    //   setIsInvalid(true);
-    //   return;
-    // }
-
     props.onAddComment({
-      // email: enteredEmail,
-      // name: enteredName,
       text: enteredComment,
     });
-
     setCommentText("");
   }
 
   const cancelHandler = () => {
     setCommentText("");
-    // notificationCtx.showNotification({
-    //   title: "success!",
-    //   message: "successfully cancelled comment and added comment to database hello",
-    //   status: "pending",
-    // });
   };
 
   const changeHandler = (event) => {
@@ -65,7 +29,6 @@ function AddComment(props) {
         onSubmit={sendCommentHandler}
       >
         <TextField
-          // maxRows={8}
           rows={8}
           className="w-full h-full border-pageBlack saturate-[0.2] brightness-125"
           sx={{
@@ -82,7 +45,6 @@ function AddComment(props) {
           multiline
           value={commentText}
           onChange={changeHandler}
-          // inputRef={commentInputRef}
         />
         <div className="w-full h-full flex flex-row">
           <motion.span
@@ -111,7 +73,3 @@ function AddComment(props) {
 }
 
 export default AddComment;
-
-{
-  /* <div className="w-full h-[calc(100%-6rem)] border-4 border-pageMenu"></div> */
-}
