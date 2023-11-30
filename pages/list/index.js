@@ -1,3 +1,4 @@
+import Head from "next/head";
 import Lake from "../../models/Lake";
 import { connectDatabase } from "../../helpers/db-util";
 import React from "react";
@@ -5,7 +6,18 @@ import mongoose from "mongoose";
 import List from "../../components/lakes/list";
 
 function AllLakesPage(props) {
-  return <List lakes={props.lakes}></List>;
+  return (
+    <React.Fragment>
+      <Head>
+        <title>Lakkes - List</title>
+        <meta
+          name="description"
+          content="Use the map to find the perfect place for you or discover it in the list"
+        />
+      </Head>
+      <List lakes={props.lakes}></List>
+    </React.Fragment>
+  );
 }
 
 export async function getServerSideProps() {

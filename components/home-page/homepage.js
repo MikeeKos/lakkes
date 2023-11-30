@@ -126,9 +126,16 @@ function Homepage(props) {
             </div>
           </div>
         </div>
-        <div className="bg-page1 row-span-6 col-span-12 h-full w-full overflow-hidden shadow-[inset_0_-8px_16px_rgba(0,0,0,0.2)]">
-          <PostCarousel lakes={props.lakes} arrow={arrowClicked} />
-        </div>
+        {props.lakes.length >= 5 && (
+          <div className="bg-page1 row-span-6 col-span-12 h-full w-full overflow-hidden shadow-[inset_0_-8px_16px_rgba(0,0,0,0.2)]">
+            <PostCarousel lakes={props.lakes} arrow={arrowClicked} />
+          </div>
+        )}
+        {props.lakes.length < 5 && (
+          <div className="bg-page1 row-span-6 col-span-12 h-full w-full overflow-hidden shadow-[inset_0_-8px_16px_rgba(0,0,0,0.2)]">
+            <div className="font-body font-extrabold tracking-wider text-3xl sm:text-5xl md:text-7xl lg:text-8xl border-2 border-pageMenu w-full h-full flex items-center justify-center text-pageMenu">nothing here yet...</div>
+          </div>
+        )}
       </div>
       <div className="w-full h-[35rem] border-2 border-pageMenu bg-page1">
         <Display />

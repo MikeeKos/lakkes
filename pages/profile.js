@@ -1,7 +1,8 @@
+import Head from "next/head";
 import { getServerSession } from "next-auth";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { authOptions } from "./api/auth/[...nextauth]";
 import Profile from "../components/profile/profile";
 import { connectDatabase } from "../helpers/db-util";
@@ -21,25 +22,43 @@ function ProfilePage(props) {
 
   if (status === "loading") {
     return (
-      <div>
-        <div className="w-full h-[30rem] border-2 border-pageMenu flex items-center justify-center bg-page1 shadow-[inset_0_-4px_8px_rgba(0,0,0,0.2)]">
-          <span className="font-page text-2xl sm:text-5xl md:text-4xl lg:text-5xl text-pageMenu font-extrabold tracking-wide text-center overflow-hidden p-5 bg-page1">
-            loading...
-          </span>
+      <React.Fragment>
+        <Head>
+          <title>Lakkes - Profile</title>
+          <meta
+            name="description"
+            content="Manage, edit and delete your places"
+          />
+        </Head>
+        <div>
+          <div className="w-full h-[30rem] border-2 border-pageMenu flex items-center justify-center bg-page1 shadow-[inset_0_-4px_8px_rgba(0,0,0,0.2)]">
+            <span className="font-page text-2xl sm:text-5xl md:text-4xl lg:text-5xl text-pageMenu font-extrabold tracking-wide text-center overflow-hidden p-5 bg-page1">
+              loading...
+            </span>
+          </div>
         </div>
-      </div>
+      </React.Fragment>
     );
   }
 
   if (status === "authenticated") {
     return (
-      <div>
-        <Profile
-          lakes={props.lakes}
-          user={props.sessionObject}
-          username={props.username}
-        />
-      </div>
+      <React.Fragment>
+        <Head>
+          <title>Lakkes - Profile</title>
+          <meta
+            name="description"
+            content="Manage, edit and delete your places"
+          />
+        </Head>
+        <div>
+          <Profile
+            lakes={props.lakes}
+            user={props.sessionObject}
+            username={props.username}
+          />
+        </div>
+      </React.Fragment>
     );
   }
 }

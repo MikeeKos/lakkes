@@ -1,3 +1,4 @@
+import Head from "next/head";
 import React from "react";
 import LakeContent from "../../../components/lakes/lake-detail/lake-content";
 import { connectDatabase } from "../../../helpers/db-util";
@@ -7,6 +8,13 @@ import mongoose from "mongoose";
 function SingleLakePage(props) {
   return (
     <React.Fragment>
+      <Head>
+        <title>Lakkes - {props.lake.title}</title>
+        <meta
+          name="description"
+          content={`${props.lake.title} - you can find it in ${props.lake.location}`}
+        />
+      </Head>
       <LakeContent lake={props.lake} lakeAuthorName={props.lakeAuthorName} />
     </React.Fragment>
   );

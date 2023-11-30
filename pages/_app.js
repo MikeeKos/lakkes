@@ -1,3 +1,4 @@
+import Head from "next/head";
 import "../styles/globals.css";
 import Layout from "../components/layout/layout";
 import { NotificationContextProvider } from "../store/notification-context";
@@ -9,6 +10,13 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
     <SessionProvider session={session}>
       <NotificationContextProvider>
         <Layout>
+          <Head>
+            <meta
+              name="viewport"
+              content="width=device-width, initial-scale=1"
+            />
+            <link rel="icon" href="/icon.ico/" sizes="any" />
+          </Head>
           <Component {...pageProps} />
         </Layout>
       </NotificationContextProvider>

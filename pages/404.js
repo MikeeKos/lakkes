@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { useRouter } from "next/router";
 import React from "react";
 
@@ -9,6 +10,9 @@ export default function Custom404() {
 
   return (
     <React.Fragment>
+      <Head>
+        <title>Not Found</title>
+      </Head>
       <div className="w-full h-[30rem] bg-page1 border-2 border-pageMenu md:grid md:grid-cols-12">
         <div className="w-full h-1/2 md:h-full md:col-span-5 md:border-b-0 md:border-e-4 md:border-pageMenu">
           <div className="w-full h-full flex items-center justify-center">
