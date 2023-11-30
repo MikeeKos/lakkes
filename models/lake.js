@@ -62,8 +62,8 @@ const LakeSchema = new mongoose.Schema({
   },
 });
 
-LakeSchema.path("images").validate(function (images) {
-  return images.length <= 10;
-}, "Images array must have less than 10 elements.");
+// LakeSchema.path("images").validate(function (images) {
+//   return images.length <= 10;
+// }, "Images array must have less than 10 elements.");
 
 export default mongoose.models.Lake || mongoose.model("Lake", LakeSchema);
