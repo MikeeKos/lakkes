@@ -7,7 +7,7 @@ import { authOptions } from "./api/auth/[...nextauth]";
 import Profile from "../components/profile/profile";
 import { connectDatabase } from "../helpers/db-util";
 import mongoose from "mongoose";
-import Lake from "../models/Lake.js";
+import Lake from "../models/Lake";
 import User from "../models/User";
 
 function ProfilePage(props) {
