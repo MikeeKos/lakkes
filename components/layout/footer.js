@@ -62,7 +62,7 @@ function Footer() {
                     whileHover={{ scale: 1.05 }}
                     className="w-full h-full flex justify-center items-center text-xs sm:text-sm md:text-lg lg:text-xl px-2 mx-2 sm:px-4 sm:mx-4 font-page tracking-wide"
                   >
-                    find the right place for you ↗
+                    find the right place for you
                   </motion.span>
                 </Link>
               </div>
@@ -73,7 +73,7 @@ function Footer() {
                     whileHover={{ scale: 1.05 }}
                     className="w-full h-full flex justify-center items-center text-xs sm:text-sm md:text-lg lg:text-xl px-2 mx-2 sm:px-4 sm:mx-4 font-page tracking-wide"
                   >
-                    add the place you have found ↗
+                    add the place you have found
                   </motion.span>
                 </Link>
               </div>
@@ -84,7 +84,7 @@ function Footer() {
                     whileHover={{ scale: 1.05 }}
                     className="w-full h-full flex justify-center items-center text-xs sm:text-sm md:text-lg lg:text-xl px-2 mx-2 sm:px-4 sm:mx-4 font-page tracking-wide"
                   >
-                    check homepage ↗
+                    check homepage
                   </motion.span>
                 </Link>
               </div>
@@ -95,7 +95,7 @@ function Footer() {
                     whileHover={{ scale: 1.05 }}
                     className="w-full h-full flex justify-center items-center text-xs sm:text-sm md:text-lg lg:text-xl px-2 mx-2 sm:px-4 sm:mx-4 font-page tracking-wide"
                   >
-                    check github ↗
+                    check github
                   </motion.span>
                 </a>
               </div>
