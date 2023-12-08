@@ -1,13 +1,7 @@
 import Head from "next/head";
-import { useRouter } from "next/router";
 import React from "react";
 
 export default function Custom404() {
-  const router = useRouter();
-  setTimeout(() => {
-    router.reload();
-  }, 4000);
-
   return (
     <React.Fragment>
       <Head>
